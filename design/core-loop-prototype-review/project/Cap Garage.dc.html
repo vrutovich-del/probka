@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#121212;font-family:'Golos Text',sans-serif}a{color:#1DB954}a:hover{color:#4fd07f}
+@keyframes capdrop3{0%{transform:translateY(-300px);opacity:0}55%{transform:translateY(0);opacity:1}72%{transform:translateY(-16px)}86%{transform:translateY(0)}94%{transform:translateY(-5px)}100%{transform:translateY(0)}}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+@keyframes tierpop{0%{transform:scale(.4);opacity:0}70%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
+@keyframes badgein{from{transform:translateY(16px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes ringspin{to{transform:rotate(360deg)}}</style>
+</helmet>
+<div style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:32px 12px;background:#121212">
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" dark="{{ true }}" hint-size="440px,920px">
+<div style="height:100%;display:flex;flex-direction:column;background:#0B0B0B;font-family:'Golos Text',sans-serif;color:#F2F2F2;position:relative;overflow:hidden;padding-top:59px;box-sizing:border-box">
+<sc-if value="{{ offline }}" hint-placeholder-val="{{ false }}">
+  <div style="flex:none;display:flex;align-items:center;gap:8px;background:#241a0d;border-bottom:1px solid #4a3517;padding:8px 16px;font:500 12px 'Golos Text',sans-serif;color:#FFA23E"><span style="width:8px;height:8px;border-radius:50%;background:#FFA23E;flex:none"></span>{{ offlineMsg }}</div>
+</sc-if>
+<div style="flex:1;min-height:0;display:flex;flex-direction:column;position:relative;overflow:hidden">
+
+<sc-if value="{{ sGarage }}" hint-placeholder-val="{{ true }}">
+<div data-screen-label="08 Garage" style="flex:1;min-height:0;overflow-y:auto;padding:14px 16px 20px;display:flex;flex-direction:column;gap:14px">
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+    <div style="font:800 24px 'Golos Text',sans-serif">My Garage</div>
+    <div style="display:flex;background:#161616;border-radius:999px;padding:3px">
+      <div onClick="{{ goCaps }}" style="padding:6px 13px;border-radius:999px;font:600 12px 'Golos Text',sans-serif;cursor:pointer;background:{{ segCapsBg }};color:{{ segCapsFg }}">Caps</div>
+      <div onClick="{{ goCollections }}" style="padding:6px 13px;border-radius:999px;font:600 12px 'Golos Text',sans-serif;cursor:pointer;background:{{ segColBg }};color:{{ segColFg }}">Collections</div>
+    </div>
+  </div>
+  <sc-if value="{{ hasCaps }}" hint-placeholder-val="{{ true }}">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+      <div style="background:#161616;border-radius:14px;padding:10px 12px"><div style="font:700 20px 'Golos Text',sans-serif">{{ statCaps }}</div><div style="font:400 11px 'Golos Text',sans-serif;color:#9A9A9A">caps</div></div>
+      <div style="background:#161616;border-radius:14px;padding:10px 12px"><div style="font:700 20px 'Golos Text',sans-serif">{{ statBrands }}</div><div style="font:400 11px 'Golos Text',sans-serif;color:#9A9A9A">brands</div></div>
+      <div style="background:#161616;border-radius:14px;padding:10px 12px"><div style="font:700 16px 'Golos Text',sans-serif;color:{{ rarestColor }};line-height:26px">{{ rarestShape }} {{ rarestLabel }}</div><div style="font:400 11px 'Golos Text',sans-serif;color:#9A9A9A">rarest</div></div>
+    </div>
+    <div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:2px">
+      <div onClick="{{ cycleSort }}" style="flex:none;padding:7px 12px;border-radius:999px;background:#1F1F1F;border:1px solid #2e2e2e;font:500 12px 'Golos Text',sans-serif;color:#F2F2F2;cursor:pointer">↕ {{ sortLabel }}</div>
+      <div onClick="{{ fAll.tap }}" style="flex:none;padding:7px 12px;border-radius:999px;border:1px solid {{ fAll.bd }};font:500 12px 'Golos Text',sans-serif;color:{{ fAll.fg }};cursor:pointer">All</div>
+      <div onClick="{{ fUnc.tap }}" style="flex:none;padding:7px 12px;border-radius:999px;border:1px solid {{ fUnc.bd }};font:500 12px 'Golos Text',sans-serif;color:{{ fUnc.fg }};cursor:pointer">■ Uncommon</div>
+      <div onClick="{{ fWorn.tap }}" style="flex:none;padding:7px 12px;border-radius:999px;border:1px solid {{ fWorn.bd }};font:500 12px 'Golos Text',sans-serif;color:{{ fWorn.fg }};cursor:pointer">Worn</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+      <sc-for list="{{ visibleCaps }}" as="c" hint-placeholder-count="1">
+        <div onClick="{{ c.open }}" style="aspect-ratio:1;background:#161616;border-radius:14px;position:relative;display:flex;align-items:center;justify-content:center;padding:12px;cursor:pointer">
+          <img src="uploads/zhiguli-cap-top.png" draggable="false" style="max-width:100%;max-height:100%;filter:drop-shadow(0 6px 8px rgba(0,0,0,.5))">
+          <span style="position:absolute;top:7px;right:8px;font-size:12px;line-height:1;color:{{ c.badgeColor }}">{{ c.badgeShape }}</span>
+          <span style="position:absolute;bottom:6px;right:8px;font:600 11px 'Golos Text',sans-serif;color:#9A9A9A">{{ c.dupeLabel }}</span>
+        </div>
+      </sc-for>
+      <div style="aspect-ratio:1;border:1.5px dashed #2c2c2c;border-radius:14px;display:flex;align-items:center;justify-content:center"><div style="width:56%;height:56%;border-radius:50%;background:#1a1a1a"></div></div>
+      <div style="aspect-ratio:1;border:1.5px dashed #2c2c2c;border-radius:14px;display:flex;align-items:center;justify-content:center"><div style="width:56%;height:56%;border-radius:50%;background:#1a1a1a"></div></div>
+      <div style="aspect-ratio:1;border:1.5px dashed #2c2c2c;border-radius:14px;display:flex;align-items:center;justify-content:center"><div style="width:56%;height:56%;border-radius:50%;background:#1a1a1a"></div></div>
+      <div style="aspect-ratio:1;border:1.5px dashed #2c2c2c;border-radius:14px;display:flex;align-items:center;justify-content:center"><div style="width:56%;height:56%;border-radius:50%;background:#1a1a1a"></div></div>
+      <div style="aspect-ratio:1;border:1.5px dashed #2c2c2c;border-radius:14px;display:flex;align-items:center;justify-content:center"><div style="width:56%;height:56%;border-radius:50%;background:#1a1a1a"></div></div>
+    </div>
+    <div style="text-align:center;font:400 11px 'Golos Text',sans-serif;color:#565656">Dashed spots are waiting for your next find</div>
+  </sc-if>
+  <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;padding:20px 24px">
+      <div style="width:110px;height:110px;border:2px dashed #2e2e2e;border-radius:50%"></div>
+      <div style="width:160px;height:36px;border-radius:50%;background:radial-gradient(ellipse at 50% 30%,#242424,#141414);margin-top:-16px"></div>
+      <div style="font:700 19px 'Golos Text',sans-serif;margin-top:10px">Your garage is empty</div>
+      <div style="font:400 14px 'Golos Text',sans-serif;color:#9A9A9A">Find a cap outside and give it a home.</div>
+      <div onClick="{{ openAdd }}" style="margin-top:10px;background:#1DB954;color:#052912;font:600 17px 'Golos Text',sans-serif;padding:13px 26px;border-radius:14px;cursor:pointer">Add your first cap</div>
+    </div>
+  </sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ sCollections }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="09 Collections" style="flex:1;min-height:0;overflow-y:auto;padding:14px 16px 20px;display:flex;flex-direction:column;gap:14px">
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+    <div style="font:800 24px 'Golos Text',sans-serif">My Garage</div>
+    <div style="display:flex;background:#161616;border-radius:999px;padding:3px">
+      <div onClick="{{ goCaps }}" style="padding:6px 13px;border-radius:999px;font:600 12px 'Golos Text',sans-serif;cursor:pointer;background:{{ segCapsBg }};color:{{ segCapsFg }}">Caps</div>
+      <div onClick="{{ goCollections }}" style="padding:6px 13px;border-radius:999px;font:600 12px 'Golos Text',sans-serif;cursor:pointer;background:{{ segColBg }};color:{{ segColFg }}">Collections</div>
+    </div>
+  </div>
+  <sc-if value="{{ hasZh }}" hint-placeholder-val="{{ true }}">
+    <div onClick="{{ openBrand }}" style="display:flex;align-items:center;gap:14px;background:#161616;border-radius:16px;padding:14px;cursor:pointer">
+      <div style="width:52px;height:52px;border-radius:50%;background:conic-gradient(#1DB954 {{ zhPct }}%, #2a2a2a 0);display:flex;align-items:center;justify-content:center;flex:none"><div style="width:40px;height:40px;border-radius:50%;background:#161616;display:flex;align-items:center;justify-content:center;font:600 12px 'Golos Text',sans-serif">{{ zhOwned }}/6</div></div>
+      <div style="flex:1;min-width:0"><div style="font:600 16px 'Golos Text',sans-serif">Zhiguli</div><div style="font:400 12px 'Golos Text',sans-serif;color:#9A9A9A">{{ zhOwned }} of 6 known caps · rarest ■ Uncommon</div></div>
+      <img src="uploads/zhiguli-cap-top.png" style="width:36px;height:36px;object-fit:contain" draggable="false">
+      <span style="color:#565656;font-size:18px">›</span>
+    </div>
+  </sc-if>
+  <sc-if value="{{ hasUnident }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;align-items:center;gap:12px;border:1.5px dashed #3a3a3a;border-radius:16px;padding:14px;color:#9A9A9A;font:400 13px 'Golos Text',sans-serif"><span style="font-size:15px">◌</span>{{ unidentMsg }}</div>
+  </sc-if>
+  <div style="border:1.5px dashed #2c2c2c;border-radius:16px;padding:18px;text-align:center;color:#565656;font:400 13px 'Golos Text',sans-serif">New brands appear here as you add caps</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ sBrand }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="09b Brand collection" style="flex:1;min-height:0;overflow-y:auto;padding:10px 16px 20px;display:flex;flex-direction:column;gap:14px">
+  <div onClick="{{ goCollections }}" style="font:500 14px 'Golos Text',sans-serif;color:#1DB954;cursor:pointer;padding:4px 0">‹ Collections</div>
+  <div style="display:flex;align-items:center;gap:16px">
+    <div style="width:64px;height:64px;border-radius:50%;background:conic-gradient(#1DB954 {{ zhPct }}%, #2a2a2a 0);display:flex;align-items:center;justify-content:center;flex:none"><div style="width:50px;height:50px;border-radius:50%;background:#0B0B0B;display:flex;align-items:center;justify-content:center;font:700 14px 'Golos Text',sans-serif">{{ zhOwned }}/6</div></div>
+    <div><div style="font:800 22px 'Golos Text',sans-serif">Zhiguli</div><div style="font:400 13px 'Golos Text',sans-serif;color:#9A9A9A">Moscow Brewing Company · you own {{ zhOwned }} of 6 known caps</div></div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+    <sc-for list="{{ zhCaps }}" as="c" hint-placeholder-count="1">
+      <div onClick="{{ c.open }}" style="aspect-ratio:1;background:#161616;border-radius:14px;position:relative;display:flex;align-items:center;justify-content:center;padding:12px;cursor:pointer">
+        <img src="uploads/zhiguli-cap-top.png" draggable="false" style="max-width:100%;max-height:100%;filter:drop-shadow(0 6px 8px rgba(0,0,0,.5))">
+        <span style="position:absolute;top:7px;right:8px;font-size:12px;line-height:1;color:{{ c.badgeColor }}">{{ c.badgeShape }}</span>
+      </div>
+    </sc-for>
+    <div style="aspect-ratio:1;background:#141414;border-radius:14px;display:flex;align-items:center;justify-content:center"><div style="width:56%;height:56%;border-radius:50%;background:#1f1f1f"></div></div>
+    <div style="aspect-ratio:1;background:#141414;border-radius:14px;display:flex;align-items:center;justify-content:center"><div style="width:56%;height:56%;border-radius:50%;background:#1f1f1f"></div></div>
+    <div style="aspect-ratio:1;background:#141414;border-radius:14px;display:flex;align-items:center;justify-content:center"><div style="width:56%;height:56%;border-radius:50%;background:#1f1f1f"></div></div>
+    <div style="aspect-ratio:1;background:#141414;border-radius:14px;display:flex;align-items:center;justify-content:center"><div style="width:56%;height:56%;border-radius:50%;background:#1f1f1f"></div></div>
+    <div style="aspect-ratio:1;background:#141414;border-radius:14px;display:flex;align-items:center;justify-content:center"><div style="width:56%;height:56%;border-radius:50%;background:#1f1f1f"></div></div>
+  </div>
+  <div style="text-align:center;font:400 11px 'Golos Text',sans-serif;color:#565656">Grey caps are in the catalog — still out there somewhere</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ sDetail }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="10 Cap detail" style="flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column">
+  <div style="flex:none;display:flex;align-items:center;justify-content:space-between;padding:10px 16px">
+    <div onClick="{{ backFromDetail }}" style="font:500 14px 'Golos Text',sans-serif;color:#1DB954;cursor:pointer">‹ Garage</div>
+    <div style="border:1px solid #2c2c2c;border-radius:999px;padding:5px 11px;color:#6f6f6f;font:500 11px 'Golos Text',sans-serif">Make it fully 3D · soon</div>
+  </div>
+  <div style="flex:none;height:290px;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;background:radial-gradient(circle at 50% 40%,#1c1c1c,#0B0B0B 72%);overflow:hidden">
+    <sc-if value="{{ baAfterOn }}" hint-placeholder-val="{{ true }}">{{ detailCapEl }}</sc-if>
+    <sc-if value="{{ baBeforeOn }}" hint-placeholder-val="{{ false }}">
+      <div style="flex:1;display:flex;align-items:center;justify-content:center"><div style="background:#8f8f8f;border-radius:20px;padding:14px"><img src="uploads/zhiguli-cap-top.png" draggable="false" style="width:150px;display:block"></div></div>
+    </sc-if>
+    <div style="width:200px;height:40px;border-radius:50%;background:radial-gradient(ellipse at 50% 32%,#292929,#121212);margin-top:-10px"></div>
+    <div style="position:absolute;bottom:8px;font:400 11px 'Golos Text',sans-serif;color:#6f6f6f">Drag to rotate · Double-tap to reset</div>
+  </div>
+  <div style="padding:14px 16px 20px;display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+      <div><span style="font:800 22px 'Golos Text',sans-serif">{{ detailTitle }}</span> <span style="font:400 14px 'Golos Text',sans-serif;color:#9A9A9A">{{ detailSub }}</span></div>
+      <div style="display:flex;background:#161616;border-radius:999px;padding:3px;flex:none">
+        <div onClick="{{ baBefore }}" style="padding:5px 11px;border-radius:999px;font:600 11px 'Golos Text',sans-serif;cursor:pointer;background:{{ baBeforeBg }};color:{{ baBeforeFg }}">Before</div>
+        <div onClick="{{ baAfter }}" style="padding:5px 11px;border-radius:999px;font:600 11px 'Golos Text',sans-serif;cursor:pointer;background:{{ baAfterBg }};color:{{ baAfterFg }}">After</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;background:#161616;border-radius:14px;padding:12px 14px">
+      <span style="font-size:14px;color:{{ detailBadgeColor }}">{{ detailBadgeShape }}</span>
+      <span style="font:500 14px 'Golos Text',sans-serif">{{ detailRarity }}</span>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <span style="padding:6px 12px;border-radius:999px;background:#1F1F1F;font:500 12px 'Golos Text',sans-serif;color:#F2F2F2">{{ detailCond }}</span>
+      <span style="padding:6px 12px;border-radius:999px;background:#1F1F1F;font:500 12px 'Golos Text',sans-serif;color:#9A9A9A">{{ detailGeo }}</span>
+    </div>
+    <div style="font:400 13px 'Golos Text',sans-serif;color:#9A9A9A">{{ foundLine }}</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;background:#161616;border-radius:14px;padding:10px 14px">
+      <span style="font:500 14px 'Golos Text',sans-serif">Duplicates</span>
+      <div style="display:flex;align-items:center;gap:14px">
+        <div onClick="{{ dupeMinus }}" style="width:32px;height:32px;border-radius:50%;border:1px solid #333;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#9A9A9A">−</div>
+        <span style="font:700 16px 'Golos Text',sans-serif">×{{ detailDupes }}</span>
+        <div onClick="{{ dupePlus }}" style="width:32px;height:32px;border-radius:50%;border:1px solid #333;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#F2F2F2">+</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:2px">
+      <div onClick="{{ shareTap }}" style="flex:1;background:#1DB954;color:#052912;font:600 15px 'Golos Text',sans-serif;padding:12px;border-radius:13px;text-align:center;cursor:pointer">Share</div>
+      <div onClick="{{ editTap }}" style="flex:1;border:1px solid #333;color:#F2F2F2;font:600 15px 'Golos Text',sans-serif;padding:12px;border-radius:13px;text-align:center;cursor:pointer">Edit</div>
+      <div onClick="{{ deleteCap }}" style="flex:1;border:1px solid #46201f;color:#FF4D4D;font:600 15px 'Golos Text',sans-serif;padding:12px;border-radius:13px;text-align:center;cursor:pointer">Delete</div>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ sFriends }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="19 Friends" style="flex:1;min-height:0;overflow-y:auto;padding:14px 16px 20px;display:flex;flex-direction:column;gap:14px">
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+    <div style="font:800 24px 'Golos Text',sans-serif">Friends</div>
+    <div onClick="{{ goAddFriend }}" style="background:#1DB954;color:#052912;font:600 13px 'Golos Text',sans-serif;padding:8px 14px;border-radius:999px;cursor:pointer">+ Add</div>
+  </div>
+  <div style="display:flex;background:#161616;border-radius:999px;padding:3px;align-self:flex-start">
+    <div onClick="{{ fvList }}" style="padding:6px 13px;border-radius:999px;font:600 12px 'Golos Text',sans-serif;cursor:pointer;background:{{ fvListBg }};color:{{ fvListFg }}">Friends</div>
+    <div onClick="{{ fvBoard }}" style="padding:6px 13px;border-radius:999px;font:600 12px 'Golos Text',sans-serif;cursor:pointer;background:{{ fvBoardBg }};color:{{ fvBoardFg }}">Leaderboard</div>
+  </div>
+  <sc-if value="{{ fvIsList }}" hint-placeholder-val="{{ true }}">
+    <sc-if value="{{ hasPending }}" hint-placeholder-val="{{ true }}">
+      <div style="font:600 12px 'Golos Text',sans-serif;color:#9A9A9A;margin-bottom:-6px">WANTS TO BE FRIENDS</div>
+      <div style="display:flex;align-items:center;gap:12px;background:#161616;border:1px solid #2e4a2e;border-radius:16px;padding:12px">
+        <div style="width:40px;height:40px;border-radius:50%;background:#2a2210;display:flex;align-items:center;justify-content:center;color:#F5B301;flex:none">★</div>
+        <div style="flex:1;font:600 14px 'Golos Text',sans-serif">fizz_fox</div>
+        <div onClick="{{ acceptFriend }}" style="background:#1DB954;color:#052912;font:600 12px 'Golos Text',sans-serif;padding:7px 13px;border-radius:999px;cursor:pointer">Accept</div>
+        <div onClick="{{ declineFriend }}" style="border:1px solid #333;color:#9A9A9A;font:600 12px 'Golos Text',sans-serif;padding:7px 13px;border-radius:999px;cursor:pointer">Not now</div>
+      </div>
+    </sc-if>
+    <sc-for list="{{ friendRows }}" as="f" hint-placeholder-count="2">
+      <div style="display:flex;align-items:center;gap:12px;background:#161616;border-radius:16px;padding:12px">
+        <div style="width:40px;height:40px;border-radius:50%;background:#1c1c1c;display:flex;align-items:center;justify-content:center;color:{{ f.ac }};flex:none;font-size:15px">{{ f.ch }}</div>
+        <div onClick="{{ f.openGarage }}" style="flex:1;min-width:0;cursor:pointer"><div style="font:600 14px 'Golos Text',sans-serif">{{ f.nick }}</div><div style="font:400 12px 'Golos Text',sans-serif;color:#9A9A9A">{{ f.sub }}</div></div>
+        <div onClick="{{ f.duel }}" style="border:1.5px solid #1DB954;color:#1DB954;font:600 12px 'Golos Text',sans-serif;padding:7px 14px;border-radius:999px;cursor:pointer">Duel</div>
+        <span onClick="{{ f.openGarage }}" style="color:#565656;cursor:pointer">›</span>
+      </div>
+    </sc-for>
+    <div style="font:400 11px/1.5 'Golos Text',sans-serif;color:#565656;text-align:center">Friends are added only by invite code. No chat, no real names.</div>
+  </sc-if>
+  <sc-if value="{{ fvIsBoard }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="23 Leaderboard" style="display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;gap:7px">
+        <div onClick="{{ lbRare.tap }}" style="padding:7px 12px;border-radius:999px;border:1.5px solid {{ lbRare.bd }};color:{{ lbRare.fg }};font:500 12px 'Golos Text',sans-serif;cursor:pointer">Rarest cap</div>
+        <div onClick="{{ lbCount.tap }}" style="padding:7px 12px;border-radius:999px;border:1.5px solid {{ lbCount.bd }};color:{{ lbCount.fg }};font:500 12px 'Golos Text',sans-serif;cursor:pointer">Most caps</div>
+        <div onClick="{{ lbBadges.tap }}" style="padding:7px 12px;border-radius:999px;border:1.5px solid {{ lbBadges.bd }};color:{{ lbBadges.fg }};font:500 12px 'Golos Text',sans-serif;cursor:pointer">Badges</div>
+      </div>
+      <sc-for list="{{ lbRows }}" as="r" hint-placeholder-count="3">
+        <div style="display:flex;align-items:center;gap:12px;background:{{ r.bg }};border:1px solid {{ r.bd }};border-radius:14px;padding:11px 14px">
+          <span style="font:700 14px 'Golos Text',sans-serif;color:#9A9A9A;width:18px">{{ r.rank }}</span>
+          <span style="color:{{ r.ac }};font-size:13px">{{ r.ch }}</span>
+          <span style="flex:1;font:600 14px 'Golos Text',sans-serif">{{ r.nick }}</span>
+          <span style="font:500 13px 'Golos Text',sans-serif;color:#9A9A9A">{{ r.val }}</span>
+        </div>
+      </sc-for>
+      <div style="font:400 11px 'Golos Text',sans-serif;color:#565656;text-align:center">Friends only — there is no global leaderboard.</div>
+    </div>
+  </sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ sAddFriend }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="20 Add friend" style="flex:1;min-height:0;overflow-y:auto;padding:10px 16px 20px;display:flex;flex-direction:column;gap:14px">
+  <div onClick="{{ goFriends }}" style="font:500 14px 'Golos Text',sans-serif;color:#1DB954;cursor:pointer;padding:4px 0">‹ Friends</div>
+  <div style="font:800 22px 'Golos Text',sans-serif">Add a friend</div>
+  <div style="background:#161616;border-radius:16px;padding:18px;display:flex;flex-direction:column;align-items:center;gap:10px">
+    <div style="font:600 12px 'Golos Text',sans-serif;color:#9A9A9A">YOUR FRIEND CODE</div>
+    <div style="font:800 30px ui-monospace,monospace;letter-spacing:.08em;color:#1DB954">K7M-4QZ</div>
+    <div style="display:flex;gap:8px;width:100%">
+      <div onClick="{{ copyCode }}" style="flex:1;border:1px solid #333;color:#F2F2F2;font:600 14px 'Golos Text',sans-serif;padding:11px;border-radius:12px;text-align:center;cursor:pointer">Copy</div>
+      <div onClick="{{ shareCode }}" style="flex:1;border:1px solid #333;color:#F2F2F2;font:600 14px 'Golos Text',sans-serif;padding:11px;border-radius:12px;text-align:center;cursor:pointer">Share</div>
+    </div>
+  </div>
+  <div style="text-align:center;font:500 12px 'Golos Text',sans-serif;color:#565656">— or —</div>
+  <div style="display:flex;flex-direction:column;gap:6px"><label style="font:600 12px 'Golos Text',sans-serif;color:#9A9A9A">Enter a friend's code</label><input value="{{ friendCode }}" onChange="{{ fCode }}" placeholder="e.g. B2R-9TX" style="background:#161616;border:1px solid #2c2c2c;border-radius:12px;padding:13px 14px;color:#F2F2F2;font:500 16px ui-monospace,monospace;letter-spacing:.06em;outline:none;width:100%;box-sizing:border-box"></div>
+  <div onClick="{{ sendRequest }}" style="background:#1DB954;color:#052912;font:600 16px 'Golos Text',sans-serif;padding:14px;border-radius:14px;text-align:center;cursor:pointer">Send request</div>
+  <div style="font:400 11px/1.5 'Golos Text',sans-serif;color:#565656;text-align:center">Codes only — no search, no phone numbers, no real names.</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ sFriendGarage }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="21 Friend's garage" style="flex:1;min-height:0;overflow-y:auto;padding:10px 16px 20px;display:flex;flex-direction:column;gap:14px">
+  <div onClick="{{ goFriends }}" style="font:500 14px 'Golos Text',sans-serif;color:#1DB954;cursor:pointer;padding:4px 0">‹ Friends</div>
+  <div style="display:flex;align-items:center;gap:14px">
+    <div style="width:52px;height:52px;border-radius:50%;background:#1c1c1c;display:flex;align-items:center;justify-content:center;color:{{ fgAc }};font-size:19px;flex:none">{{ fgCh }}</div>
+    <div style="flex:1"><div style="font:800 20px 'Golos Text',sans-serif">{{ fgNick }}</div><div style="font:400 12px 'Golos Text',sans-serif;color:#9A9A9A">{{ fgSub }}</div></div>
+    <div onClick="{{ fgDuel }}" style="border:1.5px solid #1DB954;color:#1DB954;font:600 13px 'Golos Text',sans-serif;padding:8px 16px;border-radius:999px;cursor:pointer">Duel</div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+    <div style="aspect-ratio:1;background:#161616;border-radius:14px;position:relative;display:flex;align-items:center;justify-content:center;padding:12px">
+      <img src="uploads/zhiguli-cap-top.png" draggable="false" style="max-width:100%;max-height:100%;filter:drop-shadow(0 6px 8px rgba(0,0,0,.5))">
+      <span style="position:absolute;top:7px;right:8px;font-size:12px;color:#4CD964">■</span>
+    </div>
+    <div style="aspect-ratio:1;background:#161616;border-radius:14px;display:flex;align-items:center;justify-content:center"><div style="width:56%;height:56%;border-radius:50%;background:#222"></div></div>
+    <div style="aspect-ratio:1;background:#161616;border-radius:14px;display:flex;align-items:center;justify-content:center"><div style="width:56%;height:56%;border-radius:50%;background:#222"></div></div>
+    <div style="aspect-ratio:1;background:#161616;border-radius:14px;display:flex;align-items:center;justify-content:center"><div style="width:56%;height:56%;border-radius:50%;background:#222"></div></div>
+    <div style="aspect-ratio:1;background:#161616;border-radius:14px;display:flex;align-items:center;justify-content:center"><div style="width:56%;height:56%;border-radius:50%;background:#222"></div></div>
+    <div style="aspect-ratio:1;background:#161616;border-radius:14px;display:flex;align-items:center;justify-content:center"><div style="width:56%;height:56%;border-radius:50%;background:#222"></div></div>
+  </div>
+  <div style="text-align:center;font:400 11px 'Golos Text',sans-serif;color:#565656">Read-only — notes and places stay private. Grey caps aren't loaded yet.</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ sDuelHome }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="24 Duel home" style="flex:1;min-height:0;overflow-y:auto;padding:14px 16px 20px;display:flex;flex-direction:column;gap:14px">
+  <div style="font:800 24px 'Golos Text',sans-serif">Duel</div>
+  <div style="font:400 13px/1.5 'Golos Text',sans-serif;color:#9A9A9A;margin-top:-8px">Best of 3. Each round, both of you secretly pick a cap — the rarer one wins the round.</div>
+  <div style="font:600 12px 'Golos Text',sans-serif;color:#9A9A9A">PICK AN OPPONENT</div>
+  <sc-for list="{{ friendRows }}" as="f" hint-placeholder-count="2">
+    <div style="display:flex;align-items:center;gap:12px;background:#161616;border-radius:16px;padding:12px">
+      <div style="width:40px;height:40px;border-radius:50%;background:#1c1c1c;display:flex;align-items:center;justify-content:center;color:{{ f.ac }};flex:none;font-size:15px">{{ f.ch }}</div>
+      <div style="flex:1"><div style="font:600 14px 'Golos Text',sans-serif">{{ f.nick }}</div><div style="font:400 12px 'Golos Text',sans-serif;color:#9A9A9A">{{ f.sub }}</div></div>
+      <div onClick="{{ f.duel }}" style="background:#1DB954;color:#052912;font:600 12px 'Golos Text',sans-serif;padding:8px 16px;border-radius:999px;cursor:pointer">Duel</div>
+    </div>
+  </sc-for>
+  <div style="font:600 12px 'Golos Text',sans-serif;color:#9A9A9A;margin-top:4px">HISTORY</div>
+  <sc-for list="{{ duelHistory }}" as="h" hint-placeholder-count="2">
+    <div style="display:flex;align-items:center;gap:10px;background:#141414;border-radius:14px;padding:11px 14px"><span style="color:{{ h.c }};font-size:13px">{{ h.ch }}</span><span style="flex:1;font:500 13px 'Golos Text',sans-serif">{{ h.txt }}</span><span style="font:400 11px 'Golos Text',sans-serif;color:#565656">{{ h.when }}</span></div>
+  </sc-for>
+  <div style="font:400 11px 'Golos Text',sans-serif;color:#565656;text-align:center">Unanswered challenges expire after 7 days.</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ sDuelPick }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="24b Pick your cap" style="flex:1;min-height:0;overflow-y:auto;padding:10px 16px 20px;display:flex;flex-direction:column;gap:12px">
+  <div onClick="{{ cancelDuel }}" style="font:500 14px 'Golos Text',sans-serif;color:#1DB954;cursor:pointer;padding:4px 0">‹ Duel</div>
+  <div style="font:800 22px 'Golos Text',sans-serif">Round {{ duelRound }} of 3 — pick a cap</div>
+  <div style="font:400 13px 'Golos Text',sans-serif;color:#9A9A9A;margin-top:-6px">vs {{ duelOppNick }} · secret until the reveal</div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+    <sc-for list="{{ pickCaps }}" as="p" hint-placeholder-count="1">
+      <div onClick="{{ p.tap }}" style="aspect-ratio:1;background:#161616;border:2px solid {{ p.bd }};border-radius:14px;position:relative;display:flex;align-items:center;justify-content:center;padding:12px;cursor:pointer;opacity:{{ p.op }}">
+        <img src="uploads/zhiguli-cap-top.png" draggable="false" style="max-width:100%;max-height:100%">
+        <span style="position:absolute;top:6px;right:8px;font-size:12px;color:{{ p.badgeColor }}">{{ p.badgeShape }}</span>
+        <span style="position:absolute;bottom:5px;left:0;right:0;text-align:center;font:600 10px 'Golos Text',sans-serif;color:#9A9A9A">{{ p.note }}</span>
+      </div>
+    </sc-for>
+  </div>
+  <div style="font:400 11px 'Golos Text',sans-serif;color:#565656">Unrated caps can't duel yet. Fewer than 3 caps? Reusing is allowed.</div>
+  <div style="flex:1"></div>
+  <div onClick="{{ lockPick }}" style="background:#1DB954;color:#052912;font:600 17px 'Golos Text',sans-serif;padding:14px;border-radius:14px;text-align:center;cursor:pointer">{{ lockLabel }}</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ sDuelWait }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="25 Waiting" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px;text-align:center">
+  <div style="position:relative;width:150px;height:150px;display:flex;align-items:center;justify-content:center">
+    <div style="position:absolute;inset:0;border-radius:50%;border:3px solid #1f1f1f;border-top-color:#1DB954;animation:ringspin 1.1s linear infinite"></div>
+    <img src="uploads/zhiguli-cap-top.png" style="width:96px" draggable="false">
+  </div>
+  <div style="font:700 19px 'Golos Text',sans-serif">Your cap is locked in</div>
+  <div style="font:400 14px 'Golos Text',sans-serif;color:#9A9A9A">{{ duelOppNick }} is choosing…</div>
+  <div onClick="{{ cancelDuel }}" style="font:500 14px 'Golos Text',sans-serif;color:#9A9A9A;cursor:pointer;padding:8px">Cancel</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ sDuelReveal }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="26 Round reveal" style="flex:1;display:flex;flex-direction:column;padding:14px 16px 18px;gap:12px;background:radial-gradient(circle at 50% 20%,#151515,#0B0B0B 70%)">
+  <div style="text-align:center;font:800 20px 'Golos Text',sans-serif">Round {{ duelRound }}</div>
+  <div style="text-align:center;font:500 13px 'Golos Text',sans-serif;color:#9A9A9A;margin-top:-8px">You {{ duelScoreMe }} · {{ duelScoreOpp }} {{ duelOppNick }}</div>
+  <div style="display:flex;gap:10px;flex:1;align-items:stretch;min-height:0">
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;background:#141414;border:2px solid {{ myCardBd }};border-radius:18px;padding:10px">
+      {{ duelMyCapEl }}
+      <div style="width:100px;height:22px;border-radius:50%;background:radial-gradient(ellipse at 50% 32%,#262626,#101010);margin-top:-8px"></div>
+      <div style="font:600 13px 'Golos Text',sans-serif">Zhiguli · Beer</div>
+      <div style="font:800 24px 'Golos Text',sans-serif;color:#4CD964">{{ duelPctMeText }}</div>
+      <sc-if value="{{ duelShowWin }}" hint-placeholder-val="{{ false }}"><div style="display:flex;align-items:center;gap:6px;border:1.5px solid {{ myResBd }};color:{{ myResBd }};border-radius:999px;padding:4px 12px;font:700 12px 'Golos Text',sans-serif">{{ myResText }}</div></sc-if>
+    </div>
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;background:#141414;border:2px solid {{ oppCardBd }};border-radius:18px;padding:10px">
+      <div style="width:96px;height:96px;border:2px dashed #3a3a3a;border-radius:50%;background:#1a1a1a"></div>
+      <div style="width:100px;height:22px;border-radius:50%;background:radial-gradient(ellipse at 50% 32%,#262626,#101010);margin-top:-8px"></div>
+      <div style="font:600 13px 'Golos Text',sans-serif;color:#9A9A9A">Mystery cap</div>
+      <div style="font:800 24px 'Golos Text',sans-serif;color:#9A9A9A">{{ duelPctOppText }}</div>
+      <sc-if value="{{ duelShowWin }}" hint-placeholder-val="{{ false }}"><div style="display:flex;align-items:center;gap:6px;border:1.5px solid {{ oppResBd }};color:{{ oppResBd }};border-radius:999px;padding:4px 12px;font:700 12px 'Golos Text',sans-serif">{{ oppResText }}</div></sc-if>
+    </div>
+  </div>
+  <div style="text-align:center;font:400 11px 'Golos Text',sans-serif;color:#565656">Lower % = rarer = wins the round</div>
+  <sc-if value="{{ duelShowWin }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ duelNext }}" style="background:#1DB954;color:#052912;font:600 16px 'Golos Text',sans-serif;padding:13px;border-radius:14px;text-align:center;cursor:pointer">{{ duelNextLabel }}</div>
+  </sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ sDuelResult }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="27 Duel result" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px;text-align:center;background:radial-gradient(circle at 50% 28%,{{ duelResultGlow }},#0B0B0B 68%)">
+  <div style="font:800 30px 'Golos Text',sans-serif">{{ duelResultTitle }}</div>
+  <div style="font:500 15px 'Golos Text',sans-serif;color:#9A9A9A">{{ duelResultSub }}</div>
+  <div style="display:flex;align-items:center;gap:10px;background:#161616;border:1px solid #2c2c2c;border-radius:14px;padding:12px 18px;margin-top:8px"><span style="color:#E02424;font-size:15px">◈</span><span style="font:500 13px 'Golos Text',sans-serif">Duelist badge · {{ duelsDone }}/10 duels</span></div>
+  <div style="display:flex;gap:8px;margin-top:12px;width:100%;max-width:300px">
+    <div onClick="{{ rematch }}" style="flex:1;background:#1DB954;color:#052912;font:600 15px 'Golos Text',sans-serif;padding:13px;border-radius:13px;text-align:center;cursor:pointer">Rematch</div>
+    <div onClick="{{ duelBack }}" style="flex:1;border:1px solid #333;color:#F2F2F2;font:600 15px 'Golos Text',sans-serif;padding:13px;border-radius:13px;text-align:center;cursor:pointer">Back</div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ sProfile }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="30 Profile" style="flex:1;min-height:0;overflow-y:auto;padding:14px 16px 20px;display:flex;flex-direction:column;gap:14px">
+  <div style="font:800 24px 'Golos Text',sans-serif">Profile</div>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:8px 0">
+    <div style="width:74px;height:74px;border-radius:50%;background:#14251b;border:2.5px solid #1DB954;display:flex;align-items:center;justify-content:center;color:#1DB954;font-size:26px">■</div>
+    <div style="font:700 20px 'Golos Text',sans-serif">cap_hunter</div>
+    <div onClick="{{ copyCode }}" style="font:600 13px ui-monospace,monospace;letter-spacing:.06em;color:#1DB954;border:1px solid #234a32;border-radius:999px;padding:5px 13px;cursor:pointer">K7M-4QZ · copy</div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+    <div style="background:#161616;border-radius:14px;padding:10px 12px;text-align:center"><div style="font:700 20px 'Golos Text',sans-serif">{{ statCaps }}</div><div style="font:400 11px 'Golos Text',sans-serif;color:#9A9A9A">caps</div></div>
+    <div style="background:#161616;border-radius:14px;padding:10px 12px;text-align:center"><div style="font:700 20px 'Golos Text',sans-serif">{{ statBrands }}</div><div style="font:400 11px 'Golos Text',sans-serif;color:#9A9A9A">brands</div></div>
+    <div style="background:#161616;border-radius:14px;padding:10px 12px;text-align:center"><div style="font:700 20px 'Golos Text',sans-serif">{{ badgeEarned }}</div><div style="font:400 11px 'Golos Text',sans-serif;color:#9A9A9A">badges</div></div>
+  </div>
+  <div onClick="{{ goBadges }}" style="display:flex;align-items:center;justify-content:space-between;background:#161616;border-radius:14px;padding:14px;cursor:pointer"><span style="font:600 14px 'Golos Text',sans-serif">Badges</span><span style="color:#9A9A9A;font:400 13px 'Golos Text',sans-serif">{{ badgeEarned }} earned ›</span></div>
+  <div onClick="{{ goStats }}" style="display:flex;align-items:center;justify-content:space-between;background:#161616;border-radius:14px;padding:14px;cursor:pointer"><span style="font:600 14px 'Golos Text',sans-serif">Stats</span><span style="color:#9A9A9A">›</span></div>
+  <div onClick="{{ goSettings }}" style="display:flex;align-items:center;justify-content:space-between;background:#161616;border-radius:14px;padding:14px;cursor:pointer"><span style="font:600 14px 'Golos Text',sans-serif">Settings</span><span style="color:#9A9A9A">›</span></div>
+  <div onClick="{{ langTap }}" style="display:flex;align-items:center;justify-content:space-between;background:#161616;border-radius:14px;padding:14px;cursor:pointer"><span style="font:600 14px 'Golos Text',sans-serif">Language</span><span style="color:#9A9A9A;font:400 13px 'Golos Text',sans-serif">English ›</span></div>
+  <div onClick="{{ editTap }}" style="border:1px solid #333;color:#F2F2F2;font:600 15px 'Golos Text',sans-serif;padding:13px;border-radius:14px;text-align:center;cursor:pointer">Edit profile</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ sBadges }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="31 Badges" style="flex:1;min-height:0;overflow-y:auto;padding:10px 16px 20px;display:flex;flex-direction:column;gap:12px">
+  <div onClick="{{ goProfile }}" style="font:500 14px 'Golos Text',sans-serif;color:#1DB954;cursor:pointer;padding:4px 0">‹ Profile</div>
+  <div style="font:800 22px 'Golos Text',sans-serif">Badges</div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+    <sc-for list="{{ badgeTiles }}" as="b" hint-placeholder-count="6">
+      <div style="background:#161616;border:1.5px solid {{ b.bd }};border-radius:16px;padding:12px 8px;display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center;opacity:{{ b.op }}">
+        <span style="font-size:20px;color:{{ b.c }}">{{ b.icon }}</span>
+        <span style="font:600 11px 'Golos Text',sans-serif">{{ b.name }}</span>
+        <span style="font:400 10px 'Golos Text',sans-serif;color:#9A9A9A">{{ b.prog }}</span>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ sStats }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="32 Stats" style="flex:1;min-height:0;overflow-y:auto;padding:10px 16px 20px;display:flex;flex-direction:column;gap:12px">
+  <div onClick="{{ goProfile }}" style="font:500 14px 'Golos Text',sans-serif;color:#1DB954;cursor:pointer;padding:4px 0">‹ Profile</div>
+  <div style="font:800 22px 'Golos Text',sans-serif">Stats</div>
+  <div style="background:#161616;border-radius:16px;padding:14px">
+    <div style="font:600 12px 'Golos Text',sans-serif;color:#9A9A9A;margin-bottom:10px">CAPS OVER TIME</div>
+    <div style="display:flex;align-items:flex-end;gap:8px;height:90px">
+      <sc-for list="{{ statBars }}" as="s" hint-placeholder-count="6">
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;justify-content:flex-end"><div style="width:100%;border-radius:6px 6px 2px 2px;background:{{ s.bg }};height:{{ s.h }}"></div><span style="font:400 10px 'Golos Text',sans-serif;color:#9A9A9A">{{ s.m }}</span></div>
+      </sc-for>
+    </div>
+  </div>
+  <div style="background:#161616;border-radius:16px;padding:14px;display:flex;align-items:center;gap:16px">
+    <div style="width:64px;height:64px;border-radius:50%;background:conic-gradient(#1DB954 0 100%);flex:none;display:flex;align-items:center;justify-content:center"><div style="width:36px;height:36px;border-radius:50%;background:#161616"></div></div>
+    <div><div style="font:600 12px 'Golos Text',sans-serif;color:#9A9A9A">BRANDS</div><div style="font:500 13px 'Golos Text',sans-serif;margin-top:4px"><span style="color:#1DB954">●</span> Zhiguli — all of them, so far</div></div>
+  </div>
+  <div style="background:#161616;border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:8px">
+    <div style="font:600 12px 'Golos Text',sans-serif;color:#9A9A9A">TIERS</div>
+    <sc-for list="{{ tierRows }}" as="t" hint-placeholder-count="2">
+      <div style="display:flex;align-items:center;gap:8px"><span style="color:{{ t.c }};font-size:12px;width:14px">{{ t.ch }}</span><span style="font:500 12px 'Golos Text',sans-serif;width:76px">{{ t.name }}</span><div style="flex:1;height:8px;border-radius:4px;background:#232323;overflow:hidden"><div style="height:100%;border-radius:4px;background:{{ t.c }};width:{{ t.w }}"></div></div><span style="font:600 12px 'Golos Text',sans-serif;width:16px;text-align:right">{{ t.n }}</span></div>
+    </sc-for>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ sSplash }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="01 Splash" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px">
+  <div style="width:84px;height:84px;border-radius:50%;border:3px solid #1DB954;display:flex;align-items:center;justify-content:center"><div style="width:52px;height:52px;border-radius:50%;border:2px dashed #1DB954;opacity:.5"></div></div>
+  <div style="font:800 26px 'Golos Text',sans-serif;letter-spacing:.06em">CAP GARAGE</div>
+  <div style="font:400 12px 'Golos Text',sans-serif;color:#565656">finders keepers</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ sLanguage }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="02 Language" style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:12px;padding:24px">
+  <div style="font:800 24px 'Golos Text',sans-serif;text-align:center">Choose your language</div>
+  <div style="font:400 13px 'Golos Text',sans-serif;color:#9A9A9A;text-align:center;margin-bottom:10px">Выберите язык · Оберіть мову</div>
+  <div onClick="{{ langEN }}" style="display:flex;align-items:center;gap:14px;background:#161616;border-radius:16px;padding:16px;cursor:pointer;min-height:48px;box-sizing:border-box"><span style="width:38px;height:38px;border-radius:50%;background:#1F1F1F;display:flex;align-items:center;justify-content:center;font:700 12px 'Golos Text',sans-serif;color:#1DB954">EN</span><span style="font:600 17px 'Golos Text',sans-serif">English</span><span style="margin-left:auto;color:#565656">›</span></div>
+  <div onClick="{{ langRU }}" style="display:flex;align-items:center;gap:14px;background:#161616;border-radius:16px;padding:16px;cursor:pointer;min-height:48px;box-sizing:border-box"><span style="width:38px;height:38px;border-radius:50%;background:#1F1F1F;display:flex;align-items:center;justify-content:center;font:700 12px 'Golos Text',sans-serif;color:#1DB954">RU</span><span style="font:600 17px 'Golos Text',sans-serif">Русский</span><span style="margin-left:auto;color:#565656">›</span></div>
+  <div onClick="{{ langUK }}" style="display:flex;align-items:center;gap:14px;background:#161616;border-radius:16px;padding:16px;cursor:pointer;min-height:48px;box-sizing:border-box"><span style="width:38px;height:38px;border-radius:50%;background:#1F1F1F;display:flex;align-items:center;justify-content:center;font:700 12px 'Golos Text',sans-serif;color:#1DB954">UK</span><span style="font:600 17px 'Golos Text',sans-serif">Українська</span><span style="margin-left:auto;color:#565656">›</span></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ sOnboarding }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="03 Onboarding" style="flex:1;display:flex;flex-direction:column;padding:16px 24px 24px;gap:16px">
+  <div onClick="{{ obSkip }}" style="align-self:flex-end;font:500 14px 'Golos Text',sans-serif;color:#9A9A9A;cursor:pointer;padding:6px">Skip</div>
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center">
+    <div style="width:170px;height:170px;border:2px dashed #2e2e2e;border-radius:50%;display:flex;align-items:center;justify-content:center;padding:20px;box-sizing:border-box"><span style="font:400 11px ui-monospace,monospace;color:#565656">{{ obNote }}</span></div>
+    <div style="font:800 26px 'Golos Text',sans-serif">{{ obTitle }}</div>
+    <div style="font:400 15px/1.5 'Golos Text',sans-serif;color:#9A9A9A;max-width:270px">{{ obBody }}</div>
+  </div>
+  <div style="display:flex;gap:6px;justify-content:center"><span style="width:8px;height:8px;border-radius:50%;background:{{ d1 }}"></span><span style="width:8px;height:8px;border-radius:50%;background:{{ d2 }}"></span><span style="width:8px;height:8px;border-radius:50%;background:{{ d3 }}"></span></div>
+  <div onClick="{{ obNext }}" style="background:#1DB954;color:#052912;font:600 17px 'Golos Text',sans-serif;padding:14px;border-radius:14px;text-align:center;cursor:pointer">{{ obNextLabel }}</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ sSignin }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="04 Sign-in" style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:10px;padding:24px">
+  <div style="font:800 26px 'Golos Text',sans-serif;text-align:center">Save your caps</div>
+  <div style="font:400 14px 'Golos Text',sans-serif;color:#9A9A9A;text-align:center;margin-bottom:14px">So your garage is never lost</div>
+  <div onClick="{{ signApple }}" style="background:#F2F2F2;color:#0B0B0B;font:600 16px 'Golos Text',sans-serif;padding:14px;border-radius:14px;text-align:center;cursor:pointer"> Continue with Apple</div>
+  <div onClick="{{ signGoogle }}" style="background:#F2F2F2;color:#0B0B0B;font:600 16px 'Golos Text',sans-serif;padding:14px;border-radius:14px;text-align:center;cursor:pointer">G · Continue with Google</div>
+  <div style="text-align:center;font:500 12px 'Golos Text',sans-serif;color:#565656;padding:4px">— or —</div>
+  <div onClick="{{ signGuest }}" style="border:1.5px solid #1DB954;color:#1DB954;font:600 16px 'Golos Text',sans-serif;padding:13px;border-radius:14px;text-align:center;cursor:pointer">Continue as guest</div>
+  <div style="font:400 12px/1.5 'Golos Text',sans-serif;color:#565656;text-align:center;margin-top:6px">Guest works fully offline. You can save your garage to an account any time.</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ sNickname }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="05 Nickname + avatar" style="flex:1;display:flex;flex-direction:column;gap:12px;padding:20px 24px;overflow-y:auto">
+  <div style="font:800 24px 'Golos Text',sans-serif;margin-top:8px">Pick a nickname</div>
+  <input value="{{ nick }}" onChange="{{ nNick }}" placeholder="e.g. cap_hunter" style="background:#161616;border:1px solid #2c2c2c;border-radius:12px;padding:14px;color:#F2F2F2;font:500 16px 'Golos Text',sans-serif;outline:none;width:100%;box-sizing:border-box">
+  <div style="font:500 13px 'Golos Text',sans-serif;color:{{ nickStatusC }}">{{ nickStatus }}</div>
+  <div style="font:400 12px 'Golos Text',sans-serif;color:#565656">3–16 characters, no spaces. Never use your real name.</div>
+  <div style="font:600 12px 'Golos Text',sans-serif;color:#9A9A9A;margin-top:8px">PICK AN AVATAR</div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap">
+    <sc-for list="{{ avatars }}" as="a" hint-placeholder-count="6">
+      <div onClick="{{ a.pick }}" style="width:52px;height:52px;border-radius:50%;background:#1c1c1c;border:2.5px solid {{ a.bd }};display:flex;align-items:center;justify-content:center;color:{{ a.c }};font-size:19px;cursor:pointer">{{ a.ch }}</div>
+    </sc-for>
+  </div>
+  <div style="flex:1"></div>
+  <div onClick="{{ nickDone }}" style="background:#1DB954;color:#052912;font:600 17px 'Golos Text',sans-serif;padding:14px;border-radius:14px;text-align:center;cursor:pointer">Continue</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ sConsent }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="06 Parental consent" style="flex:1;display:flex;flex-direction:column;gap:12px;padding:20px 24px">
+  <div style="font:800 24px 'Golos Text',sans-serif;margin-top:8px">For parents</div>
+  <div style="font:400 14px/1.6 'Golos Text',sans-serif;color:#9A9A9A">Cap Garage is built for young collectors. Before your child starts:</div>
+  <div style="display:flex;flex-direction:column;gap:8px;background:#161616;border-radius:16px;padding:16px;font:400 14px/1.5 'Golos Text',sans-serif">
+    <div>✓ We store only a nickname, an avatar and cap photos</div>
+    <div>✓ No chat, no ads, no purchases, no location</div>
+    <div>✓ Friends can be added only by invite code</div>
+    <div>✓ You can export or delete everything, any time</div>
+  </div>
+  <div style="font:400 12px 'Golos Text',sans-serif;color:#565656">Shown once, in your chosen language.</div>
+  <div style="flex:1"></div>
+  <div onClick="{{ consentGo }}" style="background:#1DB954;color:#052912;font:600 17px 'Golos Text',sans-serif;padding:14px;border-radius:14px;text-align:center;cursor:pointer">I'm a parent — continue</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ sCamPerm }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="07 Camera permission" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px;text-align:center">
+  <div style="width:80px;height:56px;border:2.5px solid #1DB954;border-radius:14px;display:flex;align-items:center;justify-content:center"><div style="width:26px;height:26px;border:2.5px solid #1DB954;border-radius:50%"></div></div>
+  <div style="font:800 24px 'Golos Text',sans-serif;margin-top:8px">One thing first</div>
+  <div style="font:400 14px/1.6 'Golos Text',sans-serif;color:#9A9A9A;max-width:270px">We need the camera to photograph caps. Photos stay on your phone until you add them to the garage.</div>
+  <div onClick="{{ allowCam }}" style="margin-top:14px;background:#1DB954;color:#052912;font:600 17px 'Golos Text',sans-serif;padding:14px 36px;border-radius:14px;cursor:pointer">Allow camera</div>
+  <div onClick="{{ denyCam }}" style="font:500 14px 'Golos Text',sans-serif;color:#9A9A9A;cursor:pointer;padding:8px">Not now</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ sCamDenied }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="07b Permission denied" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px;text-align:center">
+  <div style="width:80px;height:56px;border:2.5px solid #565656;border-radius:14px;display:flex;align-items:center;justify-content:center;position:relative"><div style="width:26px;height:26px;border:2.5px solid #565656;border-radius:50%"></div><div style="position:absolute;width:96px;height:2.5px;background:#FF4D4D;transform:rotate(-28deg)"></div></div>
+  <div style="font:800 24px 'Golos Text',sans-serif;margin-top:8px">Camera is off</div>
+  <div style="font:400 14px/1.7 'Golos Text',sans-serif;color:#9A9A9A;max-width:280px;text-align:left">1. Open your phone's Settings<br>2. Find Cap Garage<br>3. Turn the camera on</div>
+  <div onClick="{{ openIOSSettings }}" style="margin-top:12px;background:#1DB954;color:#052912;font:600 16px 'Golos Text',sans-serif;padding:13px 32px;border-radius:14px;cursor:pointer">Open Settings</div>
+  <div onClick="{{ importInstead }}" style="font:500 14px 'Golos Text',sans-serif;color:#1DB954;cursor:pointer;padding:8px">Import from gallery instead</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ sGuestWall }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="20b Guest wall" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px;text-align:center">
+  <div style="width:72px;height:72px;border:2px dashed #2e2e2e;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#565656;font-size:24px">◎</div>
+  <div style="font:800 22px 'Golos Text',sans-serif;margin-top:6px">Friends need an account</div>
+  <div style="font:400 14px/1.6 'Golos Text',sans-serif;color:#9A9A9A;max-width:260px">You're a guest — your garage lives only on this phone. Save it to an account to add friends and duel.</div>
+  <div onClick="{{ saveGarage }}" style="margin-top:12px;background:#1DB954;color:#052912;font:600 16px 'Golos Text',sans-serif;padding:14px 30px;border-radius:14px;cursor:pointer">Save your garage</div>
+  <div style="font:400 12px 'Golos Text',sans-serif;color:#565656">Nothing gets deleted — guest caps merge in.</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ sSettings }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="33 Settings" style="flex:1;min-height:0;overflow-y:auto;padding:10px 16px 20px;display:flex;flex-direction:column;gap:10px">
+  <div onClick="{{ goProfile }}" style="font:500 14px 'Golos Text',sans-serif;color:#1DB954;cursor:pointer;padding:4px 0">‹ Profile</div>
+  <div style="font:800 22px 'Golos Text',sans-serif">Settings</div>
+  <div onClick="{{ langTap }}" style="display:flex;align-items:center;justify-content:space-between;background:#161616;border-radius:14px;padding:14px;cursor:pointer;min-height:48px;box-sizing:border-box"><span style="font:600 14px 'Golos Text',sans-serif">Language</span><span style="color:#9A9A9A;font:400 13px 'Golos Text',sans-serif">English ›</span></div>
+  <div style="display:flex;align-items:center;justify-content:space-between;background:#161616;border-radius:14px;padding:12px 14px;min-height:48px;box-sizing:border-box"><span style="font:600 14px 'Golos Text',sans-serif">Sound</span><div onClick="{{ sndTap }}" style="width:46px;height:28px;border-radius:14px;background:{{ sndBg }};position:relative;cursor:pointer;flex:none"><div style="position:absolute;top:2px;left:{{ sndKnob }};width:24px;height:24px;border-radius:50%;background:#F2F2F2;transition:left .15s"></div></div></div>
+  <div style="display:flex;align-items:center;justify-content:space-between;background:#161616;border-radius:14px;padding:12px 14px;min-height:48px;box-sizing:border-box"><span style="font:600 14px 'Golos Text',sans-serif">Haptics</span><div onClick="{{ hapTap }}" style="width:46px;height:28px;border-radius:14px;background:{{ hapBg }};position:relative;cursor:pointer;flex:none"><div style="position:absolute;top:2px;left:{{ hapKnob }};width:24px;height:24px;border-radius:50%;background:#F2F2F2;transition:left .15s"></div></div></div>
+  <div style="display:flex;align-items:center;justify-content:space-between;background:#161616;border-radius:14px;padding:12px 14px;min-height:48px;box-sizing:border-box"><div><div style="font:600 14px 'Golos Text',sans-serif">Keep originals in gallery</div><div style="font:400 11px 'Golos Text',sans-serif;color:#9A9A9A">Save the untouched photo too</div></div><div onClick="{{ koTap }}" style="width:46px;height:28px;border-radius:14px;background:{{ koBg }};position:relative;cursor:pointer;flex:none"><div style="position:absolute;top:2px;left:{{ koKnob }};width:24px;height:24px;border-radius:50%;background:#F2F2F2;transition:left .15s"></div></div></div>
+  <div style="display:flex;align-items:center;justify-content:space-between;background:#161616;border-radius:14px;padding:14px;min-height:48px;box-sizing:border-box"><span style="font:600 14px 'Golos Text',sans-serif">Sync</span><span style="font:400 13px 'Golos Text',sans-serif;color:{{ syncC }}">{{ syncStatus }}</span></div>
+  <div onClick="{{ exportTap }}" style="display:flex;align-items:center;justify-content:space-between;background:#161616;border-radius:14px;padding:14px;cursor:pointer;min-height:48px;box-sizing:border-box"><span style="font:600 14px 'Golos Text',sans-serif">Export my collection</span><span style="color:#9A9A9A;font:400 13px 'Golos Text',sans-serif">CSV + photos ›</span></div>
+  <div onClick="{{ policyTap }}" style="display:flex;align-items:center;justify-content:space-between;background:#161616;border-radius:14px;padding:14px;cursor:pointer;min-height:48px;box-sizing:border-box"><span style="font:600 14px 'Golos Text',sans-serif">Privacy policy · Terms</span><span style="color:#9A9A9A">›</span></div>
+  <div onClick="{{ replayLaunch }}" style="display:flex;align-items:center;justify-content:space-between;background:#161616;border-radius:14px;padding:14px;cursor:pointer;min-height:48px;box-sizing:border-box"><span style="font:600 14px 'Golos Text',sans-serif">Replay first launch</span><span style="color:#9A9A9A">›</span></div>
+  <div style="display:flex;gap:8px">
+    <div onClick="{{ previewUpdate }}" style="flex:1;border:1px dashed #3a3a3a;color:#9A9A9A;font:500 12px 'Golos Text',sans-serif;padding:11px;border-radius:12px;text-align:center;cursor:pointer">Preview: update screen</div>
+    <div onClick="{{ previewMaint }}" style="flex:1;border:1px dashed #3a3a3a;color:#9A9A9A;font:500 12px 'Golos Text',sans-serif;padding:11px;border-radius:12px;text-align:center;cursor:pointer">Preview: maintenance</div>
+  </div>
+  <div onClick="{{ deleteAccountTap }}" style="border:1px solid #46201f;color:#FF4D4D;font:600 15px 'Golos Text',sans-serif;padding:13px;border-radius:14px;text-align:center;cursor:pointer;margin-top:4px">Delete account</div>
+  <div style="font:400 11px 'Golos Text',sans-serif;color:#565656;text-align:center">Needs a parent · 7-day grace period</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ sUpdate }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="36 Update required" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px;text-align:center">
+  <div style="width:72px;height:72px;border:2.5px solid #1DB954;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#1DB954;font-size:28px">↑</div>
+  <div style="font:800 24px 'Golos Text',sans-serif;margin-top:6px">Time to update</div>
+  <div style="font:400 14px/1.6 'Golos Text',sans-serif;color:#9A9A9A;max-width:260px">This version is too old to sync caps safely. Grab the new one — it takes a minute.</div>
+  <div onClick="{{ updateTap }}" style="margin-top:12px;background:#1DB954;color:#052912;font:600 16px 'Golos Text',sans-serif;padding:14px 30px;border-radius:14px;cursor:pointer">Update in the App Store</div>
+  <div onClick="{{ backToSettings }}" style="font:500 13px 'Golos Text',sans-serif;color:#565656;cursor:pointer;padding:6px">(exit preview)</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ sMaintenance }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="36b Maintenance" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px;text-align:center">
+  <div style="width:72px;height:72px;border:2.5px dashed #565656;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#9A9A9A;font-size:26px">◌</div>
+  <div style="font:800 24px 'Golos Text',sans-serif;margin-top:6px">Back in a bit</div>
+  <div style="font:400 14px/1.6 'Golos Text',sans-serif;color:#9A9A9A;max-width:260px">We're fixing the garage doors. Your caps are safe — try again in about 30 minutes.</div>
+  <div onClick="{{ backToSettings }}" style="margin-top:12px;border:1px solid #333;color:#F2F2F2;font:600 15px 'Golos Text',sans-serif;padding:13px 34px;border-radius:14px;cursor:pointer">Retry</div>
+</div>
+</sc-if>
+</div>
+
+<sc-if value="{{ showTabs }}" hint-placeholder-val="{{ true }}">
+<div style="flex:none;display:flex;align-items:flex-end;background:#161616;border-top:1px solid #232323;padding:8px 8px 6px">
+  <div onClick="{{ goGarage }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;color:{{ tabGarageFg }};padding:4px 0"><span style="font-size:17px;line-height:1">⌂</span><span style="font:500 10px 'Golos Text',sans-serif">Garage</span></div>
+  <div onClick="{{ goFriends }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;color:{{ tabFriendsFg }};padding:4px 0"><span style="font-size:17px;line-height:1">◎</span><span style="font:500 10px 'Golos Text',sans-serif">Friends</span></div>
+  <div style="flex:none;width:76px;display:flex;justify-content:center">
+    <div onClick="{{ openAdd }}" style="width:56px;height:56px;border-radius:50%;background:#1DB954;color:#052912;display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:400;transform:translateY(-18px);box-shadow:0 8px 20px rgba(29,185,84,.35);cursor:pointer">+</div>
+  </div>
+  <div onClick="{{ goDuel }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;color:{{ tabDuelFg }};padding:4px 0"><span style="font-size:17px;line-height:1">◈</span><span style="font:500 10px 'Golos Text',sans-serif">Duel</span></div>
+  <div onClick="{{ goProfile }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;color:{{ tabProfileFg }};padding:4px 0"><span style="font-size:17px;line-height:1">◉</span><span style="font:500 10px 'Golos Text',sans-serif">Profile</span></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ inFlow }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:59px 0 0 0;background:#0B0B0B;display:flex;flex-direction:column;z-index:5">
+
+<sc-if value="{{ fCam }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="12 Camera" style="flex:1;display:flex;flex-direction:column">
+  <div style="flex:none;display:flex;align-items:center;justify-content:space-between;padding:12px 16px">
+    <div onClick="{{ cancelFlow }}" style="width:34px;height:34px;border-radius:50%;background:#1F1F1F;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#F2F2F2">✕</div>
+    <div style="background:#1F1F1F;border-radius:999px;padding:6px 14px;font:600 12px 'Golos Text',sans-serif">{{ stepLabel }}</div>
+    <div onClick="{{ toggleFlash }}" style="border:1px solid #2e2e2e;border-radius:999px;padding:6px 11px;font:500 11px 'Golos Text',sans-serif;color:{{ flashFg }};cursor:pointer">{{ flashLabel }}</div>
+  </div>
+  <div style="flex:1;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden">
+    <div style="position:absolute;inset:0;background:radial-gradient(circle at 50% 55%,#3d3d3d,#232323 75%)"></div>
+    <div style="width:250px;height:250px;border-radius:50%;border:2px dashed #1DB954;display:flex;align-items:center;justify-content:center;position:relative"><sc-if value="{{ camTopStep }}" hint-placeholder-val="{{ true }}"><img src="uploads/zhiguli-cap-top.png" draggable="false" style="width:172px;filter:drop-shadow(0 8px 14px rgba(0,0,0,.45))"></sc-if><sc-if value="{{ camSideStep }}" hint-placeholder-val="{{ false }}"><img src="uploads/zhiguli-cap-side.png" draggable="false" style="width:172px;filter:drop-shadow(0 8px 14px rgba(0,0,0,.45))"></sc-if></div>
+    <div style="position:absolute;bottom:14px;left:50%;transform:translateX(-50%);background:rgba(11,11,11,.78);border:1px solid #1DB954;color:#1DB954;border-radius:999px;padding:5px 13px;font:500 12px 'Golos Text',sans-serif;white-space:nowrap">Cap detected — hold steady</div>
+  </div>
+  <div style="flex:none;text-align:center;padding:10px 20px 0;color:#9A9A9A;font:400 12px 'Golos Text',sans-serif">Plain surface · Fill the circle · Avoid shadows</div>
+  <div style="flex:none;display:flex;align-items:center;justify-content:space-between;padding:12px 28px 20px">
+    <div onClick="{{ capture }}" style="width:44px;height:44px;border:1.5px dashed #3a3a3a;border-radius:10px;display:flex;align-items:center;justify-content:center;font:500 9px 'Golos Text',sans-serif;color:#6f6f6f;cursor:pointer;text-align:center">gallery</div>
+    <div onClick="{{ capture }}" style="width:66px;height:66px;border-radius:50%;border:4px solid #F2F2F2;display:flex;align-items:center;justify-content:center;cursor:pointer"><div style="width:50px;height:50px;border-radius:50%;background:#F2F2F2"></div></div>
+    <sc-if value="{{ showSkip }}" hint-placeholder-val="{{ false }}"><div onClick="{{ skipSide }}" style="width:44px;text-align:center;font:600 14px 'Golos Text',sans-serif;color:#1DB954;cursor:pointer">Skip</div></sc-if>
+    <sc-if value="{{ hideSkip }}" hint-placeholder-val="{{ true }}"><div style="width:44px"></div></sc-if>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ fProcessing }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="13 Processing" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;padding:24px">
+  <div style="position:relative;width:180px;height:180px;display:flex;align-items:center;justify-content:center">
+    <div style="position:absolute;inset:0;border-radius:50%;border:3px solid #1f1f1f;border-top-color:#1DB954;animation:ringspin 1s linear infinite"></div>
+    <img src="uploads/zhiguli-cap-top.png" style="width:120px" draggable="false">
+  </div>
+  <div style="font:700 19px 'Golos Text',sans-serif">Cutting out the background…</div>
+  <div style="font:400 13px 'Golos Text',sans-serif;color:#9A9A9A;max-width:250px">No filters, no touch-ups. Your cap stays exactly as you found it.</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ fSaved }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="13b Saved offline" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:24px">
+  <div style="width:70px;height:70px;border-radius:50%;background:#14251b;border:2px solid #1DB954;display:flex;align-items:center;justify-content:center;color:#1DB954;font-size:28px">✓</div>
+  <div style="font:700 20px 'Golos Text',sans-serif;margin-top:6px">Saved!</div>
+  <div style="font:400 14px/1.5 'Golos Text',sans-serif;color:#9A9A9A;max-width:250px">We'll identify this cap when you're back online. It's already in your garage.</div>
+  <div onClick="{{ savedDone }}" style="margin-top:12px;background:#1DB954;color:#052912;font:600 16px 'Golos Text',sans-serif;padding:13px 30px;border-radius:14px;cursor:pointer">Done</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ fCutout }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="14 Cutout review" style="flex:1;display:flex;flex-direction:column;padding:16px;gap:14px">
+  <div style="font:800 22px 'Golos Text',sans-serif;margin-top:4px">How does it look?</div>
+  <div style="display:flex;gap:10px;flex:1;align-items:center">
+    <div style="flex:1;display:flex;flex-direction:column;gap:6px"><div style="aspect-ratio:1;border-radius:16px;background:#8f8f8f;display:flex;align-items:center;justify-content:center;padding:16px"><img src="uploads/zhiguli-cap-top.png" style="max-width:100%" draggable="false"></div><div style="text-align:center;font:600 11px 'Golos Text',sans-serif;color:#9A9A9A;letter-spacing:.08em">BEFORE</div></div>
+    <div style="flex:1;display:flex;flex-direction:column;gap:6px"><div style="aspect-ratio:1;border-radius:16px;background:repeating-conic-gradient(#191919 0 25%,#111 0 50%) 0 0/16px 16px;display:flex;align-items:center;justify-content:center;padding:16px"><img src="uploads/zhiguli-cap-top.png" style="max-width:100%;filter:drop-shadow(0 6px 8px rgba(0,0,0,.5))" draggable="false"></div><div style="text-align:center;font:600 11px 'Golos Text',sans-serif;color:#1DB954;letter-spacing:.08em">AFTER</div></div>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:8px">
+    <div onClick="{{ cutoutOk }}" style="background:#1DB954;color:#052912;font:600 17px 'Golos Text',sans-serif;padding:14px;border-radius:14px;text-align:center;cursor:pointer">Looks right</div>
+    <div onClick="{{ retake }}" style="border:1px solid #333;color:#F2F2F2;font:600 15px 'Golos Text',sans-serif;padding:13px;border-radius:14px;text-align:center;cursor:pointer">Retake</div>
+    <div onClick="{{ keepOriginal }}" style="text-align:center;font:500 13px 'Golos Text',sans-serif;color:#9A9A9A;padding:6px;cursor:pointer">Keep original photo instead</div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ fIdentify }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="15 Identification" style="flex:1;display:flex;flex-direction:column;padding:16px;gap:12px;overflow-y:auto">
+  <div style="font:800 22px 'Golos Text',sans-serif;margin-top:4px">Is this your cap?</div>
+  <div style="font:400 13px 'Golos Text',sans-serif;color:#9A9A9A;margin-top:-6px">Top matches from the catalog</div>
+  <sc-for list="{{ candidates }}" as="c" hint-placeholder-count="3">
+    <div onClick="{{ c.pick }}" style="display:flex;align-items:center;gap:12px;background:#161616;border:1.5px solid {{ c.bd }};border-radius:16px;padding:12px;cursor:pointer">
+      <sc-if value="{{ c.real }}" hint-placeholder-val="{{ true }}"><img src="uploads/zhiguli-cap-top.png" style="width:46px;height:46px;object-fit:contain;flex:none" draggable="false"></sc-if>
+      <sc-if value="{{ c.ph }}" hint-placeholder-val="{{ false }}"><div style="width:46px;height:46px;border:1.5px dashed #3a3a3a;border-radius:50%;flex:none"></div></sc-if>
+      <div style="flex:1;min-width:0"><div style="font:600 15px 'Golos Text',sans-serif">{{ c.title }}</div><div style="font:400 12px 'Golos Text',sans-serif;color:#9A9A9A">{{ c.sub }}</div></div>
+      <span style="flex:none;padding:4px 10px;border-radius:999px;border:1px solid {{ c.confBd }};color:{{ c.confFg }};font:600 11px 'Golos Text',sans-serif">{{ c.conf }}</span>
+    </div>
+  </sc-for>
+  <div onClick="{{ noneOfThese }}" style="display:flex;align-items:center;gap:12px;border:1.5px dashed #3a3a3a;border-radius:16px;padding:14px;cursor:pointer;color:#9A9A9A;font:500 14px 'Golos Text',sans-serif">None of these — enter it myself <span style="margin-left:auto">›</span></div>
+  <div style="flex:1"></div>
+  <div onClick="{{ confirmIdent }}" style="background:#1DB954;color:#052912;font:600 17px 'Golos Text',sans-serif;padding:14px;border-radius:14px;text-align:center;cursor:pointer">Confirm</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ fManual }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="16 Manual entry" style="flex:1;display:flex;flex-direction:column;padding:16px;gap:12px;overflow-y:auto">
+  <div onClick="{{ backToIdentify }}" style="font:500 14px 'Golos Text',sans-serif;color:#1DB954;cursor:pointer">‹ Matches</div>
+  <div style="font:800 22px 'Golos Text',sans-serif">Tell us about it</div>
+  <div style="display:flex;flex-direction:column;gap:6px"><label style="font:600 12px 'Golos Text',sans-serif;color:#9A9A9A">Brand</label><input value="{{ manBrand }}" onChange="{{ mBrand }}" placeholder="Start typing…" style="background:#161616;border:1px solid #2c2c2c;border-radius:12px;padding:13px 14px;color:#F2F2F2;font:400 15px 'Golos Text',sans-serif;outline:none;width:100%;box-sizing:border-box"></div>
+  <sc-if value="{{ showSug }}" hint-placeholder-val="{{ false }}"><div onClick="{{ pickSug }}" style="margin-top:-6px;background:#1F1F1F;border-radius:12px;padding:10px 14px;font:500 14px 'Golos Text',sans-serif;cursor:pointer">Zhiguli <span style="color:#9A9A9A;font-weight:400">· in the catalog</span></div></sc-if>
+  <div style="display:flex;flex-direction:column;gap:6px"><label style="font:600 12px 'Golos Text',sans-serif;color:#9A9A9A">Product</label><input value="{{ manName }}" onChange="{{ mName }}" placeholder="e.g. Lemonade" style="background:#161616;border:1px solid #2c2c2c;border-radius:12px;padding:13px 14px;color:#F2F2F2;font:400 15px 'Golos Text',sans-serif;outline:none;width:100%;box-sizing:border-box"></div>
+  <div style="display:flex;flex-direction:column;gap:6px"><label style="font:600 12px 'Golos Text',sans-serif;color:#9A9A9A">Cap shape</label>
+    <div style="display:flex;gap:7px;flex-wrap:wrap">
+      <sc-for list="{{ geoChips }}" as="g" hint-placeholder-count="4"><div onClick="{{ g.pick }}" style="padding:8px 13px;border-radius:999px;border:1.5px solid {{ g.bd }};color:{{ g.fg }};font:500 13px 'Golos Text',sans-serif;cursor:pointer">{{ g.name }}</div></sc-for>
+    </div>
+  </div>
+  <div style="font:400 12px/1.5 'Golos Text',sans-serif;color:#9A9A9A">Saved as <b style="color:#F2F2F2">Unverified</b> — other collectors can find it after a quick review.</div>
+  <div style="flex:1"></div>
+  <div onClick="{{ saveManual }}" style="background:#1DB954;color:#052912;font:600 17px 'Golos Text',sans-serif;padding:14px;border-radius:14px;text-align:center;cursor:pointer">Save cap type</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ fCondition }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="17 Condition + notes" style="flex:1;display:flex;flex-direction:column;padding:16px;gap:14px;overflow-y:auto">
+  <div style="font:800 22px 'Golos Text',sans-serif;margin-top:4px">Almost in the garage</div>
+  <div style="display:flex;align-items:center;gap:12px;background:#161616;border-radius:16px;padding:12px"><img src="uploads/zhiguli-cap-top.png" style="width:44px;height:44px;object-fit:contain" draggable="false"><div><div style="font:600 15px 'Golos Text',sans-serif">{{ pendingTitle }}</div><div style="font:400 12px 'Golos Text',sans-serif;color:#9A9A9A">{{ pendingSub }}</div></div></div>
+  <div style="display:flex;flex-direction:column;gap:6px"><label style="font:600 12px 'Golos Text',sans-serif;color:#9A9A9A">Condition — just a note, never lowers rarity</label>
+    <div style="display:flex;gap:7px;flex-wrap:wrap">
+      <sc-for list="{{ condChips }}" as="g" hint-placeholder-count="4"><div onClick="{{ g.pick }}" style="padding:8px 14px;border-radius:999px;border:1.5px solid {{ g.bd }};color:{{ g.fg }};font:500 13px 'Golos Text',sans-serif;cursor:pointer">{{ g.name }}</div></sc-for>
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;justify-content:space-between;background:#161616;border-radius:12px;padding:12px 14px"><span style="font:600 12px 'Golos Text',sans-serif;color:#9A9A9A">Found on</span><span style="font:500 14px 'Golos Text',sans-serif">12 Sep 2026 · Today</span></div>
+  <div style="display:flex;flex-direction:column;gap:6px"><label style="font:600 12px 'Golos Text',sans-serif;color:#9A9A9A">Where? (no GPS — just your words)</label><input value="{{ place }}" onChange="{{ pPlace }}" placeholder="e.g. near school" style="background:#161616;border:1px solid #2c2c2c;border-radius:12px;padding:13px 14px;color:#F2F2F2;font:400 15px 'Golos Text',sans-serif;outline:none;width:100%;box-sizing:border-box"></div>
+  <div style="flex:1"></div>
+  <div onClick="{{ addToGarage }}" style="background:#1DB954;color:#052912;font:600 17px 'Golos Text',sans-serif;padding:14px;border-radius:14px;text-align:center;cursor:pointer">Add to garage</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ fReveal }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="18 Reveal" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:radial-gradient(circle at 50% 32%,#12291a,#0B0B0B 68%);padding:20px;text-align:center;overflow:hidden">
+  <div style="font:800 32px 'Golos Text',sans-serif;letter-spacing:.01em">{{ revealTitle }}</div>
+  <div style="height:190px;display:flex;align-items:flex-end;justify-content:center">{{ revealCapEl }}</div>
+  <div style="width:190px;height:38px;border-radius:50%;background:radial-gradient(ellipse at 50% 32%,#272727,#101010);margin-top:-16px"></div>
+  <sc-if value="{{ showTier }}" hint-placeholder-val="{{ false }}">
+    <div style="display:inline-flex;align-items:center;gap:8px;border:1.5px solid {{ revealColor }};border-radius:999px;padding:8px 16px;animation:{{ animTier }}"><span style="color:{{ revealColor }};font-size:14px">{{ revealShape }}</span><span style="font:600 14px 'Golos Text',sans-serif">{{ revealRarityText }}</span></div>
+  </sc-if>
+  <sc-if value="{{ showBadges }}" hint-placeholder-val="{{ false }}">
+    <sc-for list="{{ newBadges }}" as="b" hint-placeholder-count="0">
+      <div style="display:flex;align-items:center;gap:10px;background:#161616;border:1px solid #2c2c2c;border-radius:14px;padding:10px 16px;animation:{{ animBadge }}"><span style="color:#F5B301;font-size:15px">★</span><span style="font:500 13px 'Golos Text',sans-serif">Badge unlocked — {{ b.label }}</span></div>
+    </sc-for>
+  </sc-if>
+  <sc-if value="{{ showTier }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;gap:8px;margin-top:12px;width:100%;max-width:300px;animation:{{ animBadge }}">
+      <div onClick="{{ revealView }}" style="flex:1;background:#1DB954;color:#052912;font:600 15px 'Golos Text',sans-serif;padding:13px;border-radius:13px;text-align:center;cursor:pointer">View in garage</div>
+      <div onClick="{{ revealAgain }}" style="flex:1;border:1px solid #333;color:#F2F2F2;font:600 15px 'Golos Text',sans-serif;padding:13px;border-radius:13px;text-align:center;cursor:pointer">Add another</div>
+    </div>
+  </sc-if>
+</div>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ dupSheet }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;z-index:8;display:flex;flex-direction:column;justify-content:flex-end">
+  <div onClick="{{ dupCancel }}" style="position:absolute;inset:0;background:rgba(0,0,0,.6)"></div>
+  <div data-screen-label="11 Duplicate dialog" style="position:relative;background:#1F1F1F;border-radius:24px 24px 0 0;padding:20px 16px 24px;display:flex;flex-direction:column;gap:10px">
+    <div style="width:38px;height:4px;border-radius:2px;background:#3a3a3a;margin:0 auto 4px"></div>
+    <div style="font:700 19px 'Golos Text',sans-serif;text-align:center">You already have this cap</div>
+    <div style="display:flex;align-items:center;gap:12px;background:#161616;border-radius:14px;padding:10px 12px;margin:4px 0"><img src="uploads/zhiguli-cap-top.png" style="width:40px;height:40px;object-fit:contain" draggable="false"><div><div style="font:600 14px 'Golos Text',sans-serif">Zhiguli · Beer</div><div style="font:400 12px 'Golos Text',sans-serif;color:#4CD964">■ Uncommon · 18.4%</div></div></div>
+    <div onClick="{{ dupAdd }}" style="background:#1DB954;color:#052912;font:600 16px 'Golos Text',sans-serif;padding:14px;border-radius:14px;text-align:center;cursor:pointer">Add as duplicate (×2)</div>
+    <div onClick="{{ dupSeparate }}" style="border:1px solid #333;color:#F2F2F2;font:600 15px 'Golos Text',sans-serif;padding:13px;border-radius:14px;text-align:center;cursor:pointer">Add as a separate cap <span style="display:block;font:400 11px 'Golos Text',sans-serif;color:#9A9A9A;margin-top:2px">different condition</span></div>
+    <div onClick="{{ dupCancel }}" style="text-align:center;font:500 14px 'Golos Text',sans-serif;color:#9A9A9A;padding:8px;cursor:pointer">Cancel</div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ gateOpen }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;z-index:9;display:flex;align-items:center;justify-content:center;padding:24px">
+  <div onClick="{{ gateCancel }}" style="position:absolute;inset:0;background:rgba(0,0,0,.65)"></div>
+  <div data-screen-label="Parental gate" style="position:relative;background:#1F1F1F;border:1px solid {{ gateBd }};border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:12px;width:100%;max-width:290px;text-align:center">
+    <div style="font:700 17px 'Golos Text',sans-serif">Quick check for a grown-up</div>
+    <div style="font:400 13px/1.5 'Golos Text',sans-serif;color:#9A9A9A">{{ gateBody }} What is 6 × 7?</div>
+    <div style="display:flex;gap:8px;justify-content:center">
+      <div onClick="{{ gate36 }}" style="flex:1;border:1.5px solid #333;border-radius:12px;padding:12px;font:700 16px 'Golos Text',sans-serif;cursor:pointer">36</div>
+      <div onClick="{{ gate42 }}" style="flex:1;border:1.5px solid #333;border-radius:12px;padding:12px;font:700 16px 'Golos Text',sans-serif;cursor:pointer">42</div>
+      <div onClick="{{ gate48 }}" style="flex:1;border:1.5px solid #333;border-radius:12px;padding:12px;font:700 16px 'Golos Text',sans-serif;cursor:pointer">48</div>
+    </div>
+    <sc-if value="{{ gateWrong }}" hint-placeholder-val="{{ false }}"><div style="font:500 12px 'Golos Text',sans-serif;color:#FF4D4D">Not quite — try again</div></sc-if>
+    <div onClick="{{ gateCancel }}" style="font:500 13px 'Golos Text',sans-serif;color:#9A9A9A;cursor:pointer;padding:4px">Cancel</div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ linkSheet }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;z-index:8;display:flex;flex-direction:column;justify-content:flex-end">
+  <div onClick="{{ linkCancel }}" style="position:absolute;inset:0;background:rgba(0,0,0,.6)"></div>
+  <div data-screen-label="37 Account link" style="position:relative;background:#1F1F1F;border-radius:24px 24px 0 0;padding:20px 16px 24px;display:flex;flex-direction:column;gap:10px">
+    <div style="width:38px;height:4px;border-radius:2px;background:#3a3a3a;margin:0 auto 4px"></div>
+    <div style="font:700 19px 'Golos Text',sans-serif;text-align:center">Save your garage</div>
+    <div style="font:400 13px/1.5 'Golos Text',sans-serif;color:#9A9A9A;text-align:center">Your guest caps merge into the account. Nothing is ever deleted.</div>
+    <div onClick="{{ linkApple }}" style="background:#F2F2F2;color:#0B0B0B;font:600 15px 'Golos Text',sans-serif;padding:13px;border-radius:14px;text-align:center;cursor:pointer"> Continue with Apple</div>
+    <div onClick="{{ linkGoogle }}" style="background:#F2F2F2;color:#0B0B0B;font:600 15px 'Golos Text',sans-serif;padding:13px;border-radius:14px;text-align:center;cursor:pointer">G · Continue with Google</div>
+    <div onClick="{{ linkCancel }}" style="text-align:center;font:500 14px 'Golos Text',sans-serif;color:#9A9A9A;padding:8px;cursor:pointer">Cancel</div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ delSheet }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;z-index:8;display:flex;flex-direction:column;justify-content:flex-end">
+  <div onClick="{{ delCancel }}" style="position:absolute;inset:0;background:rgba(0,0,0,.6)"></div>
+  <div data-screen-label="33b Delete account" style="position:relative;background:#1F1F1F;border-radius:24px 24px 0 0;padding:20px 16px 24px;display:flex;flex-direction:column;gap:10px">
+    <div style="width:38px;height:4px;border-radius:2px;background:#3a3a3a;margin:0 auto 4px"></div>
+    <div style="font:700 19px 'Golos Text',sans-serif;text-align:center">Delete this account?</div>
+    <div style="font:400 13px/1.5 'Golos Text',sans-serif;color:#9A9A9A;text-align:center">Everything is kept for 7 days — sign back in to undo. After that, caps, badges and friends are gone for good.</div>
+    <div onClick="{{ delConfirm }}" style="background:#E02424;color:#F2F2F2;font:600 16px 'Golos Text',sans-serif;padding:14px;border-radius:14px;text-align:center;cursor:pointer">Delete · 7-day grace</div>
+    <div onClick="{{ delCancel }}" style="border:1px solid #333;color:#F2F2F2;font:600 15px 'Golos Text',sans-serif;padding:13px;border-radius:14px;text-align:center;cursor:pointer">Keep my garage</div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ hasSnack }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;left:16px;right:16px;bottom:92px;z-index:7;display:flex;align-items:center;justify-content:space-between;background:#1F1F1F;border:1px solid #2e2e2e;border-radius:14px;padding:12px 16px;box-shadow:0 8px 24px rgba(0,0,0,.5)">
+  <span style="font:500 14px 'Golos Text',sans-serif">Cap deleted</span>
+  <span onClick="{{ undoDelete }}" style="font:700 14px 'Golos Text',sans-serif;color:#1DB954;cursor:pointer">UNDO</span>
+</div>
+</sc-if>
+
+<sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;top:66px;left:50%;transform:translateX(-50%);z-index:10;background:#1F1F1F;border:1px solid #2e2e2e;border-radius:999px;padding:8px 16px;font:500 12px 'Golos Text',sans-serif;white-space:nowrap;box-shadow:0 6px 18px rgba(0,0,0,.5);color:#F2F2F2">{{ toast }}</div>
+</sc-if>
+</div>
+</x-import>
+<div style="max-width:430px;text-align:center;font:400 12px/1.6 'Golos Text',sans-serif;color:#8a8a8a">Part 2 — all five tabs live. The cap is now a real 3D object: drag it in Cap detail (inertia, ±35° tilt, double-tap resets). Tap <b style="color:#1DB954">+</b> for the add flow with the staged reveal. Duel runs a full best-of-3 vs a friend. Adding a friend asks the parental gate once. Offline, Reduced motion &amp; First launch are in Tweaks (or Profile › Settings › Replay first launch).<br><a href="Sitemap.dc.html">Sitemap</a> · <a href="Design System.dc.html">Design system</a> · <a href="Layout Proof.dc.html">RU/UK proof</a> · <a href="Strings & Open Questions.dc.html">Strings &amp; open questions</a></div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:520,&quot;height&quot;:980},&quot;offline&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Simulate&quot;},&quot;reducedMotion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Simulate&quot;},&quot;firstLaunch&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Simulate&quot;}}">
+class Component extends DCLogic {
+  state = {
+    screen: 'garage', flow: null, cand: 0, dupSheet: false,
+    caps: [{id:1, brand:'Zhiguli', name:'Beer', geo:'Aluminium screw cap', tier:'Uncommon', pct:18.4, dupes:1, condition:'Worn', date:'12 Sep 2026', place:'near school'}],
+    sort: 0, filt: null, flash: false, detailId: 1, ba: 'after',
+    cond: 'Worn', place: '', manBrand: '', manName: '', manGeo: 'Aluminium screw',
+    pendingType: null, revealDup: false, newBadges: [], snack: null, toast: null, pendingSync: 0, nextId: 2,
+    revealPhase: 'drop', showTier: false, showBadges: false, revealPct: 0,
+    friendsView: 'list', pending: true, friends: [
+      {nick:'bottle_ninja', caps:23, brands:6, rarest:'Rare', ch:'▲', ac:'#4D9DFF'},
+      {nick:'kvass_king', caps:8, brands:3, rarest:'Uncommon', ch:'■', ac:'#4CD964'}
+    ],
+    friendCode: '', friendSel: 0, lbMetric: 0,
+    gateOpen: false, gateWrong: false, gateDone: false, gateNext: null, gateBody: 'This step needs a parent.',
+    lang: 'EN', ob: 0, nick: 'cap_hunter', avatarSel: 1, guest: false,
+    soundOn: true, hapticsOn: true, keepOrig: false, delSheet: false, linkSheet: false,
+    duel: null, duelPick: null, duelPctMe: 0, duelPctOpp: 0, duelShowWin: false, duelsDone: 0,
+    duelHistory: [
+      {txt:'vs kvass_king — won 2-1', when:'Tue', ch:'◈', c:'#1DB954'},
+      {txt:'vs fizz_fox — expired, no answer in 7 days', when:'Aug', ch:'◌', c:'#565656'}
+    ]
+  };
+  TIERS = {Common:{s:'●',c:'#9A9A9A'}, Uncommon:{s:'■',c:'#4CD964'}, Rare:{s:'▲',c:'#4D9DFF'}, Epic:{s:'◆',c:'#E02424'}, Legendary:{s:'★',c:'#F5B301'}, Unrated:{s:'◌',c:'#8a8a8a'}};
+  CANDS = [
+    {title:'Zhiguli · Beer', sub:'Moscow Brewing Co. · verified', conf:'Very likely', real:true, brand:'Zhiguli', name:'Beer', tier:'Uncommon', pct:18.4},
+    {title:'Kolos · Kvass', sub:'Unverified entry', conf:'Possible', real:false, brand:'Kolos', name:'Kvass', tier:'Unrated', pct:null},
+    {title:'Rodnik · Lemonade', sub:'Unverified entry', conf:'Possible', real:false, brand:'Rodnik', name:'Lemonade', tier:'Unrated', pct:null}
+  ];
+  SORTS = ['Newest','Rarity','Brand','A–Z'];
+  OPP_PICKS = [21.0, 9.8, 33.5];
+  componentDidMount(){ this._caps = {}; this._raf = requestAnimationFrame(this._tick); if (this.props.firstLaunch) this.startLaunch(); }
+  startLaunch(){ clearTimeout(this._sp); this.setState({screen:'splash'}); this._sp = setTimeout(()=>this.setState({screen:'language'}), 1300); }
+  OB = [
+    {t:'Find a cap', b:'Streets, parks, the beach — caps are everywhere once you start looking.', n:'illustration: cap on pavement'},
+    {t:'Photograph it', b:'Top photo, then the side. We cut out the background — no filters, ever.', n:'illustration: phone over cap'},
+    {t:'Fill your garage', b:'Every cap becomes a 3D model on a pedestal. Compare rarity. Duel friends.', n:'illustration: garage shelf'}
+  ];
+  AVATARS = [{ch:'●',c:'#9A9A9A'},{ch:'■',c:'#4CD964'},{ch:'▲',c:'#4D9DFF'},{ch:'◆',c:'#E02424'},{ch:'★',c:'#F5B301'},{ch:'◌',c:'#F2F2F2'}];
+  LAUNCH = ['splash','language','onboarding','signin','nickname','consent','campermission','camdenied'];
+  componentWillUnmount(){ cancelAnimationFrame(this._raf); [this._pt,this._st,this._tt,this._r1,this._r2,this._r3,this._dw,this._sp].forEach(clearTimeout); clearInterval(this._ci); clearInterval(this._di); }
+  _tick = () => {
+    const caps = this._caps || {};
+    for (const k in caps) {
+      const c = caps[k]; if (!c) continue;
+      if (!c.dragging) {
+        c.yaw += c.vel; c.vel *= 0.94; if (Math.abs(c.vel) < 0.02) c.vel = 0;
+        if (c.auto) c.yaw += c.autoSpeed;
+      }
+      if (c.tiltNode) c.tiltNode.style.transform = 'rotateX(' + c.tilt + 'deg)';
+      if (c.yawNode) c.yawNode.style.transform = 'rotateY(' + c.yaw + 'deg)';
+      if (c.shNode) { const s = 0.92 + (-c.tilt) / 130; c.shNode.style.transform = 'translateX(-50%) scale(' + Math.max(0.6, s) + ',1)'; c.shNode.style.opacity = String(0.3 + Math.min(0.3, Math.abs(c.tilt) / 90)); }
+    }
+    this._raf = requestAnimationFrame(this._tick);
+  };
+  getCapState(id, auto, autoSpeed){
+    if (!this._caps) this._caps = {};
+    if (!this._caps[id]) this._caps[id] = {yaw: 0, tilt: -22, vel: 0, dragging: false, auto, autoSpeed: autoSpeed || 0.4, lastTap: 0};
+    const c = this._caps[id]; c.auto = auto; c.autoSpeed = autoSpeed || 0.4; return c;
+  }
+  cap3d(id, R, opts = {}){
+    const e = React.createElement, c = this.getCapState(id, !!opts.auto, opts.autoSpeed);
+    const N = 30, H = Math.round(2 * R * 0.18), w = 2 * R * Math.tan(Math.PI / N) + 0.8, C = N * w;
+    const rep = C / 4, bgW = rep / 0.70, bgH = H / 0.20;
+    const ctr = (W, Hh) => ({position:'absolute', left:'50%', top:'50%', width:W+'px', height:Hh+'px', margin:(-Hh/2)+'px 0 0 '+(-W/2)+'px'});
+    const texSlices = [], hlSlices = [];
+    for (let i = 0; i < N; i++) {
+      const ang = i * 360 / N;
+      texSlices.push(e('div', {key:'t'+i, style:{...ctr(w+0.6, H), transform:'rotateY('+ang+'deg) translateZ('+(R-0.3)+'px)', backgroundImage:'url(uploads/zhiguli-cap-side.png)', backgroundSize:bgW+'px '+bgH+'px', backgroundPosition:(-(bgW*0.12 + (i*w)%rep))+'px '+(-(bgH*0.68))+'px', backfaceVisibility:'hidden', backgroundColor:'#8a713a'}}));
+      const rad = (ang - 28) * Math.PI / 180, op = Math.pow(Math.max(0, Math.cos(rad)), 3) * 0.38;
+      if (op > 0.02) hlSlices.push(e('div', {key:'h'+i, style:{...ctr(w+0.6, H), transform:'rotateY('+ang+'deg) translateZ('+(R+0.4)+'px)', background:'linear-gradient(rgba(255,255,255,.75),rgba(255,255,255,.12))', opacity:op, backfaceVisibility:'hidden', pointerEvents:'none'}}));
+    }
+    const top = e('div', {key:'top', style:{...ctr(2*R, 2*R), borderRadius:'50%', transform:'rotateX(90deg) translateZ('+(H/2)+'px)', backgroundImage:'url(uploads/zhiguli-cap-top.png)', backgroundSize:'cover', backgroundPosition:'center'}});
+    const bottom = e('div', {key:'bot', style:{...ctr(2*R, 2*R), borderRadius:'50%', transform:'rotateX(-90deg) translateZ('+(H/2)+'px)', background:'radial-gradient(circle, #241e12 38%, #4a3d24 42%, #2a2416 46%, #3a301e 76%, #191510 80%)'}});
+    const yawGroup = e('div', {key:'yaw', ref:(n)=>{ c.yawNode=n; if(n) n.style.transform='rotateY('+c.yaw+'deg)'; }, style:{position:'absolute', inset:0, transformStyle:'preserve-3d'}}, [bottom, ...texSlices, top]);
+    const hlGroup = e('div', {key:'hl', style:{position:'absolute', inset:0, transformStyle:'preserve-3d', pointerEvents:'none'}}, hlSlices);
+    const tiltGroup = e('div', {key:'tilt', ref:(n)=>{ c.tiltNode=n; if(n) n.style.transform='rotateX('+c.tilt+'deg)'; }, style:{position:'absolute', inset:0, transformStyle:'preserve-3d'}}, [yawGroup, hlGroup]);
+    const shadow = e('div', {key:'sh', ref:(n)=>{ c.shNode=n; }, style:{position:'absolute', left:'50%', bottom:'-4px', width:(1.7*R)+'px', height:(0.34*R)+'px', transform:'translateX(-50%)', borderRadius:'50%', background:'radial-gradient(ellipse, rgba(0,0,0,.6), rgba(0,0,0,0) 68%)', filter:'blur(4px)', opacity:0.4}});
+    const W = 2*R + 24, Hw = 2*R * 0.82 + H + 24;
+    const handlers = opts.interactive ? {
+      onPointerDown: (ev)=>{ const now=Date.now(); if(now - c.lastTap < 300){ c.yaw=0; c.tilt=-22; c.vel=0; } c.lastTap=now; c.dragging=true; c._px=ev.clientX; c._sy=ev.clientY; c._t0=c.tilt; c._d=0; c.vel=0; ev.currentTarget.setPointerCapture && ev.currentTarget.setPointerCapture(ev.pointerId); },
+      onPointerMove: (ev)=>{ if(!c.dragging) return; const dx=ev.clientX-c._px; c._px=ev.clientX; c._d=dx; c.yaw+=dx*0.55; c.tilt=Math.max(-35, Math.min(35, c._t0 + (ev.clientY-c._sy)*0.35)); },
+      onPointerUp: ()=>{ if(c.dragging){ c.dragging=false; c.vel=Math.max(-9, Math.min(9, (c._d||0)*0.55)); } },
+      onPointerLeave: ()=>{ if(c.dragging){ c.dragging=false; c.vel=Math.max(-9, Math.min(9, (c._d||0)*0.55)); } }
+    } : {};
+    return e('div', {key:id, ...handlers, style:{position:'relative', width:W+'px', height:Hw+'px', perspective:(8*R)+'px', touchAction:'none', cursor:opts.interactive?'grab':'default', userSelect:'none', flex:'none'}}, [shadow, tiltGroup]);
+  }
+  toastMsg(t){ clearTimeout(this._tt); this.setState({toast:t}); this._tt = setTimeout(()=>this.setState({toast:null}), 1800); }
+  badge(tier){ return this.TIERS[tier] || this.TIERS.Unrated; }
+  startProcessing(){
+    this.setState({flow:'processing'});
+    clearTimeout(this._pt);
+    this._pt = setTimeout(()=>{ this.setState({flow: this.props.offline ? 'saved' : 'cutout'}); }, 1600);
+  }
+  makeCap(type){
+    const s = this.state;
+    return {id:s.nextId, brand:type.brand, name:type.name, geo:type.geo||'Aluminium screw cap', tier:type.tier, pct:type.pct, dupes:1, condition:s.cond, date:'12 Sep 2026', place:s.place};
+  }
+  startReveal(extra){
+    [this._r1,this._r2,this._r3].forEach(clearTimeout); clearInterval(this._ci);
+    if (this._caps) this._caps['reveal'] = null;
+    const rm = !!this.props.reducedMotion;
+    const target = extra.revealTarget;
+    if (rm) { this.setState({flow:'reveal', revealPhase:'settle', showTier:true, showBadges:true, revealPct:target||0, ...extra}); return; }
+    this.setState({flow:'reveal', revealPhase:'drop', showTier:false, showBadges:false, revealPct:0, ...extra});
+    this._r1 = setTimeout(()=>this.setState({revealPhase:'settle'}), 620);
+    this._r2 = setTimeout(()=>{
+      this.setState({showTier:true});
+      if (target) { let t0=Date.now(); this._ci=setInterval(()=>{ const p=Math.min(1,(Date.now()-t0)/700), ease=1-Math.pow(1-p,3); this.setState({revealPct:target*ease}); if(p>=1) clearInterval(this._ci); }, 30); }
+    }, 920);
+    this._r3 = setTimeout(()=>this.setState({showBadges:true}), 1550);
+  }
+  startRound(){
+    clearTimeout(this._dw);
+    this._dw = setTimeout(()=>{
+      const d = this.state.duel; if(!d) return;
+      this.setState({screen:'duelReveal', duel:{...d, stage:'reveal'}, duelPctMe:0, duelPctOpp:0, duelShowWin:false});
+      const rm = !!this.props.reducedMotion;
+      const me = 18.4, opp = this.OPP_PICKS[d.round-1];
+      if (rm) { this.finishRound(me, opp); return; }
+      clearInterval(this._di); let t0=Date.now();
+      this._di = setInterval(()=>{ const p=Math.min(1,(Date.now()-t0)/800), ease=1-Math.pow(1-p,3); this.setState({duelPctMe:me*ease, duelPctOpp:opp*ease}); if(p>=1){ clearInterval(this._di); this.finishRound(me, opp); } }, 30);
+    }, 1400);
+  }
+  finishRound(me, opp){
+    const d = this.state.duel; if(!d) return;
+    const iWin = me < opp;
+    const score = [d.score[0] + (iWin?1:0), d.score[1] + (iWin?0:1)];
+    this.setState({duelPctMe:me, duelPctOpp:opp, duelShowWin:true, duel:{...d, score, lastWin:iWin}});
+  }
+  renderVals(){
+    const s = this.state, offline = !!this.props.offline, rm = !!this.props.reducedMotion;
+    const inFlow = !!s.flow;
+    const scr = s.screen;
+    const d = s.duel;
+    const sGarage = !inFlow && scr==='garage';
+    const rank = {Legendary:5,Epic:4,Rare:3,Uncommon:2,Common:1,Unrated:0};
+    let caps = [...s.caps];
+    if (s.filt==='Uncommon') caps = caps.filter(c=>c.tier==='Uncommon');
+    if (s.filt==='Worn') caps = caps.filter(c=>c.condition==='Worn');
+    if (s.sort===0) caps.sort((a,b)=>b.id-a.id);
+    if (s.sort===1) caps.sort((a,b)=>rank[b.tier]-rank[a.tier]);
+    if (s.sort===2 || s.sort===3) caps.sort((a,b)=>a.brand.localeCompare(b.brand));
+    const deco = c => ({...c, badgeShape:this.badge(c.tier).s, badgeColor:this.badge(c.tier).c, dupeLabel: c.dupes>1?('×'+c.dupes):'', open:()=>{ const cs=this._caps&&this._caps['detail']; if(cs){cs.yaw=0;cs.tilt=-22;cs.vel=0;} this.setState({screen:'detail', detailId:c.id, ba:'after'}); }});
+    const visibleCaps = caps.map(deco);
+    const zhCaps = s.caps.filter(c=>c.brand==='Zhiguli').map(deco);
+    const zhOwned = zhCaps.length ? 1 : 0;
+    const unident = s.caps.filter(c=>c.brand==='Not identified yet').length;
+    const total = s.caps.reduce((n,c)=>n+c.dupes,0);
+    const brandSet = new Set(s.caps.map(c=>c.brand)); brandSet.delete('Not identified yet');
+    let rarest = null; s.caps.forEach(c=>{ if(!rarest || rank[c.tier]>rank[rarest.tier]) rarest=c; });
+    const rb = rarest ? this.badge(rarest.tier) : {s:'—', c:'#565656'};
+    const dc = s.caps.find(c=>c.id===s.detailId) || s.caps[0] || null;
+    const seg = on => ({bg:on?'#1DB954':'transparent', fg:on?'#052912':'#9A9A9A'});
+    const segC = seg(scr!=='collections'), segK = seg(scr==='collections');
+    const fv = seg(s.friendsView==='list'), fb = seg(s.friendsView==='board');
+    const camTop = s.flow==='cam-top';
+    const pt = s.pendingType || this.CANDS[0];
+    const revealTier = s.revealDup ? 'Uncommon' : (pt.tier||'Unrated');
+    const rvb = this.badge(revealTier);
+    const filtChip = key => ({bd: s.filt===key?'#1DB954':'#2e2e2e', fg: s.filt===key?'#1DB954':'#9A9A9A', tap:()=>this.setState({filt:key})});
+    const grp = { garage:['garage','collections','brand','detail'], friends:['friends','addFriend','friendGarage','guestwall'], duel:['duel','duelPick','duelWait','duelReveal','duelResult'], profile:['profile','badges','stats','settings'] };
+    const tabFg = t => grp[t].includes(scr) ? '#1DB954' : '#9A9A9A';
+    const earnedBadges = [];
+    if (s.caps.length >= 1) earnedBadges.push('First Cap');
+    if (s.duelsDone >= 1) {}
+    const badgeDefs = [
+      {name:'First Cap', icon:'★', need:1, have:s.caps.length, unit:''},
+      {name:'Ten Finder', icon:'●', need:10, have:total, unit:''},
+      {name:'Half Hundred', icon:'●', need:50, have:total, unit:''},
+      {name:'Brand Loyal', icon:'■', need:10, have:zhCaps.length, unit:' Zhiguli'},
+      {name:'Rare Hunter', icon:'▲', need:1, have:s.caps.filter(c=>rank[c.tier]>=3).length, unit:' Rare'},
+      {name:'Set Complete', icon:'◆', need:6, have:zhOwned, unit:' of set'},
+      {name:'Duelist', icon:'◈', need:10, have:s.duelsDone, unit:' duels'},
+      {name:'Streak 7', icon:'★', need:7, have:1, unit:' days'}
+    ];
+    const badgeTiles = badgeDefs.map(b=>{ const earned=b.have>=b.need; return {name:b.name, icon:b.icon, c: earned?'#F5B301':'#565656', bd: earned?'#4a3c10':'#242424', op: earned?1:0.75, prog: earned?'Earned!':(Math.min(b.have,b.need)+'/'+b.need+b.unit)}; });
+    const badgeEarned = badgeTiles.filter(b=>b.prog==='Earned!').length;
+    const friendRows = s.friends.map((f,i)=>({...f, sub:f.caps+' caps · '+this.badge(f.rarest).s+' '+f.rarest, openGarage:()=>this.setState({screen:'friendGarage', friendSel:i}), duel:()=>{ const cs=this._caps&&this._caps['duelMine']; if(cs) this._caps['duelMine']=null; this.setState({screen:'duelPick', duel:{opp:i, round:1, score:[0,0], stage:'pick'}, duelPick:s.caps.find(c=>c.tier!=='Unrated')?s.caps.find(c=>c.tier!=='Unrated').id:null}); }}));
+    const fSel = s.friends[s.friendSel] || s.friends[0];
+    const lbChip = i => ({bd: s.lbMetric===i?'#1DB954':'#2e2e2e', fg: s.lbMetric===i?'#1DB954':'#9A9A9A', tap:()=>this.setState({lbMetric:i})});
+    const lbData = [
+      {nick:'bottle_ninja', ch:'▲', ac:'#4D9DFF', vals:['▲ Rare', '23 caps', '5 badges'], sort:[3,23,5]},
+      {nick:'cap_hunter (you)', ch:'■', ac:'#1DB954', vals:[rb.s+' '+(rarest?rarest.tier:'—'), total+' caps', badgeEarned+' badges'], sort:[rarest?rank[rarest.tier]:0, total, badgeEarned], me:true},
+      {nick:'kvass_king', ch:'■', ac:'#4CD964', vals:['■ Uncommon', '8 caps', '2 badges'], sort:[2,8,2]}
+    ];
+    const lbRows = [...lbData].sort((a,b)=>b.sort[s.lbMetric]-a.sort[s.lbMetric]).map((r,i)=>({rank:i+1, nick:r.nick, ch:r.ch, ac:r.ac, val:r.vals[s.lbMetric], bg:r.me?'#14251b':'#161616', bd:r.me?'#234a32':'#232323'}));
+    const pickCaps = s.caps.map(c=>{ const dis = c.tier==='Unrated'; return {...deco(c), bd: (!dis && s.duelPick===c.id)?'#1DB954':'transparent', op: dis?0.45:1, note: dis?'Unrated':(c.pct+'%'), tap:()=>{ if(!dis) this.setState({duelPick:c.id}); }}; });
+    const oppNick = d ? s.friends[d.opp].nick : '';
+    const iWon = d && d.score[0] >= 2;
+    const duelDone3 = d && (d.round >= 3 || d.score[0] >= 2 || d.score[1] >= 2);
+    return {
+      offline, offlineMsg: 'Offline · ' + s.pendingSync + (s.pendingSync===1?' cap':' caps') + ' waiting to upload',
+      inFlow, sGarage,
+      sCollections: !inFlow && scr==='collections', sBrand: !inFlow && scr==='brand', sDetail: !inFlow && scr==='detail',
+      sFriends: !inFlow && scr==='friends', sAddFriend: !inFlow && scr==='addFriend', sFriendGarage: !inFlow && scr==='friendGarage',
+      sDuelHome: !inFlow && scr==='duel', sDuelPick: !inFlow && scr==='duelPick', sDuelWait: !inFlow && scr==='duelWait',
+      sDuelReveal: !inFlow && scr==='duelReveal', sDuelResult: !inFlow && scr==='duelResult',
+      sProfile: !inFlow && scr==='profile', sBadges: !inFlow && scr==='badges', sStats: !inFlow && scr==='stats',
+      hasCaps: s.caps.length>0, isEmpty: s.caps.length===0,
+      statCaps: total, statBrands: brandSet.size,
+      rarestShape: rb.s, rarestColor: rb.c, rarestLabel: rarest ? rarest.tier : 'none yet',
+      sortLabel: this.SORTS[s.sort], cycleSort: ()=>this.setState({sort:(s.sort+1)%4}),
+      fAll: filtChip(null), fUnc: filtChip('Uncommon'), fWorn: filtChip('Worn'),
+      visibleCaps, zhCaps, zhOwned, zhPct: Math.round(zhOwned/6*100),
+      hasZh: zhOwned>0, hasUnident: unident>0,
+      unidentMsg: unident + (unident===1?' cap is':' caps are') + ' waiting to be identified',
+      segCapsBg: segC.bg, segCapsFg: segC.fg, segColBg: segK.bg, segColFg: segK.fg,
+      goCaps: ()=>this.setState({screen:'garage'}), goCollections: ()=>this.setState({screen:'collections'}),
+      openBrand: ()=>this.setState({screen:'brand'}),
+      goGarage: ()=>this.setState({screen:'garage'}), goFriends: ()=>this.setState({screen: s.guest?'guestwall':'friends'}),
+      goDuel: ()=>this.setState({screen: s.guest?'guestwall':'duel'}), goProfile: ()=>this.setState({screen:'profile'}),
+      goSettings: ()=>this.setState({screen:'settings'}),
+      goBadges: ()=>this.setState({screen:'badges'}), goStats: ()=>this.setState({screen:'stats'}),
+      tabGarageFg: tabFg('garage'), tabFriendsFg: tabFg('friends'), tabDuelFg: tabFg('duel'), tabProfileFg: tabFg('profile'),
+      showTabs: !inFlow && !this.LAUNCH.includes(scr) && scr!=='update' && scr!=='maintenance',
+      backFromDetail: ()=>this.setState({screen:'garage'}),
+      detailCapEl: this.cap3d('detail', 88, {interactive:true}),
+      detailTitle: dc ? dc.brand : '', detailSub: dc ? dc.name : '',
+      baAfterOn: s.ba==='after', baBeforeOn: s.ba==='before',
+      baBefore: ()=>this.setState({ba:'before'}), baAfter: ()=>this.setState({ba:'after'}),
+      baBeforeBg: s.ba==='before'?'#1DB954':'transparent', baBeforeFg: s.ba==='before'?'#052912':'#9A9A9A',
+      baAfterBg: s.ba==='after'?'#1DB954':'transparent', baAfterFg: s.ba==='after'?'#052912':'#9A9A9A',
+      detailBadgeShape: dc?this.badge(dc.tier).s:'', detailBadgeColor: dc?this.badge(dc.tier).c:'#888',
+      detailRarity: dc ? (dc.tier==='Unrated' ? 'Unrated · gets a tier once 20 collectors own it' : dc.tier+' · '+dc.pct+'% of collectors have it') : '',
+      detailCond: dc?dc.condition:'', detailGeo: dc?dc.geo:'',
+      foundLine: dc ? ('Found '+dc.date + (dc.place?(' · “'+dc.place+'”'):'')) : '',
+      detailDupes: dc?dc.dupes:1,
+      dupePlus: ()=>{ if(dc) this.setState({caps: s.caps.map(c=>c.id===dc.id?{...c,dupes:c.dupes+1}:c)}); },
+      dupeMinus: ()=>{ if(dc) this.setState({caps: s.caps.map(c=>c.id===dc.id?{...c,dupes:Math.max(1,c.dupes-1)}:c)}); },
+      shareTap: ()=>this.toastMsg('Share card comes in Part 3'),
+      editTap: ()=>this.toastMsg('Editing lands in Part 3'),
+      langTap: ()=>this.toastMsg('Language settings land in Part 3'),
+      deleteCap: ()=>{ if(!dc) return; clearTimeout(this._st); const idx=s.caps.findIndex(c=>c.id===dc.id); this.setState({caps: s.caps.filter(c=>c.id!==dc.id), screen:'garage', snack:{cap:dc, idx}}); this._st=setTimeout(()=>this.setState({snack:null}), 5000); },
+      hasSnack: !!s.snack,
+      undoDelete: ()=>{ clearTimeout(this._st); if(s.snack){ const caps=[...s.caps]; caps.splice(Math.min(s.snack.idx, caps.length), 0, s.snack.cap); this.setState({caps, snack:null}); } },
+      hasToast: !!s.toast, toast: s.toast,
+      fvList: ()=>this.setState({friendsView:'list'}), fvBoard: ()=>this.setState({friendsView:'board'}),
+      fvListBg: fv.bg, fvListFg: fv.fg, fvBoardBg: fb.bg, fvBoardFg: fb.fg,
+      fvIsList: s.friendsView==='list', fvIsBoard: s.friendsView==='board',
+      hasPending: s.pending,
+      acceptFriend: ()=>{ this.setState({pending:false, friends:[...s.friends, {nick:'fizz_fox', caps:2, brands:1, rarest:'Common', ch:'★', ac:'#F5B301'}]}); this.toastMsg('fizz_fox is now a friend!'); },
+      declineFriend: ()=>this.setState({pending:false}),
+      friendRows,
+      goAddFriend: ()=>{ if(s.gateDone) this.setState({screen:'addFriend'}); else this.setState({gateOpen:true, gateWrong:false, gateNext:'addFriend', gateBody:'Adding friends needs a parent.'}); },
+      gateBody: s.gateBody,
+      gateOpen: s.gateOpen, gateWrong: s.gateWrong, gateBd: s.gateWrong?'#7a2a2a':'#2e2e2e',
+      gate36: ()=>this.setState({gateWrong:true}), gate48: ()=>this.setState({gateWrong:true}),
+      gate42: ()=>{ if(s.gateNext==='__delete') this.setState({gateOpen:false, gateWrong:false, delSheet:true}); else this.setState({gateOpen:false, gateDone: s.gateNext==='addFriend'?true:s.gateDone, gateWrong:false, screen:s.gateNext||'addFriend'}); },
+      gateCancel: ()=>this.setState({gateOpen:false, gateWrong:false}),
+      friendCode: s.friendCode, fCode: (e)=>this.setState({friendCode:e.target.value.toUpperCase()}),
+      copyCode: ()=>this.toastMsg('Code copied — K7M-4QZ'),
+      shareCode: ()=>this.toastMsg('Share sheet opens here'),
+      sendRequest: ()=>{ if(s.friendCode.length<6){ this.toastMsg('Codes look like B2R-9TX'); } else { this.toastMsg('Request sent to '+s.friendCode); this.setState({friendCode:''}); } },
+      fgNick: fSel.nick, fgCh: fSel.ch, fgAc: fSel.ac,
+      fgSub: fSel.caps+' caps · '+fSel.brands+' brands · rarest '+this.badge(fSel.rarest).s+' '+fSel.rarest,
+      fgDuel: ()=>{ this.setState({screen:'duelPick', duel:{opp:s.friendSel, round:1, score:[0,0], stage:'pick'}, duelPick:s.caps.find(c=>c.tier!=='Unrated')?s.caps.find(c=>c.tier!=='Unrated').id:null}); },
+      lbRare: lbChip(0), lbCount: lbChip(1), lbBadges: lbChip(2), lbRows,
+      duelHistory: s.duelHistory,
+      duelRound: d?d.round:1, duelOppNick: oppNick,
+      duelScoreMe: d?d.score[0]:0, duelScoreOpp: d?d.score[1]:0,
+      pickCaps,
+      lockLabel: d && d.round===1 ? 'Send challenge' : 'Lock in',
+      lockPick: ()=>{ if(!s.duelPick){ this.toastMsg('Pick a cap first'); return; } this.setState({screen:'duelWait'}); this.startRound(); },
+      cancelDuel: ()=>{ clearTimeout(this._dw); clearInterval(this._di); this.setState({screen:'duel', duel:null}); },
+      duelMyCapEl: this.cap3d('duelMine', 46, {auto:true, autoSpeed:0.5}),
+      duelPctMeText: s.duelPctMe.toFixed(1)+'%', duelPctOppText: s.duelPctOpp.toFixed(1)+'%',
+      duelShowWin: s.duelShowWin,
+      myCardBd: s.duelShowWin ? (d&&d.lastWin?'#1DB954':'#E02424') : '#2a2a2a',
+      oppCardBd: s.duelShowWin ? (d&&d.lastWin?'#E02424':'#1DB954') : '#2a2a2a',
+      myResBd: d&&d.lastWin?'#1DB954':'#FF4D4D', oppResBd: d&&d.lastWin?'#FF4D4D':'#1DB954',
+      myResText: d&&d.lastWin?'✓ Round won':'✕ Round lost', oppResText: d&&d.lastWin?'✕ Lost':'✓ Won',
+      duelNextLabel: duelDone3 ? 'See result' : 'Next round',
+      duelNext: ()=>{ if(!d) return; if(duelDone3){ const won=d.score[0]>d.score[1]; this.setState({screen:'duelResult', duelsDone:s.duelsDone+1, duelHistory:[{txt:'vs '+oppNick+' — '+(won?'won':'lost')+' '+d.score[0]+'-'+d.score[1], when:'Today', ch:'◈', c:won?'#1DB954':'#FF4D4D'}, ...s.duelHistory]}); } else { this.setState({screen:'duelPick', duel:{...d, round:d.round+1}, duelShowWin:false}); } },
+      duelResultTitle: d ? (d.score[0]>d.score[1] ? 'You won '+d.score[0]+'-'+d.score[1]+'!' : 'Lost '+d.score[0]+'-'+d.score[1]+' — rematch?') : '',
+      duelResultSub: 'Best of 3 vs '+oppNick,
+      duelResultGlow: d && d.score[0]>d.score[1] ? '#12291a' : '#291414',
+      duelsDone: s.duelsDone,
+      rematch: ()=>{ this.setState({screen:'duelPick', duel:{opp:d?d.opp:0, round:1, score:[0,0], stage:'pick'}, duelShowWin:false}); },
+      duelBack: ()=>this.setState({screen:'duel', duel:null}),
+      badgeTiles, badgeEarned,
+      statBars: ['Apr','May','Jun','Jul','Aug','Sep'].map((m,i)=>({m, h: i===5 ? Math.min(100, 20+total*18)+'%' : '4%', bg: i===5?'#1DB954':'#2a2a2a'})),
+      tierRows: [
+        {name:'Uncommon', ch:'■', c:'#4CD964', n:s.caps.filter(c=>c.tier==='Uncommon').length, w: Math.min(100, s.caps.filter(c=>c.tier==='Uncommon').length*40)+'%'},
+        {name:'Unrated', ch:'◌', c:'#8a8a8a', n:s.caps.filter(c=>c.tier==='Unrated').length, w: Math.min(100, s.caps.filter(c=>c.tier==='Unrated').length*40)+'%'}
+      ],
+      openAdd: ()=>this.setState({flow:'cam-top', cand:0, pendingType:null, cond:'Worn', place:'', manBrand:'', manName:'', manGeo:'Aluminium screw'}),
+      cancelFlow: ()=>{ clearTimeout(this._pt); [this._r1,this._r2,this._r3].forEach(clearTimeout); clearInterval(this._ci); this.setState({flow:null, dupSheet:false}); },
+      fCam: camTop || s.flow==='cam-side',
+      stepLabel: camTop ? '1 of 2 · Top' : '2 of 2 · Side (optional)',
+      camTopStep: camTop, camSideStep: s.flow==='cam-side',
+      showSkip: s.flow==='cam-side', hideSkip: camTop,
+      skipSide: ()=>this.startProcessing(),
+      capture: ()=>{ if(camTop) this.setState({flow:'cam-side'}); else this.startProcessing(); },
+      flashLabel: s.flash?'Flash on':'Flash off', flashFg: s.flash?'#1DB954':'#9A9A9A',
+      toggleFlash: ()=>this.setState({flash:!s.flash}),
+      fProcessing: s.flow==='processing', fSaved: s.flow==='saved',
+      savedDone: ()=>{ const cap=this.makeCap({brand:'Not identified yet', name:'', tier:'Unrated', pct:null}); this.setState({caps:[cap,...s.caps], nextId:s.nextId+1, pendingSync:s.pendingSync+1, flow:null, screen:'garage'}); },
+      fCutout: s.flow==='cutout',
+      cutoutOk: ()=>this.setState({flow:'identify'}),
+      keepOriginal: ()=>{ this.toastMsg('Original kept — no cutout'); this.setState({flow:'identify'}); },
+      retake: ()=>this.setState({flow:'cam-top'}),
+      fIdentify: s.flow==='identify',
+      candidates: this.CANDS.map((c,i)=>({...c, ph:!c.real, bd: s.cand===i?'#1DB954':'#2a2a2a', confBd: c.real?'#1DB954':'#3a3a3a', confFg: c.real?'#1DB954':'#9A9A9A', pick:()=>this.setState({cand:i})})),
+      noneOfThese: ()=>this.setState({flow:'manual'}),
+      confirmIdent: ()=>{ const c=this.CANDS[s.cand]; if(c.real && s.caps.some(x=>x.brand==='Zhiguli')) this.setState({dupSheet:true, pendingType:c}); else this.setState({pendingType:c, flow:'condition'}); },
+      dupSheet: s.dupSheet,
+      dupCancel: ()=>this.setState({dupSheet:false}),
+      dupAdd: ()=>{ this.setState({caps: s.caps.map(c=>c.brand==='Zhiguli'?{...c,dupes:c.dupes+1}:c), dupSheet:false}); this.startReveal({revealDup:true, newBadges:[], revealTarget:18.4}); },
+      dupSeparate: ()=>this.setState({dupSheet:false, flow:'condition'}),
+      fManual: s.flow==='manual',
+      backToIdentify: ()=>this.setState({flow:'identify'}),
+      manBrand: s.manBrand, mBrand: (e)=>this.setState({manBrand:e.target.value}),
+      manName: s.manName, mName: (e)=>this.setState({manName:e.target.value}),
+      showSug: s.manBrand.length>0 && 'zhiguli'.startsWith(s.manBrand.toLowerCase()) && s.manBrand.toLowerCase()!=='zhiguli',
+      pickSug: ()=>this.setState({manBrand:'Zhiguli'}),
+      geoChips: ['Crown','Aluminium screw','Plastic screw','Other'].map(g=>({name:g, bd:s.manGeo===g?'#1DB954':'#333', fg:s.manGeo===g?'#1DB954':'#c9c9c9', pick:()=>this.setState({manGeo:g})})),
+      saveManual: ()=>this.setState({pendingType:{brand:s.manBrand||'Unknown brand', name:s.manName, geo:s.manGeo+' cap', tier:'Unrated', pct:null}, flow:'condition'}),
+      fCondition: s.flow==='condition',
+      pendingTitle: pt.brand + (pt.name?(' · '+pt.name):''),
+      pendingSub: pt.tier==='Unrated' ? 'Unverified — rarity comes after review' : '■ Uncommon · 18.4% of collectors have it',
+      condChips: ['Mint','Worn','Dented','Dirty'].map(g=>({name:g, bd:s.cond===g?'#1DB954':'#333', fg:s.cond===g?'#1DB954':'#c9c9c9', pick:()=>this.setState({cond:g})})),
+      place: s.place, pPlace: (e)=>this.setState({place:e.target.value}),
+      addToGarage: ()=>{
+        const cap = this.makeCap(pt);
+        const caps = [cap, ...s.caps];
+        const badges = [];
+        if (caps.length === 1) badges.push({label:'First Cap'});
+        this.setState({caps, nextId:s.nextId+1, pendingSync: offline ? s.pendingSync+1 : s.pendingSync});
+        this.startReveal({revealDup:false, newBadges:badges, revealTarget: pt.pct||0});
+      },
+      fReveal: s.flow==='reveal',
+      revealTitle: s.revealDup ? 'Another one! ×2' : 'New cap!',
+      revealCapEl: React.createElement('div', {style:{animation: rm ? 'fadein .2s both' : 'capdrop3 1s cubic-bezier(.45,.05,.55,.95) both'}}, this.cap3d('reveal', 74, {auto: !rm && s.revealPhase!=='drop', autoSpeed: 0.45})),
+      showTier: s.showTier, showBadges: s.showBadges,
+      revealShape: rvb.s, revealColor: rvb.c,
+      revealRarityText: revealTier==='Unrated' ? 'Unrated — tier comes after review' : revealTier+' · '+s.revealPct.toFixed(1)+'% of collectors',
+      newBadges: s.newBadges,
+      animTier: rm?'none':'tierpop .45s cubic-bezier(.34,1.56,.64,1) both',
+      animBadge: rm?'none':'badgein .45s ease both',
+      sSplash: !inFlow && scr==='splash', sLanguage: !inFlow && scr==='language', sOnboarding: !inFlow && scr==='onboarding',
+      sSignin: !inFlow && scr==='signin', sNickname: !inFlow && scr==='nickname', sConsent: !inFlow && scr==='consent',
+      sCamPerm: !inFlow && scr==='campermission', sCamDenied: !inFlow && scr==='camdenied',
+      sGuestWall: !inFlow && scr==='guestwall', sSettings: !inFlow && scr==='settings',
+      sUpdate: scr==='update', sMaintenance: scr==='maintenance',
+      langEN: ()=>this.setState({lang:'EN', screen:'onboarding', ob:0}),
+      langRU: ()=>{ this.toastMsg('Interface stays EN in this prototype'); this.setState({lang:'RU', screen:'onboarding', ob:0}); },
+      langUK: ()=>{ this.toastMsg('Interface stays EN in this prototype'); this.setState({lang:'UK', screen:'onboarding', ob:0}); },
+      obTitle: this.OB[s.ob].t, obBody: this.OB[s.ob].b, obNote: this.OB[s.ob].n,
+      obNextLabel: s.ob<2 ? 'Next' : "Let's go",
+      obNext: ()=>{ if(s.ob<2) this.setState({ob:s.ob+1}); else this.setState({screen:'signin'}); },
+      obSkip: ()=>this.setState({screen:'signin'}),
+      d1: s.ob===0?'#1DB954':'#333', d2: s.ob===1?'#1DB954':'#333', d3: s.ob===2?'#1DB954':'#333',
+      signApple: ()=>this.setState({guest:false, screen:'nickname'}),
+      signGoogle: ()=>this.setState({guest:false, screen:'nickname'}),
+      signGuest: ()=>this.setState({guest:true, screen:'nickname'}),
+      nick: s.nick, nNick: (e)=>this.setState({nick:e.target.value}),
+      nickStatus: (()=>{ const n=s.nick; if(n.length<3) return '✕ Too short — at least 3 characters'; if(n.length>16) return '✕ Too long — 16 max'; if(/\s/.test(n)) return '✕ No spaces'; if(/^[A-ZА-Я][a-zа-я]+_?[A-ZА-Я]/.test(n)) return '⚠ Looks like a real name — pick a nickname'; if(n.toLowerCase()==='bottle_ninja') return '✕ Taken — try another'; return '✓ Available!'; })(),
+      nickStatusC: (()=>{ const n=s.nick; if(n.length>=3 && n.length<=16 && !/\s/.test(n) && n.toLowerCase()!=='bottle_ninja' && !/^[A-ZА-Я][a-zа-я]+_?[A-ZА-Я]/.test(n)) return '#1DB954'; return '#FF4D4D'; })(),
+      avatars: this.AVATARS.map((a,i)=>({...a, bd: s.avatarSel===i?'#1DB954':'#2a2a2a', pick:()=>this.setState({avatarSel:i})})),
+      nickDone: ()=>this.setState({screen:'consent'}),
+      consentGo: ()=>this.setState({gateOpen:true, gateWrong:false, gateNext:'campermission', gateBody:'Continuing needs a parent.'}),
+      allowCam: ()=>{ this.toastMsg('Camera ready — go find a cap!'); this.setState({screen:'garage'}); },
+      denyCam: ()=>this.setState({screen:'camdenied'}),
+      openIOSSettings: ()=>{ this.toastMsg('Opens the phone Settings app'); this.setState({screen:'garage'}); },
+      importInstead: ()=>this.setState({screen:'garage'}),
+      saveGarage: ()=>this.setState({linkSheet:true}),
+      linkSheet: s.linkSheet, linkCancel: ()=>this.setState({linkSheet:false}),
+      linkApple: ()=>{ this.setState({guest:false, linkSheet:false, screen:'friends'}); this.toastMsg('Garage saved — friends unlocked!'); },
+      linkGoogle: ()=>{ this.setState({guest:false, linkSheet:false, screen:'friends'}); this.toastMsg('Garage saved — friends unlocked!'); },
+      sndTap: ()=>this.setState({soundOn:!s.soundOn}), sndBg: s.soundOn?'#1DB954':'#333', sndKnob: s.soundOn?'20px':'2px',
+      hapTap: ()=>this.setState({hapticsOn:!s.hapticsOn}), hapBg: s.hapticsOn?'#1DB954':'#333', hapKnob: s.hapticsOn?'20px':'2px',
+      koTap: ()=>this.setState({keepOrig:!s.keepOrig}), koBg: s.keepOrig?'#1DB954':'#333', koKnob: s.keepOrig?'20px':'2px',
+      syncStatus: offline ? ('Offline · '+s.pendingSync+' waiting') : 'All synced ✓',
+      syncC: offline ? '#FFA23E' : '#1DB954',
+      exportTap: ()=>this.toastMsg('Preparing CSV + photo ZIP…'),
+      policyTap: ()=>this.toastMsg('Opens in a parent-friendly browser view'),
+      replayLaunch: ()=>this.startLaunch(),
+      previewUpdate: ()=>this.setState({screen:'update'}), previewMaint: ()=>this.setState({screen:'maintenance'}),
+      updateTap: ()=>this.toastMsg('Opens the App Store'),
+      backToSettings: ()=>this.setState({screen:'settings'}),
+      deleteAccountTap: ()=>this.setState({gateOpen:true, gateWrong:false, gateNext:'__delete', gateBody:'Deleting an account needs a parent.'}),
+      delSheet: s.delSheet, delCancel: ()=>this.setState({delSheet:false}),
+      delConfirm: ()=>{ this.setState({delSheet:false}); this.toastMsg('Deletion scheduled — 7 days to change your mind'); },
+      revealView: ()=>this.setState({flow:null, screen:'garage'}),
+      revealAgain: ()=>this.setState({flow:'cam-top', cand:0, pendingType:null, cond:'Worn', place:''})
+    };
+  }
+}
+</script>
+</body>
+</html>

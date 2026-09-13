@@ -1,0 +1,16 @@
+# dependencies & build output
+node_modules/
+dist/
+dev-dist/
+*.tsbuildinfo
+
+# local env & editor noise
+.env
+.env.*
+*.local
+.claude/settings.local.json
+.DS_Store
+Thumbs.db
+
+# the handoff zip; its contents live in design/
+/*.zip

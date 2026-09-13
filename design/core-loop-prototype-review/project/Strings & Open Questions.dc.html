@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#121212;font-family:'Golos Text',sans-serif;color:#d8d8d8}a{color:#1DB954;text-decoration:none}a:hover{color:#4fd07f}</style></helmet>
+<div style="padding:40px 48px 64px;display:flex;flex-direction:column;gap:26px;max-width:860px;margin:0 auto">
+  <div style="display:flex;align-items:baseline;gap:18px;flex-wrap:wrap">
+    <div style="font:800 26px 'Golos Text',sans-serif;color:#F2F2F2">Strings &amp; open questions</div>
+    <div style="font:400 12px 'Golos Text',sans-serif;color:#9A9A9A"><a href="Cap Garage.dc.html">Prototype</a> · <a href="Sitemap.dc.html">Sitemap</a> · <a href="Design System.dc.html">Design system</a> · <a href="Layout Proof.dc.html">RU/UK proof</a></div>
+  </div>
+  <div style="font:400 13px/1.6 'Golos Text',sans-serif;color:#9A9A9A;max-width:680px">Every UI label in the prototype, keyed for translation. RU/UK become one more column in this table — no strings live inside components.</div>
+  <sc-for list="{{ groups }}" as="g" hint-placeholder-count="4">
+    <div style="display:flex;flex-direction:column;gap:2px">
+      <div style="font:700 13px ui-monospace,monospace;color:#1DB954;margin-bottom:6px">{{ g.name }}</div>
+      <sc-for list="{{ g.rows }}" as="r" hint-placeholder-count="6">
+        <div style="display:flex;gap:16px;padding:5px 10px;border-radius:8px;background:{{ r.bg }}"><span style="width:280px;flex:none;font:400 11.5px ui-monospace,monospace;color:#8fae9b">{{ r.k }}</span><span style="font:400 12.5px 'Golos Text',sans-serif;color:#e0e0e0">{{ r.en }}</span></div>
+      </sc-for>
+    </div>
+  </sc-for>
+  <div style="display:flex;flex-direction:column;gap:10px;margin-top:10px">
+    <div style="font:700 15px 'Golos Text',sans-serif;color:#F2F2F2">Open questions for the product owner</div>
+    <sc-for list="{{ questions }}" as="q" hint-placeholder-count="8">
+      <div style="display:flex;gap:12px;background:#161616;border-radius:14px;padding:12px 16px"><span style="font:700 13px ui-monospace,monospace;color:#1DB954;flex:none">{{ q.n }}</span><span style="font:400 13px/1.6 'Golos Text',sans-serif;color:#d0d0d0">{{ q.t }}</span></div>
+    </sc-for>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  DATA = [
+    ['A · First launch', [
+      ['splash.tagline','finders keepers'],
+      ['lang.title','Choose your language'],
+      ['ob1.title / ob1.body','Find a cap / Streets, parks, the beach — caps are everywhere once you start looking.'],
+      ['ob2.title / ob2.body','Photograph it / Top photo, then the side. We cut out the background — no filters, ever.'],
+      ['ob3.title / ob3.body','Fill your garage / Every cap becomes a 3D model on a pedestal. Compare rarity. Duel friends.'],
+      ['ob.next / ob.go / ob.skip','Next / Let\u2019s go / Skip'],
+      ['signin.title / signin.sub','Save your caps / So your garage is never lost'],
+      ['signin.apple / signin.google / signin.guest','Continue with Apple / Continue with Google / Continue as guest'],
+      ['signin.guestnote','Guest works fully offline. You can save your garage to an account any time.'],
+      ['nick.title / nick.rules','Pick a nickname / 3\u201316 characters, no spaces. Never use your real name.'],
+      ['nick.ok / nick.taken / nick.realname','Available! / Taken \u2014 try another / Looks like a real name \u2014 pick a nickname'],
+      ['consent.title / consent.cta','For parents / I\u2019m a parent \u2014 continue'],
+      ['consent.b1..b4','We store only a nickname, an avatar and cap photos \u00b7 No chat, no ads, no purchases, no location \u00b7 Friends can be added only by invite code \u00b7 You can export or delete everything, any time'],
+      ['gate.title / gate.q','Quick check for a grown-up / What is 6 \u00d7 7?'],
+      ['gate.wrong','Not quite \u2014 try again'],
+      ['perm.title / perm.body','One thing first / We need the camera to photograph caps. Photos stay on your phone until you add them to the garage.'],
+      ['perm.allow / perm.later','Allow camera / Not now'],
+      ['perm.denied.title / perm.denied.steps','Camera is off / 1. Open your phone\u2019s Settings 2. Find Cap Garage 3. Turn the camera on'],
+      ['perm.denied.cta / perm.denied.alt','Open Settings / Import from gallery instead']
+    ]],
+    ['B · Garage', [
+      ['garage.title / garage.seg','My Garage / Caps \u00b7 Collections'],
+      ['garage.stats','caps \u00b7 brands \u00b7 rarest'],
+      ['garage.sort','Newest \u00b7 Rarity \u00b7 Brand \u00b7 A\u2013Z'],
+      ['garage.empty.title / body / cta','Your garage is empty / Find a cap outside and give it a home. / Add your first cap'],
+      ['garage.placeholders','Dashed spots are waiting for your next find'],
+      ['collections.progress','{n} of {total} known caps'],
+      ['collections.more','New brands appear here as you add caps'],
+      ['brand.silhouettes','Grey caps are in the catalog \u2014 still out there somewhere'],
+      ['detail.rarity','{Tier} \u00b7 {n}% of collectors have it'],
+      ['detail.unrated','Unrated \u00b7 gets a tier once 20 collectors own it'],
+      ['detail.found','Found {date} \u00b7 \u201c{place}\u201d'],
+      ['detail.dupes / detail.viewer.hint','Duplicates / Drag to rotate \u00b7 Double-tap to reset'],
+      ['detail.3dsoon','Make it fully 3D \u00b7 soon'],
+      ['detail.actions','Share \u00b7 Edit \u00b7 Delete'],
+      ['detail.deleted / undo','Cap deleted / UNDO'],
+      ['dup.title','You already have this cap'],
+      ['dup.x2 / dup.separate / dup.separate.sub / dup.cancel','Add as duplicate (\u00d72) / Add as a separate cap / different condition / Cancel']
+    ]],
+    ['C · Add a cap', [
+      ['cam.step1 / cam.step2','1 of 2 \u00b7 Top / 2 of 2 \u00b7 Side (optional)'],
+      ['cam.hints','Plain surface \u00b7 Fill the circle \u00b7 Avoid shadows'],
+      ['cam.detected / cam.skip / cam.flash','Cap detected \u2014 hold steady / Skip / Flash on\u00b7off'],
+      ['processing.title / processing.note','Cutting out the background\u2026 / No filters, no touch-ups. Your cap stays exactly as you found it.'],
+      ['saved.title / saved.body / saved.cta','Saved! / We\u2019ll identify this cap when you\u2019re back online. It\u2019s already in your garage. / Done'],
+      ['cutout.title / cutout.labels','How does it look? / BEFORE \u00b7 AFTER'],
+      ['cutout.ok / cutout.retake / cutout.keep','Looks right / Retake / Keep original photo instead'],
+      ['identify.title / identify.sub','Is this your cap? / Top matches from the catalog'],
+      ['identify.conf','Very likely \u00b7 Possible'],
+      ['identify.none / identify.confirm','None of these \u2014 enter it myself / Confirm'],
+      ['manual.title / manual.fields','Tell us about it / Brand \u00b7 Product \u00b7 Cap shape'],
+      ['manual.geo','Crown \u00b7 Aluminium screw \u00b7 Plastic screw \u00b7 Other'],
+      ['manual.unverified','Saved as Unverified \u2014 other collectors can find it after a quick review.'],
+      ['condition.title / condition.note','Almost in the garage / Condition \u2014 just a note, never lowers rarity'],
+      ['condition.tags','Mint \u00b7 Worn \u00b7 Dented \u00b7 Dirty'],
+      ['condition.place','Where? (no GPS \u2014 just your words)'],
+      ['condition.cta','Add to garage'],
+      ['reveal.new / reveal.dup','New cap! / Another one! \u00d72'],
+      ['reveal.badge','Badge unlocked \u2014 {name}'],
+      ['reveal.view / reveal.again','View in garage / Add another']
+    ]],
+    ['D–E · Friends & Duel', [
+      ['friends.title / friends.add','Friends / + Add'],
+      ['friends.pending','WANTS TO BE FRIENDS \u00b7 Accept \u00b7 Not now'],
+      ['friends.note','Friends are added only by invite code. No chat, no real names.'],
+      ['addfriend.mycode / addfriend.enter','YOUR FRIEND CODE \u00b7 Copy \u00b7 Share / Enter a friend\u2019s code \u00b7 Send request'],
+      ['addfriend.note','Codes only \u2014 no search, no phone numbers, no real names.'],
+      ['friendgarage.note','Read-only \u2014 notes and places stay private.'],
+      ['guestwall.title / body / cta','Friends need an account / You\u2019re a guest \u2014 your garage lives only on this phone. \u2026 / Save your garage'],
+      ['leaderboard.metrics / leaderboard.note','Rarest cap \u00b7 Most caps \u00b7 Badges / Friends only \u2014 there is no global leaderboard.'],
+      ['duel.rules','Best of 3. Each round, both of you secretly pick a cap \u2014 the rarer one wins the round.'],
+      ['duel.pick.title / duel.pick.sub','Round {n} of 3 \u2014 pick a cap / vs {nick} \u00b7 secret until the reveal'],
+      ['duel.pick.notes','Unrated caps can\u2019t duel yet. Fewer than 3 caps? Reusing is allowed.'],
+      ['duel.lock / duel.send','Lock in / Send challenge'],
+      ['duel.wait','Your cap is locked in \u00b7 {nick} is choosing\u2026 \u00b7 Cancel'],
+      ['duel.round.win / lose','\u2713 Round won / \u2715 Round lost'],
+      ['duel.rarer','Lower % = rarer = wins the round'],
+      ['duel.result.win / lose','You won {a}-{b}! / Lost {a}-{b} \u2014 rematch?'],
+      ['duel.expire','Unanswered challenges expire after 7 days.']
+    ]],
+    ['F–G · Profile, settings, system', [
+      ['profile.rows','Badges \u00b7 Stats \u00b7 Language \u00b7 Settings \u00b7 Edit profile'],
+      ['badges.earned / badges.progress','Earned! / {n}/{total}'],
+      ['stats.sections','CAPS OVER TIME \u00b7 BRANDS \u00b7 TIERS'],
+      ['settings.rows','Language \u00b7 Sound \u00b7 Haptics \u00b7 Keep originals in gallery \u00b7 Sync \u00b7 Export my collection \u00b7 Privacy policy \u00b7 Terms'],
+      ['settings.sync.ok / offline','All synced \u2713 / Offline \u00b7 {n} waiting'],
+      ['settings.delete / settings.delete.note','Delete account / Needs a parent \u00b7 7-day grace period'],
+      ['delete.title / delete.body','Delete this account? / Everything is kept for 7 days \u2014 sign back in to undo. \u2026'],
+      ['delete.confirm / delete.keep','Delete \u00b7 7-day grace / Keep my garage'],
+      ['offline.banner','Offline \u00b7 {n} caps waiting to upload'],
+      ['link.title / link.body','Save your garage / Your guest caps merge into the account. Nothing is ever deleted.'],
+      ['update.title / update.body / update.cta','Time to update / This version is too old to sync caps safely. \u2026 / Update in the App Store'],
+      ['maintenance.title / body / cta','Back in a bit / We\u2019re fixing the garage doors. Your caps are safe \u2014 try again in about 30 minutes. / Retry']
+    ]]
+  ];
+  QUESTIONS = [
+    'Duel rule: the spec says "higher rarity % wins", but rarity % is the share of collectors who OWN the cap, so rarer = lower %. The prototype makes the rarer (lower %) cap win. Confirm which reading is intended.',
+    '"Add as duplicate (\u00d72)" skips condition/notes and goes straight to the reveal. Should a duplicate get its own condition tag instead?',
+    'A "separate cap" of an owned type counts once for collection completion but adds to the caps stat. Confirm the counting rules for stats, leaderboard and badges.',
+    'Unrated/Unverified caps are blocked from duels (no % to compare). Alternative: let them duel with a provisional 50%.',
+    'Guest \u2192 account merge: what happens if the guest\u2019s nickname is taken at merge time?',
+    'Offline caps: after reconnecting, do they auto-identify silently, or should the user re-enter flow at screen 15 to confirm matches?',
+    'The QR scanner on screen 20 was dropped per review; friend code entry only. Codes are short (6 chars) \u2014 acceptable for kids to type?',
+    'Screen 22 (request notifications) is folded into the Friends list as a pending section, and 23 (leaderboard) is a toggle inside Friends \u2014 both kept as specified capabilities but not separate screens. Flag if they must be standalone.',
+    'Parental gate: one math question (6\u00d77) with a retry. Should the question rotate randomly, and should repeated failures lock the gate for a while?',
+    'Sound in the reveal: v1 prototype is silent (sound toggle exists in Settings). Which moments get audio \u2014 reveal only, or duels and badges too?'
+  ];
+  renderVals(){
+    return {
+      groups: this.DATA.map(g=>({name:g[0], rows:g[1].map((r,i)=>({k:r[0], en:r[1], bg:i%2?'#161616':'transparent'}))})),
+      questions: this.QUESTIONS.map((t,i)=>({n:String(i+1).padStart(2,'0'), t}))
+    };
+  }
+}
+</script>
+</body>
+</html>

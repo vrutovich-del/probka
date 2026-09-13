@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet><meta name="design_doc_mode" content="canvas">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#121212;font-family:'Golos Text',sans-serif;color:#d8d8d8}a{color:#1DB954;text-decoration:none}a:hover{color:#4fd07f}</style></helmet>
+<div style="padding:40px 48px 64px;display:flex;flex-direction:column;gap:22px">
+  <div style="display:flex;align-items:baseline;gap:18px;flex-wrap:wrap">
+    <div style="font:800 26px 'Golos Text',sans-serif;color:#F2F2F2">Cap Garage — sitemap &amp; flows</div>
+    <div style="font:400 12px 'Golos Text',sans-serif;color:#9A9A9A"><a href="Cap Garage.dc.html">Prototype</a> · <a href="Design System.dc.html">Design system</a> · <a href="Layout Proof.dc.html">RU/UK proof</a> · <a href="Strings & Open Questions.dc.html">Strings</a></div>
+  </div>
+  <div style="display:flex;gap:14px;font:400 11px 'Golos Text',sans-serif;color:#9A9A9A;flex-wrap:wrap">
+    <span><span style="color:#FFA23E">●</span> offline branch</span><span><span style="color:#FF4D4D">●</span> error branch</span><span><span style="color:#1DB954">→</span> cross-link</span><span style="border:1px dashed #4a4a4a;border-radius:6px;padding:1px 7px">overlay / sheet</span>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:34px;align-items:flex-start">
+    <div style="display:flex;flex-direction:column;gap:5px;width:216px;flex:none">
+      <div style="font:700 11px ui-monospace,monospace;color:#1DB954;margin-bottom:4px">A · FIRST LAUNCH</div>
+      <div style="padding:6px 10px;background:#1F1F1F;border:1px solid #2e2e2e;border-radius:8px;font:500 11px 'Golos Text',sans-serif">01 Splash <span style="color:#777">· auto 1.3s</span></div>
+      <div style="color:#555;font-size:11px;text-align:center;line-height:1">↓</div>
+      <div style="padding:6px 10px;background:#1F1F1F;border:1px solid #2e2e2e;border-radius:8px;font:500 11px 'Golos Text',sans-serif">02 Language RU/EN/UK</div>
+      <div style="color:#555;font-size:11px;text-align:center;line-height:1">↓</div>
+      <div style="padding:6px 10px;background:#1F1F1F;border:1px solid #2e2e2e;border-radius:8px;font:500 11px 'Golos Text',sans-serif">03 Onboarding ×3 <span style="color:#777">· skip → 04</span></div>
+      <div style="color:#555;font-size:11px;text-align:center;line-height:1">↓</div>
+      <div style="padding:6px 10px;background:#1F1F1F;border:1px solid #2e2e2e;border-radius:8px;font:500 11px 'Golos Text',sans-serif">04 Sign-in: Apple / Google / <b>guest</b></div>
+      <div style="color:#555;font-size:11px;text-align:center;line-height:1">↓</div>
+      <div style="padding:6px 10px;background:#1F1F1F;border:1px solid #2e2e2e;border-radius:8px;font:500 11px 'Golos Text',sans-serif">05 Nickname + avatar <span style="color:#FF4D4D">· taken · real-name warn</span></div>
+      <div style="color:#555;font-size:11px;text-align:center;line-height:1">↓</div>
+      <div style="padding:6px 10px;background:#1F1F1F;border:1px solid #2e2e2e;border-radius:8px;font:500 11px 'Golos Text',sans-serif">06 Parental consent <span style="border:1px dashed #4a4a4a;border-radius:5px;padding:0 5px;color:#9A9A9A">gate</span></div>
+      <div style="color:#555;font-size:11px;text-align:center;line-height:1">↓</div>
+      <div style="padding:6px 10px;background:#1F1F1F;border:1px solid #2e2e2e;border-radius:8px;font:500 11px 'Golos Text',sans-serif">07 Camera permission <span style="color:#FF4D4D">· denied → 07b recovery</span></div>
+      <div style="color:#555;font-size:11px;text-align:center;line-height:1">↓</div>
+      <div style="padding:6px 10px;background:#14251b;border:1px solid #1DB954;border-radius:8px;font:500 11px 'Golos Text',sans-serif">→ 08 Garage</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:5px;width:216px;flex:none">
+      <div style="font:700 11px ui-monospace,monospace;color:#1DB954;margin-bottom:4px">B · GARAGE (HOME TAB)</div>
+      <div style="padding:6px 10px;background:#1F1F1F;border:1px solid #2e2e2e;border-radius:8px;font:500 11px 'Golos Text',sans-serif">08 Garage grid <span style="color:#777">· empty</span> <span style="color:#FFA23E">· offline banner</span></div>
+      <div style="color:#555;font-size:11px;text-align:center;line-height:1">↓ toggle</div>
+      <div style="padding:6px 10px;background:#1F1F1F;border:1px solid #2e2e2e;border-radius:8px;font:500 11px 'Golos Text',sans-serif">09 Collections → 09b brand view <span style="color:#777">· grey silhouettes</span></div>
+      <div style="color:#555;font-size:11px;text-align:center;line-height:1">↓ tap cap</div>
+      <div style="padding:6px 10px;background:#1F1F1F;border:1px solid #2e2e2e;border-radius:8px;font:500 11px 'Golos Text',sans-serif">10 Cap detail · 3D viewer <span style="color:#777">· delete = 5s undo · "fully 3D" soon</span></div>
+      <div style="color:#555;font-size:11px;text-align:center;line-height:1">↑ from 15 when type owned</div>
+      <div style="padding:6px 10px;background:#1F1F1F;border:1px dashed #4a4a4a;border-radius:8px;font:500 11px 'Golos Text',sans-serif">11 Duplicate sheet: ×2 / separate / cancel</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:5px;width:216px;flex:none">
+      <div style="font:700 11px ui-monospace,monospace;color:#1DB954;margin-bottom:4px">C · ADD A CAP (CENTER +)</div>
+      <div style="padding:6px 10px;background:#1F1F1F;border:1px solid #2e2e2e;border-radius:8px;font:500 11px 'Golos Text',sans-serif">12 Camera: top → side <span style="color:#777">· skip · gallery · flash</span> <span style="color:#FF4D4D">· fail → 07b</span></div>
+      <div style="color:#555;font-size:11px;text-align:center;line-height:1">↓</div>
+      <div style="padding:6px 10px;background:#1F1F1F;border:1px solid #2e2e2e;border-radius:8px;font:500 11px 'Golos Text',sans-serif">13 Processing ≤3s <span style="color:#FFA23E">· offline → 13b saved</span> <span style="color:#FF4D4D">· cutout fail → keep original</span></div>
+      <div style="color:#555;font-size:11px;text-align:center;line-height:1">↓</div>
+      <div style="padding:6px 10px;background:#1F1F1F;border:1px solid #2e2e2e;border-radius:8px;font:500 11px 'Golos Text',sans-serif">14 Cutout review: before/after · retake · keep original</div>
+      <div style="color:#555;font-size:11px;text-align:center;line-height:1">↓</div>
+      <div style="padding:6px 10px;background:#1F1F1F;border:1px solid #2e2e2e;border-radius:8px;font:500 11px 'Golos Text',sans-serif">15 Identify: top-3 + none <span style="color:#777">· owned type → 11</span></div>
+      <div style="color:#555;font-size:11px;text-align:center;line-height:1">↓ none of these</div>
+      <div style="padding:6px 10px;background:#1F1F1F;border:1px solid #2e2e2e;border-radius:8px;font:500 11px 'Golos Text',sans-serif">16 Manual entry → Unverified catalog</div>
+      <div style="color:#555;font-size:11px;text-align:center;line-height:1">↓</div>
+      <div style="padding:6px 10px;background:#1F1F1F;border:1px solid #2e2e2e;border-radius:8px;font:500 11px 'Golos Text',sans-serif">17 Condition + date + place note</div>
+      <div style="color:#555;font-size:11px;text-align:center;line-height:1">↓</div>
+      <div style="padding:6px 10px;background:#14251b;border:1px solid #1DB954;border-radius:8px;font:500 11px 'Golos Text',sans-serif">18 Reveal: drop → tier → badges → 08 / 12</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:5px;width:216px;flex:none">
+      <div style="font:700 11px ui-monospace,monospace;color:#1DB954;margin-bottom:4px">D · FRIENDS TAB</div>
+      <div style="padding:6px 10px;background:#1F1F1F;border:1px solid #2e2e2e;border-radius:8px;font:500 11px 'Golos Text',sans-serif">19 Friends list + 22 pending requests <span style="color:#777">· guest → 20b wall</span></div>
+      <div style="color:#555;font-size:11px;text-align:center;line-height:1">↓ + add</div>
+      <div style="padding:6px 10px;background:#1F1F1F;border:1px solid #2e2e2e;border-radius:8px;font:500 11px 'Golos Text',sans-serif">20 Add friend: my code · enter code <span style="border:1px dashed #4a4a4a;border-radius:5px;padding:0 5px;color:#9A9A9A">gate</span> <span style="color:#777">· QR dropped in v1</span></div>
+      <div style="color:#555;font-size:11px;text-align:center;line-height:1">↓ tap friend</div>
+      <div style="padding:6px 10px;background:#1F1F1F;border:1px solid #2e2e2e;border-radius:8px;font:500 11px 'Golos Text',sans-serif">21 Friend's garage · read-only, notes hidden</div>
+      <div style="color:#555;font-size:11px;text-align:center;line-height:1">↓ toggle</div>
+      <div style="padding:6px 10px;background:#1F1F1F;border:1px solid #2e2e2e;border-radius:8px;font:500 11px 'Golos Text',sans-serif">23 Leaderboard: rarest / caps / badges <span style="color:#777">· friends only</span></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:5px;width:216px;flex:none">
+      <div style="font:700 11px ui-monospace,monospace;color:#1DB954;margin-bottom:4px">E · DUEL TAB</div>
+      <div style="padding:6px 10px;background:#1F1F1F;border:1px solid #2e2e2e;border-radius:8px;font:500 11px 'Golos Text',sans-serif">24 Duel home: opponents + 28 history <span style="color:#777">· expire 7d</span></div>
+      <div style="color:#555;font-size:11px;text-align:center;line-height:1">↓</div>
+      <div style="padding:6px 10px;background:#1F1F1F;border:1px solid #2e2e2e;border-radius:8px;font:500 11px 'Golos Text',sans-serif">24b Pick cap <span style="color:#777">· unrated blocked · reuse if &lt;3 caps</span></div>
+      <div style="color:#555;font-size:11px;text-align:center;line-height:1">↓ lock in</div>
+      <div style="padding:6px 10px;background:#1F1F1F;border:1px solid #2e2e2e;border-radius:8px;font:500 11px 'Golos Text',sans-serif">25 Waiting <span style="color:#777">· cancel</span></div>
+      <div style="color:#555;font-size:11px;text-align:center;line-height:1">↓ opponent picked</div>
+      <div style="padding:6px 10px;background:#1F1F1F;border:1px solid #2e2e2e;border-radius:8px;font:500 11px 'Golos Text',sans-serif">26 Round reveal: % count-up, ✓/✕ + color <span style="color:#777">· ×3 rounds</span></div>
+      <div style="color:#555;font-size:11px;text-align:center;line-height:1">↓</div>
+      <div style="padding:6px 10px;background:#14251b;border:1px solid #1DB954;border-radius:8px;font:500 11px 'Golos Text',sans-serif">27 Result → rematch / back · badge progress</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:5px;width:216px;flex:none">
+      <div style="font:700 11px ui-monospace,monospace;color:#1DB954;margin-bottom:4px">F · PROFILE TAB</div>
+      <div style="padding:6px 10px;background:#1F1F1F;border:1px solid #2e2e2e;border-radius:8px;font:500 11px 'Golos Text',sans-serif">30 Profile: nickname · code · stats</div>
+      <div style="color:#555;font-size:11px;text-align:center;line-height:1">↓</div>
+      <div style="padding:6px 10px;background:#1F1F1F;border:1px solid #2e2e2e;border-radius:8px;font:500 11px 'Golos Text',sans-serif">31 Badges grid: earned / locked + progress</div>
+      <div style="color:#555;font-size:11px;text-align:center;line-height:1">↓</div>
+      <div style="padding:6px 10px;background:#1F1F1F;border:1px solid #2e2e2e;border-radius:8px;font:500 11px 'Golos Text',sans-serif">32 Stats: caps/mo · brands · tiers</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:5px;width:216px;flex:none">
+      <div style="font:700 11px ui-monospace,monospace;color:#1DB954;margin-bottom:4px">G · SETTINGS &amp; SYSTEM</div>
+      <div style="padding:6px 10px;background:#1F1F1F;border:1px solid #2e2e2e;border-radius:8px;font:500 11px 'Golos Text',sans-serif">33 Settings: language · sound · haptics · originals · sync · export</div>
+      <div style="color:#555;font-size:11px;text-align:center;line-height:1">↓</div>
+      <div style="padding:6px 10px;background:#1F1F1F;border:1px dashed #4a4a4a;border-radius:8px;font:500 11px 'Golos Text',sans-serif">33b Delete account <span style="border:1px dashed #4a4a4a;border-radius:5px;padding:0 5px;color:#9A9A9A">gate</span> <span style="color:#777">· 7-day grace</span></div>
+      <div style="padding:6px 10px;background:#1F1F1F;border:1px solid #2e2e2e;border-radius:8px;font:500 11px 'Golos Text',sans-serif;margin-top:4px">34 Offline banner <span style="color:#FFA23E">· N waiting</span> — every screen</div>
+      <div style="padding:6px 10px;background:#1F1F1F;border:1px solid #2e2e2e;border-radius:8px;font:500 11px 'Golos Text',sans-serif">35 Errors: camera → 07b · cutout → keep original · identify down → 13b · sync conflict: server wins catalog, device wins photos/notes</div>
+      <div style="padding:6px 10px;background:#1F1F1F;border:1px solid #2e2e2e;border-radius:8px;font:500 11px 'Golos Text',sans-serif">36 Update required · 36b maintenance</div>
+      <div style="padding:6px 10px;background:#1F1F1F;border:1px dashed #4a4a4a;border-radius:8px;font:500 11px 'Golos Text',sans-serif">37 Guest → account link sheet · merges, never deletes</div>
+    </div>
+  </div>
+  <div style="font:400 12px 'Golos Text',sans-serif;color:#565656">Back navigation always returns to the previous tab state, never to Garage root. The + tab is reachable from every tab in one tap.</div>
+</div>
+</x-dc>
+</body>
+</html>

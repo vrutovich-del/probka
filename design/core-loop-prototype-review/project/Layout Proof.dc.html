@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet><meta name="design_doc_mode" content="canvas">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#121212;font-family:'Golos Text',sans-serif;color:#d8d8d8}a{color:#1DB954;text-decoration:none}a:hover{color:#4fd07f}</style></helmet>
+<div style="padding:40px 48px 64px;display:flex;flex-direction:column;gap:20px">
+  <div style="display:flex;align-items:baseline;gap:18px;flex-wrap:wrap">
+    <div style="font:800 26px 'Golos Text',sans-serif;color:#F2F2F2">Layout proof — Garage in RU / UK</div>
+    <div style="font:400 12px 'Golos Text',sans-serif;color:#9A9A9A"><a href="Cap Garage.dc.html">Prototype</a> · <a href="Sitemap.dc.html">Sitemap</a> · <a href="Design System.dc.html">Design system</a> · <a href="Strings & Open Questions.dc.html">Strings</a></div>
+  </div>
+  <div style="font:400 13px/1.6 'Golos Text',sans-serif;color:#9A9A9A;max-width:720px">Russian and Ukrainian run 20–40% longer than English. Same Garage layout at 390px (RU) and the tighter Android width 360px (UK). What absorbs the growth: stat cards wrap their labels, the chip row scrolls horizontally, the segmented control grows by padding, tab labels stay one word, buttons wrap to two lines before truncating. Nothing is hard-coded to a width.</div>
+  <div style="display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start">
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="font:500 11px ui-monospace,monospace;color:#8f8f8f">RU · 390×640 crop</div>
+      <div style="width:390px;background:#0B0B0B;border-radius:24px;outline:1px solid #2a2a2a;overflow:hidden;display:flex;flex-direction:column;color:#F2F2F2">
+        <div style="padding:16px 16px 0;display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
+            <div style="font:800 24px 'Golos Text',sans-serif">Мой гараж</div>
+            <div style="display:flex;background:#161616;border-radius:999px;padding:3px"><div style="padding:6px 13px;border-radius:999px;font:600 12px 'Golos Text',sans-serif;background:#1DB954;color:#052912">Крышки</div><div style="padding:6px 13px;border-radius:999px;font:600 12px 'Golos Text',sans-serif;color:#9A9A9A">Коллекции</div></div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+            <div style="background:#161616;border-radius:14px;padding:10px 12px"><div style="font:700 20px 'Golos Text',sans-serif">12</div><div style="font:400 11px 'Golos Text',sans-serif;color:#9A9A9A">крышек</div></div>
+            <div style="background:#161616;border-radius:14px;padding:10px 12px"><div style="font:700 20px 'Golos Text',sans-serif">5</div><div style="font:400 11px 'Golos Text',sans-serif;color:#9A9A9A">брендов</div></div>
+            <div style="background:#161616;border-radius:14px;padding:10px 12px"><div style="font:700 14px 'Golos Text',sans-serif;color:#4CD964;line-height:26px">■ Необычная</div><div style="font:400 11px 'Golos Text',sans-serif;color:#9A9A9A">редчайшая</div></div>
+          </div>
+          <div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:2px">
+            <div style="flex:none;padding:7px 12px;border-radius:999px;background:#1F1F1F;border:1px solid #2e2e2e;font:500 12px 'Golos Text',sans-serif">↕ Сначала новые</div>
+            <div style="flex:none;padding:7px 12px;border-radius:999px;border:1px solid #1DB954;font:500 12px 'Golos Text',sans-serif;color:#1DB954">Все</div>
+            <div style="flex:none;padding:7px 12px;border-radius:999px;border:1px solid #2e2e2e;font:500 12px 'Golos Text',sans-serif;color:#9A9A9A">■ Необычная</div>
+            <div style="flex:none;padding:7px 12px;border-radius:999px;border:1px solid #2e2e2e;font:500 12px 'Golos Text',sans-serif;color:#9A9A9A">Потёртая</div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+            <div style="aspect-ratio:1;background:#161616;border-radius:14px;position:relative;display:flex;align-items:center;justify-content:center;padding:12px"><img src="uploads/zhiguli-cap-top.png" style="max-width:100%;max-height:100%;filter:drop-shadow(0 6px 8px rgba(0,0,0,.5))"><span style="position:absolute;top:7px;right:8px;font-size:12px;color:#4CD964">■</span></div>
+            <div style="aspect-ratio:1;border:1.5px dashed #2c2c2c;border-radius:14px;display:flex;align-items:center;justify-content:center"><div style="width:56%;height:56%;border-radius:50%;background:#1a1a1a"></div></div>
+            <div style="aspect-ratio:1;border:1.5px dashed #2c2c2c;border-radius:14px;display:flex;align-items:center;justify-content:center"><div style="width:56%;height:56%;border-radius:50%;background:#1a1a1a"></div></div>
+          </div>
+          <div style="background:#161616;border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:8px"><span style="color:#4CD964;font-size:13px">■</span><span style="font:500 13px 'Golos Text',sans-serif">Необычная · её нашли 18,4% коллекционеров</span></div>
+        </div>
+        <div style="display:flex;align-items:flex-end;background:#161616;border-top:1px solid #232323;padding:8px 8px 6px;margin-top:14px">
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;color:#1DB954"><span style="font-size:17px">⌂</span><span style="font:500 10px 'Golos Text',sans-serif">Гараж</span></div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;color:#9A9A9A"><span style="font-size:17px">◎</span><span style="font:500 10px 'Golos Text',sans-serif">Друзья</span></div>
+          <div style="flex:none;width:76px;display:flex;justify-content:center"><div style="width:56px;height:56px;border-radius:50%;background:#1DB954;color:#052912;display:flex;align-items:center;justify-content:center;font-size:30px;transform:translateY(-18px);box-shadow:0 8px 20px rgba(29,185,84,.35)">+</div></div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;color:#9A9A9A"><span style="font-size:17px">◈</span><span style="font:500 10px 'Golos Text',sans-serif">Дуэль</span></div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;color:#9A9A9A"><span style="font-size:17px">◉</span><span style="font:500 10px 'Golos Text',sans-serif">Профиль</span></div>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="font:500 11px ui-monospace,monospace;color:#8f8f8f">UK · 360×640 crop (Android check)</div>
+      <div style="width:360px;background:#0B0B0B;border-radius:24px;outline:1px solid #2a2a2a;overflow:hidden;display:flex;flex-direction:column;color:#F2F2F2">
+        <div style="padding:16px 16px 0;display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
+            <div style="font:800 24px 'Golos Text',sans-serif">Мій гараж</div>
+            <div style="display:flex;background:#161616;border-radius:999px;padding:3px"><div style="padding:6px 13px;border-radius:999px;font:600 12px 'Golos Text',sans-serif;background:#1DB954;color:#052912">Кришки</div><div style="padding:6px 13px;border-radius:999px;font:600 12px 'Golos Text',sans-serif;color:#9A9A9A">Колекції</div></div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+            <div style="background:#161616;border-radius:14px;padding:10px 12px"><div style="font:700 20px 'Golos Text',sans-serif">12</div><div style="font:400 11px 'Golos Text',sans-serif;color:#9A9A9A">кришок</div></div>
+            <div style="background:#161616;border-radius:14px;padding:10px 12px"><div style="font:700 20px 'Golos Text',sans-serif">5</div><div style="font:400 11px 'Golos Text',sans-serif;color:#9A9A9A">брендів</div></div>
+            <div style="background:#161616;border-radius:14px;padding:10px 12px"><div style="font:700 14px 'Golos Text',sans-serif;color:#4CD964;line-height:26px">■ Незвичайна</div><div style="font:400 11px 'Golos Text',sans-serif;color:#9A9A9A">найрідкісніша</div></div>
+          </div>
+          <div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:2px">
+            <div style="flex:none;padding:7px 12px;border-radius:999px;background:#1F1F1F;border:1px solid #2e2e2e;font:500 12px 'Golos Text',sans-serif">↕ Спочатку нові</div>
+            <div style="flex:none;padding:7px 12px;border-radius:999px;border:1px solid #1DB954;font:500 12px 'Golos Text',sans-serif;color:#1DB954">Усі</div>
+            <div style="flex:none;padding:7px 12px;border-radius:999px;border:1px solid #2e2e2e;font:500 12px 'Golos Text',sans-serif;color:#9A9A9A">■ Незвичайна</div>
+            <div style="flex:none;padding:7px 12px;border-radius:999px;border:1px solid #2e2e2e;font:500 12px 'Golos Text',sans-serif;color:#9A9A9A">Потерта</div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+            <div style="aspect-ratio:1;background:#161616;border-radius:14px;position:relative;display:flex;align-items:center;justify-content:center;padding:12px"><img src="uploads/zhiguli-cap-top.png" style="max-width:100%;max-height:100%;filter:drop-shadow(0 6px 8px rgba(0,0,0,.5))"><span style="position:absolute;top:7px;right:8px;font-size:12px;color:#4CD964">■</span></div>
+            <div style="aspect-ratio:1;border:1.5px dashed #2c2c2c;border-radius:14px;display:flex;align-items:center;justify-content:center"><div style="width:56%;height:56%;border-radius:50%;background:#1a1a1a"></div></div>
+            <div style="aspect-ratio:1;border:1.5px dashed #2c2c2c;border-radius:14px;display:flex;align-items:center;justify-content:center"><div style="width:56%;height:56%;border-radius:50%;background:#1a1a1a"></div></div>
+          </div>
+          <div style="background:#161616;border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:8px"><span style="color:#4CD964;font-size:13px">■</span><span style="font:500 13px 'Golos Text',sans-serif">Незвичайна · її знайшли 18,4% колекціонерів</span></div>
+        </div>
+        <div style="display:flex;align-items:flex-end;background:#161616;border-top:1px solid #232323;padding:8px 8px 6px;margin-top:14px">
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;color:#1DB954"><span style="font-size:17px">⌂</span><span style="font:500 10px 'Golos Text',sans-serif">Гараж</span></div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;color:#9A9A9A"><span style="font-size:17px">◎</span><span style="font:500 10px 'Golos Text',sans-serif">Друзі</span></div>
+          <div style="flex:none;width:70px;display:flex;justify-content:center"><div style="width:56px;height:56px;border-radius:50%;background:#1DB954;color:#052912;display:flex;align-items:center;justify-content:center;font-size:30px;transform:translateY(-18px);box-shadow:0 8px 20px rgba(29,185,84,.35)">+</div></div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;color:#9A9A9A"><span style="font-size:17px">◈</span><span style="font:500 10px 'Golos Text',sans-serif">Дуель</span></div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;color:#9A9A9A"><span style="font-size:17px">◉</span><span style="font:500 10px 'Golos Text',sans-serif">Профіль</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>
