@@ -1,0 +1,31 @@
+{
+  "name": "cap-garage",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "scripts": {
+    "dev": "vite --host",
+    "typecheck": "tsc --noEmit -p tsconfig.app.json && tsc --noEmit -p tsconfig.node.json",
+    "build": "npm run typecheck && vite build",
+    "preview": "vite preview --host",
+    "strings": "node scripts/strings-to-json.mjs"
+  },
+  "dependencies": {
+    "dexie": "4.4.6",
+    "i18next": "26.4.2",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-router": "7.18.3"
+  },
+  "devDependencies": {
+    "@types/node": "24.13.4",
+    "@types/react": "18.3.31",
+    "@types/react-dom": "18.3.7",
+    "@vitejs/plugin-react": "6.1.1",
+    "typescript": "7.0.2",
+    "vite": "8.3.0"
+  }
+}

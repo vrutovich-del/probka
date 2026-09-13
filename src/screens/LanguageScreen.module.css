@@ -1,0 +1,72 @@
+.first {
+  align-items: stretch;
+}
+
+.pushed {
+  gap: 12px;
+}
+
+.sub {
+  margin: 0 0 10px;
+  font: var(--type-note);
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* The transparent border keeps every row the same height as the highlighted one. */
+.option {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  min-height: var(--tap-min);
+  padding: 16px;
+  border: 1.5px solid transparent;
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  text-align: left;
+}
+
+.option:active {
+  background: var(--color-surface-elevated);
+}
+
+.current {
+  border-color: var(--color-primary);
+}
+
+.chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--color-surface-elevated);
+  font: var(--type-lang-chip);
+  color: var(--color-primary);
+}
+
+.name {
+  font: var(--type-option);
+}
+
+.trail {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  font: var(--type-body);
+  color: var(--color-text-subtle);
+}
+
+.current .trail {
+  color: var(--color-primary);
+}

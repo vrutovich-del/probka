@@ -1,0 +1,73 @@
+/* Prototype: bar padding 8px 8px 6px, items 4px 0. The 8/6 moved into the items so each tab is a ≥48px target. */
+.bar {
+  flex: none;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 8px var(--safe-bottom);
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+}
+
+.tab {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-height: var(--tap-min);
+  padding: 12px 0 10px;
+  color: var(--color-text-muted);
+}
+
+.label {
+  font: var(--type-tab);
+}
+
+/* Active = color + weight + a dot, so green is never the only cue. */
+.active {
+  color: var(--color-primary);
+}
+
+.active .label {
+  font-weight: 600;
+}
+
+.active::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.center {
+  flex: none;
+  display: flex;
+  justify-content: center;
+  width: 76px;
+  padding-bottom: 6px;
+}
+
+.add {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--tabbar-center-size);
+  height: var(--tabbar-center-size);
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: var(--color-primary-ink);
+  transform: translateY(var(--tabbar-center-lift));
+  box-shadow: var(--shadow-primary-raised);
+}
+
+.add:active {
+  background: var(--color-primary-pressed);
+}
+
+.add:disabled {
+  cursor: default;
+}

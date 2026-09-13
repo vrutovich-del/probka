@@ -1,0 +1,51 @@
+.screen {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.root {
+  gap: 14px;
+  padding: 14px var(--screen-pad-x) 20px;
+  overflow-y: auto;
+}
+
+.pushed {
+  gap: 10px;
+  padding: 10px var(--screen-pad-x) 20px;
+  overflow-y: auto;
+}
+
+.centered {
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px;
+  text-align: center;
+}
+
+.title {
+  margin: 0;
+  font: var(--type-title);
+}
+
+.titlePushed {
+  font: var(--type-title-sub);
+}
+
+.back {
+  position: relative;
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 0;
+  font: var(--type-link);
+  color: var(--color-primary);
+}
+
+.back::after {
+  content: '';
+  position: absolute;
+  inset: -12px -8px;
+}

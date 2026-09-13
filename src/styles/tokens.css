@@ -1,0 +1,111 @@
+/*
+ * Design tokens.
+ * Named values come from design/core-loop-prototype-review/project/Design System.dc.html.
+ * Values the prototype screens use without a name (Cap Garage.dc.html) are named here by role.
+ * Components reference these variables only — no raw hex or font shorthands in CSS modules.
+ */
+:root {
+  /* ── Color: token page (dark only in v1) ── */
+  --color-bg-base: #0B0B0B;
+  --color-surface: #161616;
+  --color-surface-elevated: #1F1F1F;
+  --color-text-primary: #F2F2F2;
+  --color-text-muted: #9A9A9A;
+
+  --color-primary: #1DB954;
+  --color-primary-ink: #052912;
+  --color-primary-pressed: #17A047;
+  --color-primary-disabled: #14251B;
+  --color-primary-disabled-text: #4A6A55;
+
+  --color-accent-red: #E02424; /* shapes and text ≥19px only */
+  --color-accent-red-pressed: #B71D1D;
+
+  --color-success: #34C77B;
+  --color-warning: #FFA23E; /* offline banner */
+  --color-error: #FF4D4D; /* body-size error text */
+
+  /* Rarity: always shape + color + label together */
+  --color-rarity-common: #9A9A9A;
+  --color-rarity-uncommon: #4CD964;
+  --color-rarity-rare: #4D9DFF;
+  --color-rarity-epic: #E02424;
+  --color-rarity-legendary: #F5B301;
+  --color-rarity-unrated: #8A8A8A;
+
+  /* ── Color: used by prototype screens, named by role ── */
+  --color-text-subtle: #565656; /* footnotes, chevrons, splash tagline */
+  --color-text-hint: #6F6F6F; /* viewer hint, "soon" pill */
+  --color-text-chip: #C9C9C9; /* unselected choice chip */
+  --color-border: #232323; /* tab bar top edge */
+  --color-border-elevated: #2E2E2E; /* toast, snack, sort chip */
+  --color-border-input: #2C2C2C; /* inputs, dashed empty tiles */
+  --color-border-control: #333333; /* outline buttons, toggle off */
+  --color-border-dashed: #3A3A3A; /* unrated, "none of these" */
+  --color-ring-track: #2A2A2A; /* completion ring track */
+  --color-placeholder: #1A1A1A; /* empty tile disc */
+  --color-pedestal: #1C1C1C; /* pedestal glow, avatar ground */
+  --color-primary-tint-border: #234A32; /* friend code pill, "you" row */
+  --color-danger-border: #46201F; /* Delete outline button */
+  --color-gate-error-border: #7A2A2A;
+  --color-warning-tint: #241A0D; /* offline banner ground */
+  --color-warning-tint-border: #4A3517;
+  --color-badge-earned-border: #4A3C10;
+  --color-badge-locked-border: #242424;
+  --color-scrim: rgb(0 0 0 / 0.6);
+  --color-scrim-strong: rgb(0 0 0 / 0.65); /* parental gate */
+  --color-desktop-surround: #000000; /* outside the 390px column */
+
+  /* ── Typography: Golos Text, five weights (400–800) ── */
+  --font-family: 'Golos Text', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  /* Ramp from the token page. The shorthand keeps line-height `normal`, as the prototype does. */
+  --type-display: 800 32px var(--font-family); /* reveal, duel result */
+  --type-title: 800 24px var(--font-family); /* tab screen headers */
+  --type-button: 600 17px var(--font-family); /* primary buttons */
+  --type-body: 400 16px var(--font-family);
+  --type-caption: 500 12px var(--font-family);
+  --type-body-sm: 400 14px var(--font-family); /* explanatory paragraphs on centered screens */
+
+  /* Further styles the prototype screens use */
+  --type-title-sub: 800 22px var(--font-family); /* pushed screens: Settings, Badges */
+  --type-heading: 700 19px var(--font-family); /* empty states, sheets */
+  --type-option: 600 17px var(--font-family); /* language rows */
+  --type-row: 600 14px var(--font-family); /* settings and profile rows */
+  --type-row-value: 400 13px var(--font-family);
+  --type-link: 500 14px var(--font-family); /* ‹ back links */
+  --type-note: 400 13px var(--font-family);
+  --type-footnote: 400 11px var(--font-family);
+  --type-tab: 500 10px var(--font-family);
+  --type-lang-chip: 700 12px var(--font-family);
+
+  /* ── Shape ── */
+  --radius-pill: 999px;
+  --radius-sheet: 24px;
+  --radius-dialog: 20px;
+  --radius-card: 16px;
+  --radius-tile: 14px;
+  --radius-input: 12px;
+
+  /* ── Layout ── */
+  --app-max-width: 390px;
+  --tap-min: 48px;
+  --screen-pad-x: 16px;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+
+  --tabbar-center-size: 56px;
+  --tabbar-center-lift: -18px;
+  --shadow-primary-raised: 0 8px 20px rgb(29 185 84 / 0.35);
+
+  /* ── Motion: token page ── */
+  --motion-reveal-drop: 600ms;
+  --motion-tier-pop: 450ms;
+  --motion-count-up: 700ms;
+  --motion-badge-in: 450ms;
+  --motion-badge-stagger: 80ms;
+  --motion-duel-count: 800ms;
+  --motion-reduced-crossfade: 200ms;
+  --ease-pop: cubic-bezier(0.34, 1.56, 0.64, 1);
+}

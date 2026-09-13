@@ -1,0 +1,30 @@
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: var(--tap-min);
+  padding: 14px;
+  border-radius: var(--radius-tile);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+}
+
+.label {
+  font: var(--type-row);
+}
+
+.trail {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--color-text-muted);
+}
+
+.value {
+  font: var(--type-row-value);
+}
+
+.chevron {
+  font: var(--type-body);
+}

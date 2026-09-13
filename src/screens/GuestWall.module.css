@@ -1,0 +1,23 @@
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  border: 2px dashed var(--color-border-elevated);
+  border-radius: 50%;
+  color: var(--color-text-subtle);
+}
+
+.title {
+  margin: 6px 0 0;
+  font: var(--type-title-sub);
+}
+
+.body {
+  max-width: 260px;
+  margin: 0;
+  font: var(--type-body-sm);
+  line-height: 1.6;
+  color: var(--color-text-muted);
+}
