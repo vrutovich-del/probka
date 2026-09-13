@@ -29,7 +29,9 @@ export function CutoutReviewScreen() {
 
   // Pilot readout: how long this phone took, and on what. Numbers only, no copy to translate.
   const timing = state.topCut?.timing;
-  const timingLine = timing ? `${(timing.totalMs / 1000).toFixed(1)} s · ${timing.device}` : null;
+  const timingLine = timing
+    ? `${(timing.totalMs / 1000).toFixed(1)} s · infer ${(timing.inferMs / 1000).toFixed(1)} s · ${timing.device}`
+    : null;
 
   return (
     <RequireStep when={state.processed && state.topCut !== null}>

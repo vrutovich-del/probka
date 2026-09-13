@@ -6,6 +6,7 @@
  * nothing else touches the RGB values. Model and runtime come from /cutout/ on our own origin.
  */
 import { preload, segmentForeground, type Config } from '@imgly/background-removal';
+import { cleanMask } from './cleanMask';
 import type { Box, CutoutDevice, CutoutResult, CutoutStats, WorkerRequest, WorkerResponse } from './types';
 
 const MAX_EDGE = 1024;
@@ -203,8 +204,10 @@ async function cutout(id: number, file: Blob): Promise<CutoutResult> {
   await ensureWarm();
   const t1 = performance.now();
   scope.postMessage({ type: 'progress', id, progress: { phase: 'compute' } });
-  const mask = await computeMask(image);
+  const raw = await computeMask(image);
   const t2 = performance.now();
+  // One cap, no speckles, solid inside, soft only at the edge — the photo underneath is untouched.
+  const mask = cleanMask(raw, image.width, image.height);
   const stats = analyse(image, mask);
   const { cutout: png, thumb } = await encode(image, mask);
   const t3 = performance.now();
