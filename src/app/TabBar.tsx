@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router';
+import { NavLink, useNavigate } from 'react-router';
 import { Icon, type IconName } from '../components/Icon';
 import { useT } from '../i18n/useT';
 import type { TKey } from '../i18n';
@@ -32,14 +32,14 @@ function TabLink({ to, icon, labelKey }: Tab) {
 
 export function TabBar() {
   const { t } = useT();
+  const navigate = useNavigate();
   return (
     <nav className={styles.bar}>
       {LEFT.map((tab) => (
         <TabLink key={tab.to} {...tab} />
       ))}
       <div className={styles.center}>
-        {/* The add-a-cap flow arrives with item 2; until then the button is inert. */}
-        <button type="button" className={styles.add} aria-label={t('tabs.add')} disabled>
+        <button type="button" className={styles.add} aria-label={t('tabs.add')} onClick={() => navigate('/add')}>
           <Icon name="plus" size={30} />
         </button>
       </div>

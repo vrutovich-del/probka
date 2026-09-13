@@ -6,6 +6,14 @@ import { GuestWall } from '../screens/GuestWall';
 import { ProfileScreen } from '../screens/ProfileScreen';
 import { SettingsScreen } from '../screens/SettingsScreen';
 import { LanguageScreen } from '../screens/LanguageScreen';
+import { AddFlow } from '../add/AddFlow';
+import { CaptureScreen } from '../add/CaptureScreen';
+import { ProcessingScreen } from '../add/ProcessingScreen';
+import { CutoutReviewScreen } from '../add/CutoutReviewScreen';
+import { IdentifyScreen } from '../add/IdentifyScreen';
+import { ManualEntryScreen } from '../add/ManualEntryScreen';
+import { ConditionScreen } from '../add/ConditionScreen';
+import { RevealScreen } from '../add/RevealScreen';
 
 export const router = createBrowserRouter([
   {
@@ -28,6 +36,22 @@ export const router = createBrowserRouter([
             path: '/profile/settings/language',
             element: <LanguageScreen back={{ to: '/profile/settings', labelKey: 'settings.title' }} />,
           },
+        ],
+      },
+      {
+        // Add a cap (screens 12–18): a full-screen stack over the tabs.
+        path: '/add',
+        element: <AddFlow />,
+        children: [
+          { index: true, element: <Navigate to="/add/top" replace /> },
+          { path: 'top', element: <CaptureScreen step="top" /> },
+          { path: 'side', element: <CaptureScreen step="side" /> },
+          { path: 'processing', element: <ProcessingScreen /> },
+          { path: 'review', element: <CutoutReviewScreen /> },
+          { path: 'identify', element: <IdentifyScreen /> },
+          { path: 'manual', element: <ManualEntryScreen /> },
+          { path: 'condition', element: <ConditionScreen /> },
+          { path: 'reveal', element: <RevealScreen /> },
         ],
       },
       { path: '*', element: <Navigate to="/garage" replace /> },

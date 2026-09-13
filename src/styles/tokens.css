@@ -56,6 +56,17 @@
   --color-scrim-strong: rgb(0 0 0 / 0.65); /* parental gate */
   --color-desktop-surround: #000000; /* outside the 390px column */
 
+  /* Add-a-cap flow */
+  --color-photo-ground: #8F8F8F; /* "before" panel behind the original photo */
+  --color-checker-a: #191919; /* transparency checkerboard behind a cutout */
+  --color-checker-b: #111111;
+  --color-viewfinder-a: #3D3D3D; /* camera area gradient */
+  --color-viewfinder-b: #232323;
+  --color-reveal-glow: #12291A; /* reveal screen radial ground */
+  --color-pedestal-a: #272727; /* pedestal ellipse gradient */
+  --color-pedestal-b: #101010;
+  --color-side-fallback: #8A713A; /* 3D side when the rim colour is unknown */
+
   /* ── Typography: Golos Text, five weights (400–800) ── */
   --font-family: 'Golos Text', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
@@ -79,6 +90,13 @@
   --type-footnote: 400 11px var(--font-family);
   --type-tab: 500 10px var(--font-family);
   --type-lang-chip: 700 12px var(--font-family);
+  --type-pill: 600 12px var(--font-family); /* step counter, section labels */
+  --type-label: 600 12px var(--font-family); /* form field labels, muted */
+  --type-input: 400 15px var(--font-family);
+  --type-chip: 500 13px var(--font-family);
+  --type-card-title: 600 15px var(--font-family);
+  --type-small: 400 12px var(--font-family);
+  --type-tiny: 500 9px var(--font-family); /* gallery button */
 
   /* ── Shape ── */
   --radius-pill: 999px;

@@ -25,6 +25,17 @@
   text-align: center;
 }
 
+/* A step of the add-a-cap flow: form content with the call to action pushed to the bottom by a Spacer. */
+.flow {
+  gap: 12px;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.spacer {
+  flex: 1;
+}
+
 .title {
   margin: 0;
   font: var(--type-title);

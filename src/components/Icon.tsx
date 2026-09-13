@@ -4,7 +4,7 @@
  */
 import type { ReactElement } from 'react';
 
-export type IconName = 'garage' | 'friends' | 'duel' | 'profile' | 'plus' | 'check';
+export type IconName = 'garage' | 'friends' | 'duel' | 'profile' | 'plus' | 'check' | 'close' | 'unrated';
 
 const PATHS: Record<IconName, ReactElement> = {
   garage: <path d="M3.5 11 12 3.5l8.5 7.5V20.5h-17z" />,
@@ -28,6 +28,8 @@ const PATHS: Record<IconName, ReactElement> = {
   ),
   plus: <path d="M12 4.5v15M4.5 12h15" strokeWidth="2.2" />,
   check: <path d="m5 12.5 4.5 4.5L19 7" strokeWidth="2.4" />,
+  close: <path d="M6 6l12 12M18 6 6 18" strokeWidth="2" />,
+  unrated: <circle cx="12" cy="12" r="8.5" strokeDasharray="3.4 3.4" />,
 };
 
 export function Icon({ name, size = 17 }: { name: IconName; size?: number }) {

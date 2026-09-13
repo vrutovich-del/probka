@@ -98,6 +98,22 @@ const APP_KEYS = {
   'profile.title': 'Profile', // 358
   'settings.title': 'Settings', // 527
   'duel.title': 'Duel', // 267
+  // Add-a-cap flow (item 2)
+  'cam.gallery': 'gallery', // 594
+  'processing.download': 'Downloading the cutout tool · {n}%', // new: first-use download, no design copy
+  'processing.offlineFirst': 'The cutout tool needs internet the first time. Your cap is kept as photographed.', // new
+  'cutout.keptToast': 'Original kept — no cutout', // 1086
+  'identify.unidentified': 'Not identified yet', // 1083
+  'manual.back': 'Matches', // 657
+  'manual.brandPlaceholder': 'Start typing…', // 659
+  'manual.productPlaceholder': 'e.g. Lemonade', // 661
+  'manual.fields.country': 'Country', // new: field asked for by the brief, not in the prototype
+  'manual.countryNone': 'Not sure', // new: empty option of the country picker
+  'manual.save': 'Save cap type', // 669
+  'condition.pendingUnrated': 'Unverified — rarity comes after review', // 1106
+  'condition.foundOn': 'Found on', // 682
+  'condition.placePlaceholder': 'e.g. near school', // 683
+  'reveal.unrated': 'Unrated — tier comes after review', // 1122
 };
 
 // ── read the table ──────────────────────────────────────────────────────────

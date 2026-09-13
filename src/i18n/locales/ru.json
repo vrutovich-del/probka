@@ -210,5 +210,20 @@
   "tabs.add": "Добавить крышку",
   "profile.title": "Профиль",
   "settings.title": "Настройки",
-  "duel.title": "Дуэль"
+  "duel.title": "Дуэль",
+  "cam.gallery": "галерея",
+  "processing.download": "Загружаем инструмент вырезания · {n}%",
+  "processing.offlineFirst": "Инструменту вырезания в первый раз нужен интернет. Крышка сохранена как на фото.",
+  "cutout.keptToast": "Оставлен оригинал — без вырезания",
+  "identify.unidentified": "Пока не определена",
+  "manual.back": "Совпадения",
+  "manual.brandPlaceholder": "Начните вводить…",
+  "manual.productPlaceholder": "например, Лимонад",
+  "manual.fields.country": "Страна",
+  "manual.countryNone": "Не знаю",
+  "manual.save": "Сохранить тип крышки",
+  "condition.pendingUnrated": "Не проверена — редкость появится после проверки",
+  "condition.foundOn": "Найдена",
+  "condition.placePlaceholder": "например, у школы",
+  "reveal.unrated": "Без ранга — ранг появится после проверки"
 }

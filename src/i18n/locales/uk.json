@@ -210,5 +210,20 @@
   "tabs.add": "Додати кришку",
   "profile.title": "Профіль",
   "settings.title": "Налаштування",
-  "duel.title": "Дуель"
+  "duel.title": "Дуель",
+  "cam.gallery": "галерея",
+  "processing.download": "Завантажуємо інструмент вирізання · {n}%",
+  "processing.offlineFirst": "Інструменту вирізання вперше потрібен інтернет. Кришку збережено як на фото.",
+  "cutout.keptToast": "Залишено оригінал — без вирізання",
+  "identify.unidentified": "Поки не визначена",
+  "manual.back": "Збіги",
+  "manual.brandPlaceholder": "Почніть вводити…",
+  "manual.productPlaceholder": "наприклад, Лимонад",
+  "manual.fields.country": "Країна",
+  "manual.countryNone": "Не знаю",
+  "manual.save": "Зберегти тип кришки",
+  "condition.pendingUnrated": "Не перевірена — рідкість з’явиться після перевірки",
+  "condition.foundOn": "Знайдена",
+  "condition.placePlaceholder": "наприклад, біля школи",
+  "reveal.unrated": "Без рангу — ранг з’явиться після перевірки"
 }

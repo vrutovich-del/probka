@@ -1,0 +1,153 @@
+.screen {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 32%, var(--color-reveal-glow), var(--color-bg-base) 68%);
+  text-align: center;
+}
+
+.title {
+  margin: 0;
+  font: var(--type-display);
+  letter-spacing: 0.01em;
+}
+
+.stage {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 190px;
+}
+
+.drop {
+  animation: capdrop 1s cubic-bezier(0.45, 0.05, 0.55, 0.95) both;
+}
+
+.fade {
+  animation: fadein var(--motion-reduced-crossfade) both;
+}
+
+.pedestal {
+  width: 190px;
+  height: 38px;
+  margin-top: -16px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 32%, var(--color-pedestal-a), var(--color-pedestal-b));
+}
+
+.tier {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border: 1.5px solid var(--color-rarity-unrated);
+  border-radius: var(--radius-pill);
+  color: var(--color-rarity-unrated);
+  font: var(--type-row);
+}
+
+.tier span {
+  color: var(--color-text-primary);
+}
+
+.tierPop {
+  animation: tierpop var(--motion-tier-pop) var(--ease-pop) both;
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border: 1px solid var(--color-border-input);
+  border-radius: var(--radius-tile);
+  background: var(--color-surface);
+  font: var(--type-row-value);
+  font-weight: 500;
+}
+
+.badgeStar {
+  color: var(--color-rarity-legendary);
+  font-size: 15px;
+}
+
+.badgeIn {
+  animation: badgein var(--motion-badge-in) ease both;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  max-width: 300px;
+  margin-top: 12px;
+}
+
+.action {
+  flex: 1;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+@keyframes capdrop {
+  0% {
+    transform: translateY(-300px);
+    opacity: 0;
+  }
+  55% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  72% {
+    transform: translateY(-16px);
+  }
+  86% {
+    transform: translateY(0);
+  }
+  94% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes tierpop {
+  0% {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.12);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes badgein {
+  from {
+    transform: translateY(16px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

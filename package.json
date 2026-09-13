@@ -11,9 +11,11 @@
     "typecheck": "tsc --noEmit -p tsconfig.app.json && tsc --noEmit -p tsconfig.node.json",
     "build": "npm run typecheck && vite build",
     "preview": "vite preview --host",
-    "strings": "node scripts/strings-to-json.mjs"
+    "strings": "node scripts/strings-to-json.mjs",
+    "cutout-model": "node scripts/fetch-cutout-model.mjs"
   },
   "dependencies": {
+    "@imgly/background-removal": "1.7.0",
     "dexie": "4.4.6",
     "i18next": "26.4.2",
     "react": "18.3.1",

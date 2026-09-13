@@ -1,0 +1,72 @@
+.stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 180px;
+  height: 180px;
+}
+
+.ringSpin,
+.ringProgress {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+}
+
+.ringSpin {
+  border: 3px solid var(--color-surface-elevated);
+  border-top-color: var(--color-primary);
+  animation: spin 1s linear infinite;
+}
+
+/* Determinate ring for the one-time model download: a conic fill cut to a 3px stroke. */
+.ringProgress {
+  background: conic-gradient(var(--color-primary) var(--p, 0%), var(--color-surface-elevated) 0);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 3px + 0.5px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 3px + 0.5px));
+}
+
+.photo {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+.title {
+  margin: 4px 0 0;
+  font: var(--type-heading);
+}
+
+.note {
+  max-width: 250px;
+  margin: 0;
+  font: var(--type-note);
+  color: var(--color-text-muted);
+}
+
+.download {
+  margin: 0;
+  font: var(--type-caption);
+  color: var(--color-primary);
+}
+
+.elapsed {
+  margin: 0;
+  font: 500 12px var(--font-mono);
+  color: var(--color-text-subtle);
+  font-variant-numeric: tabular-nums;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ringSpin {
+    animation-duration: 3s;
+  }
+}

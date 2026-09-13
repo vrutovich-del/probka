@@ -200,5 +200,20 @@
   "tabs.add": "Add a cap",
   "profile.title": "Profile",
   "settings.title": "Settings",
-  "duel.title": "Duel"
+  "duel.title": "Duel",
+  "cam.gallery": "gallery",
+  "processing.download": "Downloading the cutout tool · {n}%",
+  "processing.offlineFirst": "The cutout tool needs internet the first time. Your cap is kept as photographed.",
+  "cutout.keptToast": "Original kept — no cutout",
+  "identify.unidentified": "Not identified yet",
+  "manual.back": "Matches",
+  "manual.brandPlaceholder": "Start typing…",
+  "manual.productPlaceholder": "e.g. Lemonade",
+  "manual.fields.country": "Country",
+  "manual.countryNone": "Not sure",
+  "manual.save": "Save cap type",
+  "condition.pendingUnrated": "Unverified — rarity comes after review",
+  "condition.foundOn": "Found on",
+  "condition.placePlaceholder": "e.g. near school",
+  "reveal.unrated": "Unrated — tier comes after review"
 }

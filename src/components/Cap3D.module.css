@@ -1,0 +1,33 @@
+.stage {
+  position: relative;
+  flex: none;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.group {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+}
+
+.top {
+  border-radius: 50%;
+}
+
+.bottom {
+  border-radius: 50%;
+  background: radial-gradient(circle, #241e12 38%, #4a3d24 42%, #2a2416 46%, #3a301e 76%, #191510 80%);
+}
+
+.shadow {
+  position: absolute;
+  left: 50%;
+  bottom: -4px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgb(0 0 0 / 0.6), rgb(0 0 0 / 0) 68%);
+  filter: blur(4px);
+  opacity: 0.4;
+}

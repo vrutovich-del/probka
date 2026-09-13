@@ -67,7 +67,3 @@
 .add:active {
   background: var(--color-primary-pressed);
 }
-
-.add:disabled {
-  cursor: default;
-}

@@ -1,0 +1,30 @@
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 13px;
+  border: 1.5px solid var(--color-border-control);
+  border-radius: var(--radius-pill);
+  font: var(--type-chip);
+  color: var(--color-text-chip);
+}
+
+/* 33px tall visually; the hit area reaches 48px. */
+.chip::after {
+  content: '';
+  position: absolute;
+  inset: -8px 0;
+}
+
+.selected {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  font-weight: 600;
+}

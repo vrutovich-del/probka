@@ -1,0 +1,51 @@
+.sub {
+  margin: -6px 0 0;
+  font: var(--type-note);
+  color: var(--color-text-muted);
+}
+
+.candidate {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border: 1.5px solid var(--color-primary);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  color: var(--color-primary);
+}
+
+.placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 46px;
+  height: 46px;
+  border: 1.5px dashed var(--color-border-dashed);
+  border-radius: 50%;
+  color: var(--color-text-muted);
+}
+
+.candidateTitle {
+  flex: 1;
+  min-width: 0;
+  font: var(--type-card-title);
+  color: var(--color-text-primary);
+}
+
+.none {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: var(--tap-min);
+  padding: 14px;
+  border: 1.5px dashed var(--color-border-dashed);
+  border-radius: var(--radius-card);
+  font: var(--type-link);
+  color: var(--color-text-muted);
+}
+
+.chevron {
+  margin-left: auto;
+}
