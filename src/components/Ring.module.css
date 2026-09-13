@@ -1,0 +1,17 @@
+.ring {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  border-radius: 50%;
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--color-surface);
+  font: var(--type-pill);
+  color: var(--color-text-primary);
+}

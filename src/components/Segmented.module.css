@@ -1,0 +1,32 @@
+.group {
+  display: flex;
+  flex: none;
+  padding: 3px;
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
+}
+
+.segment {
+  position: relative;
+  padding: 6px 13px;
+  border-radius: var(--radius-pill);
+  font: var(--type-pill);
+  color: var(--color-text-muted);
+}
+
+/* 30px tall visually; the hit area reaches 48px. */
+.segment::after {
+  content: '';
+  position: absolute;
+  inset: -9px 0;
+}
+
+.selected {
+  background: var(--color-primary);
+  color: var(--color-primary-ink);
+}
+
+.sm .segment {
+  padding: 5px 11px;
+  font-size: 11px;
+}

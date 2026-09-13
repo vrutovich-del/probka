@@ -1,7 +1,10 @@
 import { createBrowserRouter, Navigate } from 'react-router';
 import { RequireLanguage, FirstLaunchOnly } from './guards';
 import { TabLayout } from './TabLayout';
-import { GarageScreen } from '../screens/GarageScreen';
+import { GarageScreen } from '../screens/garage/GarageScreen';
+import { CollectionsScreen } from '../screens/garage/CollectionsScreen';
+import { BrandScreen } from '../screens/garage/BrandScreen';
+import { CapDetailScreen } from '../screens/garage/CapDetailScreen';
 import { GuestWall } from '../screens/GuestWall';
 import { ProfileScreen } from '../screens/ProfileScreen';
 import { SettingsScreen } from '../screens/SettingsScreen';
@@ -27,6 +30,9 @@ export const router = createBrowserRouter([
         element: <TabLayout />,
         children: [
           { path: '/garage', element: <GarageScreen /> },
+          { path: '/garage/collections', element: <CollectionsScreen /> },
+          { path: '/garage/collections/:brand', element: <BrandScreen /> },
+          { path: '/garage/cap/:id', element: <CapDetailScreen /> },
           { path: '/friends', element: <GuestWall /> },
           { path: '/duel', element: <GuestWall /> },
           { path: '/profile', element: <ProfileScreen /> },

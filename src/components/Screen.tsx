@@ -11,7 +11,7 @@ type Variant =
   | 'centered' // content centered in the viewport, 24px, gap 12
   | 'flow'; // a step of the add-a-cap flow: 16px, gap 12, CTA at the bottom
 
-export function Screen({ variant, children, className }: { variant: Variant; children: ReactNode; className?: string }) {
+export function Screen({ variant, children, className }: { variant: Variant; children?: ReactNode; className?: string }) {
   return <div className={cx(styles.screen, styles[variant], className)}>{children}</div>;
 }
 

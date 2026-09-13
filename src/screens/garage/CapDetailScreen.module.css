@@ -1,0 +1,191 @@
+.screen {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.bar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px var(--screen-pad-x);
+}
+
+.soon {
+  padding: 5px 11px;
+  border: 1px solid var(--color-border-input);
+  border-radius: var(--radius-pill);
+  font: 500 11px var(--font-family);
+  color: var(--color-text-hint);
+  white-space: nowrap;
+}
+
+.viewer {
+  position: relative;
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  height: 290px;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 40%, var(--color-pedestal), var(--color-bg-base) 72%);
+}
+
+.beforeWrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.before {
+  padding: 14px;
+  border-radius: 20px;
+  background: var(--color-photo-ground);
+}
+
+.before img {
+  display: block;
+  width: 150px;
+  max-height: 200px;
+  object-fit: contain;
+}
+
+.pedestal {
+  width: 200px;
+  height: 40px;
+  margin-top: -10px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 32%, var(--color-pedestal-a), var(--color-pedestal-b));
+}
+
+.hint {
+  position: absolute;
+  bottom: 8px;
+  font: var(--type-footnote);
+  color: var(--color-text-hint);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px var(--screen-pad-x) 20px;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.title {
+  min-width: 0;
+  margin: 0;
+  font: var(--type-title-sub);
+  overflow-wrap: anywhere;
+}
+
+.product {
+  font: 400 14px var(--font-family);
+  color: var(--color-text-muted);
+}
+
+.rarity {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 14px;
+  border-radius: var(--radius-tile);
+  background: var(--color-surface);
+  font: var(--type-link);
+}
+
+.rarityIcon {
+  display: flex;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip,
+.chipPrimary {
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-elevated);
+  font: var(--type-caption);
+  color: var(--color-text-muted);
+}
+
+.chipPrimary {
+  color: var(--color-text-primary);
+}
+
+.found {
+  margin: 0;
+  font: var(--type-note);
+  color: var(--color-text-muted);
+}
+
+.dupes {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-radius: var(--radius-tile);
+  background: var(--color-surface);
+}
+
+.dupesLabel {
+  font: var(--type-link);
+}
+
+.dupesControls {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.dupesValue {
+  min-width: 32px;
+  font: 700 16px var(--font-family);
+  text-align: center;
+}
+
+.round,
+.roundPrimary {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--color-border-control);
+  border-radius: 50%;
+  color: var(--color-text-muted);
+}
+
+.roundPrimary {
+  color: var(--color-text-primary);
+}
+
+.round::after,
+.roundPrimary::after {
+  content: '';
+  position: absolute;
+  inset: -8px;
+}
+
+.round:disabled {
+  opacity: 0.4;
+  cursor: default;
+}

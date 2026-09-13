@@ -3,11 +3,12 @@ import { useNavigate } from 'react-router';
 import { Button } from '../components/Button';
 import { ChoiceChips } from '../components/ChoiceChips';
 import { BackLink, Screen, ScreenTitle, Spacer } from '../components/Screen';
-import { knownBrands } from '../db/caps';
-import type { CapShape } from '../db/db';
+import { findSameType, knownBrands, setDupes, type CapType } from '../db/caps';
+import type { CapRecord, CapShape } from '../db/db';
 import { useT } from '../i18n/useT';
 import { regions } from '../lib/regions';
 import { RequireStep, useAddFlow } from './AddFlow';
+import { DuplicateSheet } from './DuplicateSheet';
 import styles from './ManualEntryScreen.module.css';
 
 const SHAPES: CapShape[] = ['crown', 'aluminium', 'plastic', 'other'];
@@ -15,13 +16,14 @@ const SHAPES: CapShape[] = ['crown', 'aluminium', 'plastic', 'other'];
 /** Screen 16 plus the country the brief asks for. Brand suggestions come from the garage itself. */
 export function ManualEntryScreen() {
   const { t, lang } = useT();
-  const { state, identify } = useAddFlow();
+  const { state, identify, duplicate } = useAddFlow();
   const navigate = useNavigate();
   const [brand, setBrand] = useState(state.type?.brand ?? '');
   const [product, setProduct] = useState(state.type?.product ?? '');
   const [shape, setShape] = useState<CapShape | null>(state.type?.shape ?? null);
   const [country, setCountry] = useState(state.type?.country ?? '');
   const [brands, setBrands] = useState<string[]>([]);
+  const [existing, setExisting] = useState<CapRecord | null>(null);
   const listId = useId();
 
   useEffect(() => {
@@ -29,9 +31,28 @@ export function ManualEntryScreen() {
   }, []);
 
   const canSave = brand.trim() !== '' || product.trim() !== '';
+  const type = (): CapType => ({ brand: brand.trim() || null, product: product.trim(), shape, country: country || null });
 
-  const save = () => {
-    identify({ brand: brand.trim() || null, product: product.trim(), shape, country: country || null });
+  const save = async () => {
+    const same = await findSameType(type()).catch(() => undefined);
+    if (same) {
+      setExisting(same);
+      return;
+    }
+    identify(type());
+    navigate('/add/condition');
+  };
+
+  const addAsDuplicate = async () => {
+    if (!existing) return;
+    await setDupes(existing.id, existing.dupes + 1);
+    duplicate(existing.id, type());
+    navigate('/add/reveal', { replace: true });
+  };
+
+  const addSeparately = () => {
+    setExisting(null);
+    identify(type());
     navigate('/add/condition');
   };
 
@@ -92,10 +113,18 @@ export function ManualEntryScreen() {
         </label>
 
         <Spacer />
-        <Button block disabled={!canSave} onClick={save}>
+        <Button block disabled={!canSave} onClick={() => void save()}>
           {t('manual.save')}
         </Button>
       </Screen>
+      {existing && (
+        <DuplicateSheet
+          existing={existing}
+          onDuplicate={() => void addAsDuplicate()}
+          onSeparate={addSeparately}
+          onCancel={() => setExisting(null)}
+        />
+      )}
     </RequireStep>
   );
 }

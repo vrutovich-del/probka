@@ -225,5 +225,17 @@
   "condition.pendingUnrated": "Не проверена — редкость появится после проверки",
   "condition.foundOn": "Найдена",
   "condition.placePlaceholder": "например, у школы",
-  "reveal.unrated": "Без ранга — ранг появится после проверки"
+  "reveal.unrated": "Без ранга — ранг появится после проверки",
+  "rarity.common": "Обычная",
+  "rarity.uncommon": "Необычная",
+  "rarity.rare": "Редкая",
+  "rarity.epic": "Эпическая",
+  "rarity.legendary": "Легендарная",
+  "rarity.unrated": "Без ранга",
+  "garage.filter.all": "Все",
+  "collections.unidentified_one": "{n} крышка ждёт определения",
+  "collections.unidentified_few": "{n} крышки ждут определения",
+  "collections.unidentified_many": "{n} крышек ждут определения",
+  "collections.unidentified_other": "{n} крышек ждут определения",
+  "detail.foundDate": "Найдена {date}"
 }

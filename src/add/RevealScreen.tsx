@@ -57,7 +57,7 @@ export function RevealScreen() {
   return (
     <RequireStep when={state.savedCapId !== null && state.top !== null}>
       <div className={styles.screen}>
-        <h1 className={styles.title}>{t('reveal.new')}</h1>
+        <h1 className={styles.title}>{t(state.duplicateOf ? 'reveal.dup' : 'reveal.new')}</h1>
         <div className={styles.stage}>
           {top && (
             <div className={cx(styles.drop, reduced && styles.fade)}>

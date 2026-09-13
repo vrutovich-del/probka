@@ -60,10 +60,17 @@ export interface PhotoRecord {
   device: CutoutDevice | null;
 }
 
+/** The garage tile image of one cap, kept apart from the heavy photos so a grid loads only these. */
+export interface ThumbRecord {
+  capId: string;
+  blob: Blob;
+}
+
 export const db = new Dexie('cap-garage') as Dexie & {
   settings: EntityTable<SettingRow, 'key'>;
   caps: EntityTable<CapRecord, 'id'>;
   photos: EntityTable<PhotoRecord, 'id'>;
+  thumbs: EntityTable<ThumbRecord, 'capId'>;
 };
 
 db.version(1).stores({
@@ -75,6 +82,22 @@ db.version(2).stores({
   caps: 'id, createdAt, brand',
   photos: 'id, capId, [capId+role]',
 });
+
+db.version(3)
+  .stores({
+    settings: 'key',
+    caps: 'id, createdAt, brand',
+    photos: 'id, capId, [capId+role]',
+    thumbs: 'capId',
+  })
+  .upgrade(async (tx) => {
+    // Thumbs used to live on the top photo; move them so the grid never reads photo blobs.
+    const photos = await tx.table<PhotoRecord>('photos').toArray();
+    const thumbs = photos
+      .filter((p) => p.role === 'top' && p.thumb)
+      .map((p) => ({ capId: p.capId, blob: p.thumb as Blob }));
+    await tx.table<ThumbRecord>('thumbs').bulkPut(thumbs);
+  });
 
 export async function getSetting<K extends SettingKey>(key: K): Promise<Settings[K] | undefined> {
   const row = await db.settings.get(key);

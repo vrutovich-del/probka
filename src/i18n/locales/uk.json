@@ -225,5 +225,17 @@
   "condition.pendingUnrated": "Не перевірена — рідкість з’явиться після перевірки",
   "condition.foundOn": "Знайдена",
   "condition.placePlaceholder": "наприклад, біля школи",
-  "reveal.unrated": "Без рангу — ранг з’явиться після перевірки"
+  "reveal.unrated": "Без рангу — ранг з’явиться після перевірки",
+  "rarity.common": "Звичайна",
+  "rarity.uncommon": "Незвичайна",
+  "rarity.rare": "Рідкісна",
+  "rarity.epic": "Епічна",
+  "rarity.legendary": "Легендарна",
+  "rarity.unrated": "Без рангу",
+  "garage.filter.all": "Усі",
+  "collections.unidentified_one": "{n} кришка чекає на визначення",
+  "collections.unidentified_few": "{n} кришки чекають на визначення",
+  "collections.unidentified_many": "{n} кришок чекають на визначення",
+  "collections.unidentified_other": "{n} кришок чекають на визначення",
+  "detail.foundDate": "Знайдена {date}"
 }

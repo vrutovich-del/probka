@@ -1,0 +1,35 @@
+.screen {
+  gap: 14px;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.ringLabel {
+  font: 700 14px var(--font-family);
+}
+
+.text {
+  min-width: 0;
+}
+
+.brand {
+  margin: 0;
+  font: var(--type-title-sub);
+  overflow-wrap: anywhere;
+}
+
+.sub {
+  margin: 0;
+  font: var(--type-note);
+  color: var(--color-text-muted);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}

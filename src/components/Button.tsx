@@ -2,7 +2,7 @@ import type { ButtonHTMLAttributes } from 'react';
 import { cx } from './cx';
 import styles from './Button.module.css';
 
-type Variant = 'primary' | 'outline' | 'text';
+type Variant = 'primary' | 'outline' | 'text' | 'danger';
 /** lg = 17px flow CTAs · md = 16px sheet buttons · sm = 15px split rows, as the prototype sizes them. */
 type Size = 'lg' | 'md' | 'sm';
 

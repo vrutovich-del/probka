@@ -86,6 +86,7 @@ const PLURALS = {
   'collections.progress': { one: '{n} of {total} known cap' },
   'offline.banner': { one: 'Offline · {n} cap waiting to upload' },
   'settings.sync.offline': {},
+  'collections.unidentified': { one: '{n} cap is waiting to be identified' },
 };
 
 /** Keys the table does not list. English from the prototype screens (line in Cap Garage.dc.html) or the sitemap. */
@@ -114,6 +115,16 @@ const APP_KEYS = {
   'condition.foundOn': 'Found on', // 682
   'condition.placePlaceholder': 'e.g. near school', // 683
   'reveal.unrated': 'Unrated — tier comes after review', // 1122
+  // Garage (item 3)
+  'rarity.common': 'Common', // Design System.dc.html, rarity scale
+  'rarity.uncommon': 'Uncommon',
+  'rarity.rare': 'Rare',
+  'rarity.epic': 'Epic',
+  'rarity.legendary': 'Legendary',
+  'rarity.unrated': 'Unrated',
+  'garage.filter.all': 'All', // 44
+  'collections.unidentified': '{n} caps are waiting to be identified', // 992, plural
+  'detail.foundDate': 'Found {date}', // detail.found without the place (1012)
 };
 
 // ── read the table ──────────────────────────────────────────────────────────
@@ -179,7 +190,7 @@ function expandRow(rawKey, rawValue) {
 }
 
 for (const [, rows] of groups) for (const [k, v] of rows) expandRow(k, v);
-for (const [k, v] of Object.entries(APP_KEYS)) emit(k, v);
+for (const [k, v] of Object.entries(APP_KEYS)) expandPair(k, v);
 
 if (problems.length) {
   console.error('Table rows that did not expand cleanly:\n  ' + problems.join('\n  '));

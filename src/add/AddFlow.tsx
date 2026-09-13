@@ -22,6 +22,8 @@ export interface FlowState {
   identified: boolean;
   type: CapType | null;
   savedCapId: string | null;
+  /** Set when the find was added as a duplicate (×N) of a cap already in the garage (screen 11). */
+  duplicateOf: string | null;
 }
 
 type Action =
@@ -31,6 +33,7 @@ type Action =
   | { type: 'review'; useCutout: boolean }
   | { type: 'identify'; capType: CapType | null }
   | { type: 'saved'; id: string }
+  | { type: 'duplicate'; id: string; capType: CapType }
   | { type: 'reset' };
 
 const initial: FlowState = {
@@ -43,6 +46,7 @@ const initial: FlowState = {
   identified: false,
   type: null,
   savedCapId: null,
+  duplicateOf: null,
 };
 
 function reduce(state: FlowState, action: Action): FlowState {
@@ -59,6 +63,8 @@ function reduce(state: FlowState, action: Action): FlowState {
       return { ...state, identified: true, type: action.capType };
     case 'saved':
       return { ...state, savedCapId: action.id };
+    case 'duplicate':
+      return { ...state, identified: true, type: action.capType, savedCapId: action.id, duplicateOf: action.id };
     case 'reset':
       return initial;
   }
@@ -80,6 +86,8 @@ interface FlowContext {
   review: (useCutout: boolean) => void;
   identify: (type: CapType | null) => void;
   saved: (id: string) => void;
+  /** The find was counted as one more of an existing cap; nothing new is stored. */
+  duplicate: (id: string, type: CapType) => void;
   reset: () => void;
 }
 
@@ -140,14 +148,15 @@ export function AddFlowProvider({ children }: { children: ReactNode }) {
   const review = useCallback((useCutout: boolean) => dispatch({ type: 'review', useCutout }), []);
   const identify = useCallback((capType: CapType | null) => dispatch({ type: 'identify', capType }), []);
   const saved = useCallback((id: string) => dispatch({ type: 'saved', id }), []);
+  const duplicate = useCallback((id: string, capType: CapType) => dispatch({ type: 'duplicate', id, capType }), []);
   const reset = useCallback(() => {
     jobs.current = {};
     dispatch({ type: 'reset' });
   }, []);
 
   const value = useMemo<FlowContext>(
-    () => ({ state, progress, setTop, setSide, process, review, identify, saved, reset }),
-    [state, progress, setTop, setSide, process, review, identify, saved, reset],
+    () => ({ state, progress, setTop, setSide, process, review, identify, saved, duplicate, reset }),
+    [state, progress, setTop, setSide, process, review, identify, saved, duplicate, reset],
   );
 
   return <Context.Provider value={value}>{children}</Context.Provider>;

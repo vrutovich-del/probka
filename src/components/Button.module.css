@@ -44,6 +44,17 @@
   color: var(--color-text-muted);
 }
 
+/* Destructive: outlined in dark red, red text ≥15px (accent/red is for shapes and large text only). */
+.danger {
+  padding: 13px 20px;
+  border: 1px solid var(--color-danger-border);
+  color: var(--color-error);
+}
+
+.danger:active {
+  background: var(--color-surface);
+}
+
 .lg {
   font: var(--type-button);
 }

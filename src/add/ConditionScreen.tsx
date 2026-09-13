@@ -7,6 +7,7 @@ import { saveCap, type CapPhotoInput } from '../db/caps';
 import type { Condition } from '../db/db';
 import { useT } from '../i18n/useT';
 import { useObjectUrl } from '../lib/objectUrl';
+import { makeThumb } from '../lib/thumb';
 import { RequireStep, useAddFlow } from './AddFlow';
 import styles from './ConditionScreen.module.css';
 
@@ -36,16 +37,20 @@ export function ConditionScreen() {
   const add = async () => {
     if (!state.top || saving) return;
     setSaving(true);
-    const photos: CapPhotoInput[] = [{ role: 'top', original: state.top, cutout: state.useCutout ? state.topCut : null }];
+    const useCutout = state.useCutout && state.topCut !== null;
+    const photos: CapPhotoInput[] = [{ role: 'top', original: state.top, cutout: useCutout ? state.topCut : null }];
     if (state.side) photos.push({ role: 'side', original: state.side, cutout: state.sideCut });
     try {
+      // The tile image: the cutout's thumb, or a small copy of the original when the photo is kept as is.
+      const thumb = useCutout && state.topCut ? state.topCut.thumb : await makeThumb(state.top).catch(() => null);
       const id = await saveCap({
         type: state.type ?? { brand: null, product: '', shape: null, country: null },
         condition,
         foundOn,
         place,
-        useCutout: state.useCutout && state.topCut !== null,
+        useCutout,
         photos,
+        thumb,
       });
       saved(id);
       navigate('/add/reveal', { replace: true });

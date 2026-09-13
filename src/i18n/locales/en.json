@@ -215,5 +215,15 @@
   "condition.pendingUnrated": "Unverified — rarity comes after review",
   "condition.foundOn": "Found on",
   "condition.placePlaceholder": "e.g. near school",
-  "reveal.unrated": "Unrated — tier comes after review"
+  "reveal.unrated": "Unrated — tier comes after review",
+  "rarity.common": "Common",
+  "rarity.uncommon": "Uncommon",
+  "rarity.rare": "Rare",
+  "rarity.epic": "Epic",
+  "rarity.legendary": "Legendary",
+  "rarity.unrated": "Unrated",
+  "garage.filter.all": "All",
+  "collections.unidentified_one": "{n} cap is waiting to be identified",
+  "collections.unidentified_other": "{n} caps are waiting to be identified",
+  "detail.foundDate": "Found {date}"
 }
