@@ -1,0 +1,78 @@
+.head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.person {
+  flex: 1;
+  min-width: 0;
+}
+
+.nickname {
+  font: 800 20px var(--font-family);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sub {
+  font: var(--type-small);
+  color: var(--color-text-muted);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.tile {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  padding: 12px;
+  border-radius: var(--radius-tile);
+  background: var(--color-surface);
+}
+
+.image {
+  position: absolute;
+  inset: 12px;
+  width: calc(100% - 24px);
+  height: calc(100% - 24px);
+  object-fit: contain;
+  filter: drop-shadow(0 6px 8px rgb(0 0 0 / 0.5));
+}
+
+.disc {
+  width: 56%;
+  height: 56%;
+  border-radius: 50%;
+  background: var(--color-placeholder);
+}
+
+.tier {
+  position: absolute;
+  top: 7px;
+  right: 8px;
+  display: flex;
+}
+
+.dupes {
+  position: absolute;
+  right: 8px;
+  bottom: 6px;
+  font: 600 11px var(--font-family);
+  color: var(--color-text-muted);
+}
+
+.note {
+  margin: 0;
+  font: var(--type-footnote);
+  line-height: 1.5;
+  color: var(--color-text-subtle);
+  text-align: center;
+}

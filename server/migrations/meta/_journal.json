@@ -15,6 +15,13 @@
       "when": 1789931218061,
       "tag": "0001_caps_and_photos",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1789932267980,
+      "tag": "0002_friends",
+      "breakpoints": true
     }
   ]
 }

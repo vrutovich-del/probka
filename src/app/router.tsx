@@ -6,6 +6,8 @@ import { CollectionsScreen } from '../screens/garage/CollectionsScreen';
 import { BrandScreen } from '../screens/garage/BrandScreen';
 import { CapDetailScreen } from '../screens/garage/CapDetailScreen';
 import { FriendsScreen } from '../screens/friends/FriendsScreen';
+import { AddFriendScreen } from '../screens/friends/AddFriendScreen';
+import { FriendGarageScreen } from '../screens/friends/FriendGarageScreen';
 import { DuelScreen } from '../screens/DuelScreen';
 import { ProfileScreen } from '../screens/ProfileScreen';
 import { BadgesScreen } from '../screens/BadgesScreen';
@@ -42,6 +44,8 @@ export const router = createBrowserRouter([
           { path: '/garage/collections/:brand', element: <BrandScreen /> },
           { path: '/garage/cap/:id', element: <CapDetailScreen /> },
           { path: '/friends', element: <FriendsScreen /> },
+          { path: '/friends/add', element: <AddFriendScreen /> },
+          { path: '/friends/:id', element: <FriendGarageScreen /> },
           { path: '/duel', element: <DuelScreen /> },
           { path: '/profile', element: <ProfileScreen /> },
           { path: '/profile/badges', element: <BadgesScreen /> },

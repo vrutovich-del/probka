@@ -68,8 +68,15 @@ export function badgeArt(id: BadgeId): string {
   return DEFS[id].art;
 }
 
+/**
+ * What a badge is counted from: the garage's own caps, and equally a friend's caps as the server
+ * describes them. One rule, one implementation — a friend's badge count cannot drift from the way
+ * the child's own is worked out.
+ */
+export type BadgeInput = Pick<CapRecord, 'brand' | 'dupes' | 'createdAt'>;
+
 /** Every badge with its real progress — locked ones included, as the brief asks. */
-export function badgeStates(caps: CapRecord[]): BadgeState[] {
+export function badgeStates(caps: BadgeInput[]): BadgeState[] {
   const total = caps.reduce((n, cap) => n + cap.dupes, 0);
   const loyal = topBrand(caps);
   const have: Record<BadgeId, number> = {
@@ -108,20 +115,20 @@ export function badgeProgress(badge: BadgeState, t: (key: TKey, values?: TValues
   return t(badge.progressKey, { n: Math.min(badge.have, badge.need), total: badge.need, brand: badge.brand ?? '' });
 }
 
-export function earnedBadges(caps: CapRecord[]): BadgeId[] {
+export function earnedBadges(caps: BadgeInput[]): BadgeId[] {
   return badgeStates(caps)
     .filter((badge) => badge.earned)
     .map((badge) => badge.id);
 }
 
 /** What the garage did not have before the find and has now — the reveal screen's unlock stack. */
-export function newlyEarned(before: CapRecord[], after: CapRecord[]): BadgeId[] {
+export function newlyEarned(before: BadgeInput[], after: BadgeInput[]): BadgeId[] {
   const had = new Set(earnedBadges(before));
   return earnedBadges(after).filter((id) => !had.has(id));
 }
 
 /** The brand with the most caps behind it (duplicates counted, as the garage's own caps stat counts them). */
-function topBrand(caps: CapRecord[]): { brand: string | null; count: number } {
+function topBrand(caps: BadgeInput[]): { brand: string | null; count: number } {
   const byBrand = new Map<string, { brand: string; count: number }>();
   for (const cap of caps) {
     const brand = cap.brand?.trim();
@@ -140,7 +147,7 @@ function topBrand(caps: CapRecord[]): { brand: string | null; count: number } {
  * phone's own clock, taken from when the cap reached the app rather than from the found-on date the
  * child can edit. Longest-ever rather than current, so a badge already won is never taken back.
  */
-function longestStreak(caps: CapRecord[]): number {
+function longestStreak(caps: BadgeInput[]): number {
   const days = [...new Set(caps.map((cap) => localDay(cap.createdAt)))].sort((a, b) => a - b);
   let best = 0;
   let run = 0;

@@ -4,6 +4,7 @@ import { sql } from 'drizzle-orm';
 import { database, limited, type AppEnv } from './lib/app';
 import { accountRoutes } from './routes/accounts';
 import { capRoutes } from './routes/caps';
+import { friendRoutes } from './routes/friends';
 import { photoRoutes } from './routes/photos';
 
 /** The published app, and the only browser origin allowed to read this API. */
@@ -49,6 +50,7 @@ app.get('/api/health', async (c) => {
 
 app.route('/api', accountRoutes);
 app.route('/api', capRoutes);
+app.route('/api', friendRoutes);
 app.route('/api', photoRoutes);
 
 app.notFound((c) => c.json({ error: 'not_found' }, 404));

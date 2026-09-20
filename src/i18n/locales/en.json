@@ -276,5 +276,22 @@
   "settings.sync.working_other": "Uploading · {n} caps left",
   "settings.sync.error_one": "Cannot reach the server · {n} cap waiting",
   "settings.sync.error_other": "Cannot reach the server · {n} caps waiting",
-  "settings.export.failed": "Could not build the export file."
+  "settings.export.failed": "Could not build the export file.",
+  "friends.seg.board": "Leaderboard",
+  "friends.loading": "Loading…",
+  "friends.error": "Could not reach the server. Tap to try again.",
+  "friends.waiting": "Waiting for {nick} to answer.",
+  "gate.body.friends": "Adding friends needs a parent.",
+  "addfriend.title": "Add a friend",
+  "addfriend.or": "— or —",
+  "addfriend.placeholder": "e.g. B2R-9TX",
+  "addfriend.sent": "Request sent to {nick}",
+  "addfriend.nowFriends": "You and {nick} are friends now",
+  "addfriend.unknown": "No one has that code",
+  "addfriend.own": "That is your own code",
+  "addfriend.already": "You are already friends",
+  "addfriend.pending": "You have already asked",
+  "addfriend.tooMany": "Too many tries — wait a little",
+  "addfriend.failed": "Could not send the request. Try again.",
+  "friendgarage.empty": "No caps here yet."
 }

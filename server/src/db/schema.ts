@@ -7,7 +7,7 @@
  * and can be recovered with a code the parent keeps — both are held as SHA-256 hashes, so the
  * database itself cannot be replayed against the API.
  */
-import { index, integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
+import { index, integer, primaryKey, sqliteTable, text, uniqueIndex } from 'drizzle-orm/sqlite-core';
 
 export const accounts = sqliteTable('accounts', {
   id: text('id').primaryKey(),
@@ -94,6 +94,53 @@ export const photos = sqliteTable(
   },
   (t) => [index('photos_cap').on(t.capId), index('photos_account').on(t.accountId)],
 );
+
+/**
+ * Friendship, held as two rows — one each way — so "who are my friends" is one indexed lookup and
+ * never a query that has to look at both columns.
+ */
+export const friendships = sqliteTable(
+  'friendships',
+  {
+    accountId: text('account_id')
+      .notNull()
+      .references(() => accounts.id, { onDelete: 'cascade' }),
+    friendId: text('friend_id')
+      .notNull()
+      .references(() => accounts.id, { onDelete: 'cascade' }),
+    createdAt: integer('created_at').notNull(),
+  },
+  (t) => [primaryKey({ columns: [t.accountId, t.friendId] }), index('friendships_account').on(t.accountId)],
+);
+
+/** One child has typed another's invite code and is waiting to be let in. */
+export const friendRequests = sqliteTable(
+  'friend_requests',
+  {
+    id: text('id').primaryKey(),
+    fromId: text('from_id')
+      .notNull()
+      .references(() => accounts.id, { onDelete: 'cascade' }),
+    toId: text('to_id')
+      .notNull()
+      .references(() => accounts.id, { onDelete: 'cascade' }),
+    createdAt: integer('created_at').notNull(),
+  },
+  (t) => [uniqueIndex('friend_requests_pair').on(t.fromId, t.toId), index('friend_requests_to').on(t.toId)],
+);
+
+/**
+ * How many invite codes an account has tried lately. In the database rather than in an isolate's
+ * memory: this is the counter that stops a code being guessed, and it has to survive the Worker
+ * being recycled — which happens constantly.
+ */
+export const codeAttempts = sqliteTable('code_attempts', {
+  accountId: text('account_id')
+    .primaryKey()
+    .references(() => accounts.id, { onDelete: 'cascade' }),
+  windowStart: integer('window_start').notNull(),
+  count: integer('count').notNull(),
+});
 
 export type Account = typeof accounts.$inferSelect;
 export type Cap = typeof caps.$inferSelect;

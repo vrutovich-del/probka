@@ -185,6 +185,24 @@ const APP_KEYS = {
   'settings.sync.working': 'Uploading · {n} caps left', // new, plural
   'settings.sync.error': 'Cannot reach the server · {n} caps waiting', // new, plural
   'settings.export.failed': 'Could not build the export file.', // new
+  // Friends (Phase 2, item 4). Screens 19–23; the table names most of them, these are the rest.
+  'friends.seg.board': 'Leaderboard', // 180
+  'friends.loading': 'Loading…', // new
+  'friends.error': 'Could not reach the server. Tap to try again.', // new
+  'friends.waiting': 'Waiting for {nick} to answer.', // new: the prototype has no outgoing-request state
+  'gate.body.friends': 'Adding friends needs a parent.', // 1030
+  'addfriend.title': 'Add a friend', // 228
+  'addfriend.or': '— or —', // 235
+  'addfriend.placeholder': 'e.g. B2R-9TX', // 236
+  'addfriend.sent': 'Request sent to {nick}', // new
+  'addfriend.nowFriends': 'You and {nick} are friends now', // new: both children entered each other's code
+  'addfriend.unknown': 'No one has that code', // new
+  'addfriend.own': 'That is your own code', // new
+  'addfriend.already': 'You are already friends', // new
+  'addfriend.pending': 'You have already asked', // new
+  'addfriend.tooMany': 'Too many tries — wait a little', // new
+  'addfriend.failed': 'Could not send the request. Try again.', // new
+  'friendgarage.empty': 'No caps here yet.', // new
 };
 
 // ── read the table ──────────────────────────────────────────────────────────

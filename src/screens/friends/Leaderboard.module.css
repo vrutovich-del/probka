@@ -1,0 +1,56 @@
+.board {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-tile);
+  background: var(--color-surface);
+}
+
+/* The account holder's own row: tinted, outlined and first-person — colour is never the only cue,
+   the green border and the avatar's ring say it too. */
+.mine {
+  border-color: var(--color-primary-tint-border);
+  background: var(--color-primary-disabled);
+}
+
+.rank {
+  width: 18px;
+  font: 700 14px var(--font-family);
+  color: var(--color-text-muted);
+}
+
+.nickname {
+  flex: 1;
+  min-width: 0;
+  font: 600 14px var(--font-family);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.value {
+  font: 500 13px var(--font-family);
+  color: var(--color-text-muted);
+}
+
+.tier {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.note {
+  margin: 0;
+  font: var(--type-footnote);
+  line-height: 1.5;
+  color: var(--color-text-subtle);
+  text-align: center;
+}

@@ -3,6 +3,7 @@ import { eq } from 'drizzle-orm';
 import { photos } from '../db/schema';
 import { database, requireAccount, type AppEnv } from '../lib/app';
 import { isVariant, objectKey, type Variant } from '../lib/photos';
+import { areFriends } from './friends';
 
 /** A cap photo at ≤1024 px; a camera original is the big one and still nowhere near this. */
 const MAX_BYTES = 12 * 1024 * 1024;
@@ -46,8 +47,10 @@ photoRoutes.put('/photos/:id/:variant', async (c) => {
 });
 
 /**
- * Read one variant. Only the owner for now; a friend's garage opens this to friends in item 4,
- * which is why the check is one place and not a condition inside the route.
+ * Read one variant. The owner gets all of them. A friend gets the cutout and the garage tile — the
+ * cap on its own — but never the camera original, which is whatever else was in the frame: a room,
+ * a hand, a school desk. Nobody else gets anything, and "not yours" answers 404 rather than 403, so
+ * the API never confirms that an id exists.
  */
 photoRoutes.get('/photos/:id/:variant', async (c) => {
   const account = c.get('account');
@@ -57,7 +60,11 @@ photoRoutes.get('/photos/:id/:variant', async (c) => {
 
   const db = database(c.env);
   const photo = await db.select().from(photos).where(eq(photos.id, id)).get();
-  if (!photo || photo.accountId !== account.id) return c.json({ error: 'not_found' }, 404);
+  if (!photo) return c.json({ error: 'not_found' }, 404);
+  if (photo.accountId !== account.id) {
+    const allowed = variant !== 'original' && (await areFriends(db, account.id, photo.accountId));
+    if (!allowed) return c.json({ error: 'not_found' }, 404);
+  }
 
   const object = await c.env.PHOTOS.get(objectKey(id, variant));
   if (!object) return c.json({ error: 'not_found' }, 404);
