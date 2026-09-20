@@ -24,6 +24,11 @@ address on your own network.
 Other scripts: `npm run build` (typecheck + production build), `npm run typecheck`, `npm run strings`
 (regenerates the locale files from the design's strings table), `npm run preview`.
 
+The service worker is off in dev. To try the offline behaviour, `npm run build && npm run preview`, load
+http://localhost:4173, then stop the server and reload: the app, its fonts and its images come from the
+precache. `scripts/make-icons.py` and `scripts/clean-badge-art.py` are one-off asset scripts, not part of
+the build; they need Pillow and SciPy, which the app does not.
+
 ## How it is put together
 
 - **Vite + React 18 + TypeScript (strict)**, plain CSS modules over the design tokens in
@@ -34,6 +39,8 @@ Other scripts: `npm run build` (typecheck + production build), `npm run typechec
 - **Storage** — Dexie over IndexedDB: caps, photos, tiles, settings.
 - **Model files** are served from this site's own origin, so the app never calls another company's servers at
   runtime. The first cutout downloads ~56 MB (phones without WebGPU) or ~111 MB (with it), once.
+- **Installable and offline** — `vite-plugin-pwa` precaches the shell (1.3 MB) and caches the model and the
+  ONNX runtime the first time they are fetched, so a cap can be added, cut out and looked at with no network.
 
 Every technical decision and its reason is in [DECISIONS.md](DECISIONS.md). [HANDOFF.md](HANDOFF.md) is the
 brief for picking the work up in a fresh session: current state, what is left in Phase 1, open questions.

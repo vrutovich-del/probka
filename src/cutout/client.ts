@@ -59,11 +59,18 @@ function post(request: WorkerRequest): void {
   getWorker().postMessage(request);
 }
 
-/** Starts downloading model and runtime (once) so they are ready by the time the photo is taken. */
+/**
+ * Starts downloading model and runtime (once) so they are ready by the time the photo is taken.
+ * Offline it waits: the service worker serves the files from its cache once they have been fetched,
+ * and asking before there is a network only produces a failure to log.
+ */
 export function preloadCutout(onProgress?: (progress: CutoutProgress) => void): () => void {
   if (onProgress) preloadListeners.add(onProgress);
-  post({ type: 'preload' });
+  const start = () => post({ type: 'preload' });
+  if (navigator.onLine) start();
+  else window.addEventListener('online', start, { once: true });
   return () => {
+    window.removeEventListener('online', start);
     if (onProgress) preloadListeners.delete(onProgress);
   };
 }

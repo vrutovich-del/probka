@@ -95,3 +95,14 @@
   outline: none;
   color-scheme: dark;
 }
+
+/* Storage full, or a save that failed for another reason: stays put above the button, unlike a toast. */
+.error {
+  margin: 0;
+  padding: 12px 14px;
+  border: 1px solid var(--color-danger-border);
+  border-radius: var(--radius-input);
+  font: var(--type-note);
+  line-height: 1.5;
+  color: var(--color-error);
+}

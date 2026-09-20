@@ -5,9 +5,11 @@ import { ChoiceChips } from '../components/ChoiceChips';
 import { Screen, ScreenTitle, Spacer } from '../components/Screen';
 import { saveCap, type CapPhotoInput } from '../db/caps';
 import { db, type Condition } from '../db/db';
+import type { TKey } from '../i18n';
 import { useT } from '../i18n/useT';
 import { newlyEarned } from '../lib/badges';
 import { todayIso } from '../lib/format';
+import { isStorageFull } from '../lib/storage';
 import { useObjectUrl } from '../lib/objectUrl';
 import { makeThumb } from '../lib/thumb';
 import { RequireStep, useAddFlow } from './AddFlow';
@@ -24,6 +26,7 @@ export function ConditionScreen() {
   const [foundOn, setFoundOn] = useState(todayIso);
   const [place, setPlace] = useState('');
   const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<TKey | null>(null);
   const thumbUrl = useObjectUrl(state.useCutout ? state.topCut?.thumb : state.top);
 
   const title = state.type
@@ -33,6 +36,7 @@ export function ConditionScreen() {
   const add = async () => {
     if (!state.top || saving) return;
     setSaving(true);
+    setError(null);
     const useCutout = state.useCutout && state.topCut !== null;
     const photos: CapPhotoInput[] = [{ role: 'top', original: state.top, cutout: useCutout ? state.topCut : null }];
     if (state.side) photos.push({ role: 'side', original: state.side, cutout: state.sideCut });
@@ -52,9 +56,10 @@ export function ConditionScreen() {
       });
       saved(id, newlyEarned(before, await db.caps.toArray()));
       navigate('/add/reveal', { replace: true });
-    } catch (error) {
-      // The storage-full state arrives with item 6; until then the failure is visible in the console only.
-      console.error('Could not save the cap', error);
+    } catch (failure) {
+      // The cap is still in memory, so the child can free some space and press Add again.
+      console.error('Could not save the cap', failure);
+      setError(isStorageFull(failure) ? 'save.full' : 'save.failed');
       setSaving(false);
     }
   };
@@ -98,6 +103,11 @@ export function ConditionScreen() {
         </label>
 
         <Spacer />
+        {error && (
+          <p className={styles.error} role="alert">
+            {t(error)}
+          </p>
+        )}
         <Button block disabled={saving} onClick={() => void add()}>
           {t('condition.cta')}
         </Button>

@@ -129,3 +129,9 @@
   color: var(--color-primary);
   text-align: center;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .shutterInner {
+    transition: none;
+  }
+}

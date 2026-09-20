@@ -246,5 +246,7 @@
   "settings.sample.added": "Sample cap added",
   "settings.sample.view": "VIEW",
   "settings.sample.already": "The sample is already in your garage",
-  "settings.sample.failed": "Could not load the sample"
+  "settings.sample.failed": "Could not load the sample",
+  "save.full": "The phone is out of space. Free some up and tap Add again — the photo is still here.",
+  "save.failed": "Could not save the cap. Tap Add again."
 }

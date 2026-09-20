@@ -150,6 +150,9 @@ const APP_KEYS = {
   'settings.sample.view': 'VIEW', // new: the snackbar action, capitals like detail.undo
   'settings.sample.already': 'The sample is already in your garage', // new
   'settings.sample.failed': 'Could not load the sample', // new
+  // Storage full (item 6). The brief asks for the state; the design has no screen or copy for it.
+  'save.full': 'The phone is out of space. Free some up and tap Add again — the photo is still here.', // new
+  'save.failed': 'Could not save the cap. Tap Add again.', // new
 };
 
 // ── read the table ──────────────────────────────────────────────────────────

@@ -7,6 +7,7 @@ import { showToast } from '../components/toast';
 import { LANGUAGE_NAMES } from '../i18n';
 import { useT } from '../i18n/useT';
 import { addSampleCap, SAMPLE_LABEL } from '../lib/sampleCap';
+import { isStorageFull } from '../lib/storage';
 
 /** Screen 33. Language and the sample cap work without a backend; the other rows arrive with their items. */
 export function SettingsScreen() {
@@ -29,7 +30,7 @@ export function SettingsScreen() {
       });
     } catch (error) {
       console.error('Could not load the sample cap', error);
-      showToast(t('settings.sample.failed'));
+      showToast(t(isStorageFull(error) ? 'save.full' : 'settings.sample.failed'));
     } finally {
       setLoading(false);
     }
