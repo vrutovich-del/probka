@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
+import { accountsAvailable, useAccount } from '../account/account';
 import { Row } from '../components/Row';
 import { BackLink, Screen, ScreenTitle } from '../components/Screen';
 import { showSnack } from '../components/snackbar';
@@ -19,6 +20,7 @@ export function SettingsScreen() {
   const [loading, setLoading] = useState(false);
   const [exporting, setExporting] = useState(false);
   const { state, pending } = useSyncStatus();
+  const account = useAccount();
 
   const loadSample = async () => {
     if (loading) return;
@@ -66,6 +68,7 @@ export function SettingsScreen() {
           onClick={() => kick()}
         />
       )}
+      {!account && accountsAvailable() && <Row to="/account/transfer" label={t('transfer.title')} />}
       <Row label={t('settings.rows.export')} disabled={exporting} onClick={() => void exportAll()} />
       <Row
         label={t('settings.rows.sample')}

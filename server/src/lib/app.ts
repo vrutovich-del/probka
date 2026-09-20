@@ -6,10 +6,14 @@ import { accounts, deviceTokens, type Account } from '../db/schema';
 import { hash } from './codes';
 import { allow, callerKey, retryAfter } from './rateLimit';
 
-/** What every route in this Worker is typed against: the bindings, plus the account a token proved. */
-export type AppEnv = { Bindings: Env; Variables: { account: Account } };
+/**
+ * What every route is typed against: the bindings from wrangler.toml, the admin secret — which is
+ * set with `wrangler secret put` and so cannot be declared there — and the account a token proved.
+ */
+export type Bindings = Env & { ADMIN_TOKEN?: string };
+export type AppEnv = { Bindings: Bindings; Variables: { account: Account } };
 
-export function database(env: Env) {
+export function database(env: Bindings) {
   return drizzle(env.DB);
 }
 

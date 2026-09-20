@@ -126,3 +126,10 @@
   text-align: center;
   user-select: all;
 }
+
+.secondary {
+  padding: 8px;
+  color: var(--color-primary);
+  font: var(--type-link);
+  text-align: center;
+}

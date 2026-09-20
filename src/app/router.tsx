@@ -16,6 +16,7 @@ import { LanguageScreen } from '../screens/LanguageScreen';
 import { NicknameScreen } from '../screens/account/NicknameScreen';
 import { ConsentScreen } from '../screens/account/ConsentScreen';
 import { RecoveryScreen } from '../screens/account/RecoveryScreen';
+import { TransferScreen } from '../screens/account/TransferScreen';
 import { AddFlow } from '../add/AddFlow';
 import { CaptureScreen } from '../add/CaptureScreen';
 import { ProcessingScreen } from '../add/ProcessingScreen';
@@ -69,6 +70,9 @@ export const router = createBrowserRouter([
       // The recovery code is shown after the account exists, so it sits outside that guard and
       // shows itself only while the code is still in hand.
       { path: '/account/recovery', element: <RecoveryScreen /> },
+      // Moving a garage onto this phone: for a phone that has no account yet, which is the case it
+      // exists for, so it sits outside the guest guard's redirect to /profile.
+      { path: '/account/transfer', element: <TransferScreen /> },
       {
         // Add a cap (screens 12–18): a full-screen stack over the tabs.
         path: '/add',

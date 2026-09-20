@@ -90,6 +90,8 @@ const PLURALS = {
   'profile.stats.badges': { one: 'badge' },
   'settings.sync.working': { one: 'Uploading · {n} cap left' },
   'settings.sync.error': { one: 'Cannot reach the server · {n} cap waiting' },
+  'transfer.done': { one: 'Your garage is here — {n} cap' },
+  'transfer.partly': { one: 'Your garage is here — {n} cap, {missed} still to come' },
 };
 
 /** Keys the table does not list. English from the prototype screens (line in Cap Garage.dc.html) or the sitemap. */
@@ -203,6 +205,20 @@ const APP_KEYS = {
   'addfriend.tooMany': 'Too many tries — wait a little', // new
   'addfriend.failed': 'Could not send the request. Try again.', // new
   'friendgarage.empty': 'No caps here yet.', // new
+  // Moving a garage to another phone (Phase 2, item 5). Neither the prototype nor the table has this
+  // screen: the owner replaced Apple and Google with a code, and this is the door that code opens.
+  'transfer.title': 'Move a garage to this phone', // new
+  'transfer.body':
+    'Type the recovery code we showed when the garage was made — a parent will have it written down. Lost it? We can make you a new one.', // new
+  'transfer.placeholder': 'ABCD-EFGH-JKLM-NPQR', // new
+  'transfer.cta': 'Bring my garage here', // new
+  'transfer.busy': 'Bringing it over…', // new
+  'transfer.working': '{n} of {total} caps', // new
+  'transfer.done': 'Your garage is here — {n} caps', // new, plural
+  'transfer.partly': 'Your garage is here — {n} caps, {missed} still to come', // new, plural
+  'transfer.unknown': 'That code does not open anything', // new
+  'transfer.failed': 'Could not move the garage. Try again.', // new
+  'transfer.note': 'Nothing already on this phone is removed.', // new
 };
 
 // ── read the table ──────────────────────────────────────────────────────────

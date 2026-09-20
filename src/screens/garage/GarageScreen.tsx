@@ -1,4 +1,5 @@
-import { useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router';
+import { accountsAvailable, useAccount } from '../../account/account';
 import { Button } from '../../components/Button';
 import { CapTile, PlaceholderTile } from '../../components/CapTile';
 import { Icon } from '../../components/Icon';
@@ -17,6 +18,7 @@ import styles from './GarageScreen.module.css';
 export function GarageScreen() {
   const { t, lang } = useT();
   const navigate = useNavigate();
+  const account = useAccount();
   const view = useGarageView();
   const caps = useLiveQuery(() => db.caps.toArray(), []);
   const thumbs = useLiveQuery(() => db.thumbs.toArray(), []);
@@ -41,6 +43,13 @@ export function GarageScreen() {
           <Button className={styles.emptyCta} onClick={() => navigate('/add')}>
             {t('garage.empty.cta')}
           </Button>
+          {/* A child holding a new phone lands here on the first launch, and this is the only place
+              they would look for the garage they already have. */}
+          {!account && accountsAvailable() && (
+            <Link to="/account/transfer" className={styles.emptyLink}>
+              {t('transfer.title')}
+            </Link>
+          )}
         </div>
       </Screen>
     );

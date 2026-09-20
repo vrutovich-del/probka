@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { AVATARS } from '../../account/avatars';
 import { updateDraft, useDraft } from '../../account/draft';
 import { nicknameMessage, nicknameState, NICKNAME_MAX } from '../../account/nickname';
@@ -67,6 +67,10 @@ export function NicknameScreen() {
       <Button block disabled={state !== 'ok'} onClick={() => navigate('/account/consent')}>
         {t('nick.cta')}
       </Button>
+      {/* The other answer to "save your garage": the child already has one, somewhere else. */}
+      <Link to="/account/transfer" className={styles.secondary}>
+        {t('transfer.title')}
+      </Link>
     </Screen>
   );
 }

@@ -1,10 +1,12 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { sql } from 'drizzle-orm';
-import { database, limited, type AppEnv } from './lib/app';
+import { database, limited, type AppEnv, type Bindings } from './lib/app';
 import { accountRoutes } from './routes/accounts';
 import { capRoutes } from './routes/caps';
 import { friendRoutes } from './routes/friends';
+import { transferRoutes } from './routes/transfer';
+import { adminRoutes } from './routes/admin';
 import { photoRoutes } from './routes/photos';
 
 /** The published app, and the only browser origin allowed to read this API. */
@@ -51,6 +53,8 @@ app.get('/api/health', async (c) => {
 app.route('/api', accountRoutes);
 app.route('/api', capRoutes);
 app.route('/api', friendRoutes);
+app.route('/api', transferRoutes);
+app.route('/api', adminRoutes);
 app.route('/api', photoRoutes);
 
 app.notFound((c) => c.json({ error: 'not_found' }, 404));
@@ -65,7 +69,7 @@ export default app;
 
 type DbCheck = { ok: true; migrations: number } | { ok: false; error: string };
 
-async function checkDb(env: Env): Promise<DbCheck> {
+async function checkDb(env: Bindings): Promise<DbCheck> {
   try {
     const db = database(env);
     await db.run(sql`select 1`);

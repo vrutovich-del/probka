@@ -80,6 +80,81 @@ behaviour on the build after that. The address is public — it ends up in the p
 either way — which is why it is a variable and not a secret, and why every route that touches data
 checks a token instead of trusting the caller.
 
+## Getting a child back into their garage
+
+Two codes open a garage on another phone, and the app asks for either in **Settings → Move a garage
+to this phone** (also on the empty garage and under the nickname screen, because a new phone is
+where this is needed).
+
+1. **The recovery code** shown once when the account was made. The parent has it. Nothing to do here.
+2. **A one-time code**, when that paper is gone. Minted below, good for 24 hours, usable once.
+
+Everything in this section needs `ADMIN_TOKEN`, which is not in git. It lives in `.dev.vars` next to
+this file (also not in git) and in Cloudflare:
+
+```bash
+npx wrangler secret put ADMIN_TOKEN    # paste a long random string; keep a copy somewhere safe
+npx wrangler secret list               # names only, never values
+```
+
+The admin routes are deliberately **not** in the app. A secret typed into a page on the published
+site would be a secret inside a public JavaScript bundle; these are curl commands from your own
+machine. Without the secret set, every one of them answers 503 rather than being open.
+
+```bash
+API=https://cap-garage.v-rutovich.workers.dev
+ADMIN=$(sed -n 's/^ADMIN_TOKEN=//p' .dev.vars)     # read the token without printing it
+auth="Authorization: Bearer $ADMIN"
+```
+
+**Find an account** — by invite code, by nickname, by a fragment with `*`, or all of them:
+
+```bash
+curl -s -H "$auth" "$API/api/admin/accounts?code=K7M-4QZ"
+curl -s -H "$auth" "$API/api/admin/accounts?nickname=cap_hunter"
+curl -s -H "$auth" "$API/api/admin/accounts?nickname=cap*"
+curl -s -H "$auth" "$API/api/admin/accounts"
+```
+
+Each answer carries the id, the nickname, the invite code, and how many caps, photos, friends and
+devices are behind it.
+
+**Mint a one-time transfer code** (24 hours, one use). Read it out to the parent:
+
+```bash
+curl -s -X POST -H "$auth" "$API/api/admin/accounts/<id>/transfer-code"
+```
+
+**Look at what is stored**, before deciding anything:
+
+```bash
+curl -s -H "$auth" "$API/api/admin/accounts/<id>/caps"
+```
+
+**Delete one cap**, with its photographs:
+
+```bash
+curl -s -X DELETE -H "$auth" "$API/api/admin/caps/<capId>"
+```
+
+**Delete an account** and everything behind it — caps, photographs, friendships, requests, tokens.
+Immediate and final; the seven-day grace period of screen 33b belongs to a child deleting their own
+account in the app, not here:
+
+```bash
+curl -s -X DELETE -H "$auth" "$API/api/admin/accounts/<id>"
+```
+
+**Merge two spellings of the same cap** across every garage — "zhiguli" and "Жигули" become one.
+Always look first with `dryRun`:
+
+```bash
+curl -s -X POST -H "$auth" -H 'Content-Type: application/json' "$API/api/admin/types/merge"   -d '{"fromBrand":"zhiguli","fromProduct":"beer","toBrand":"Жигули","toProduct":"Пиво","dryRun":true}'
+```
+
+Drop `"dryRun": true` to do it. Matching ignores case and surrounding spaces; the phones pick the new
+spelling up on their next sync, because the server owns the catalogue fields.
+
 ## Free-tier room
 
 Workers 100k requests a day, D1 5 GB with 5M rows read and 100k written a day, R2 10 GB and 1M writes

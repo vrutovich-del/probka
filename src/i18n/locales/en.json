@@ -293,5 +293,18 @@
   "addfriend.pending": "You have already asked",
   "addfriend.tooMany": "Too many tries — wait a little",
   "addfriend.failed": "Could not send the request. Try again.",
-  "friendgarage.empty": "No caps here yet."
+  "friendgarage.empty": "No caps here yet.",
+  "transfer.title": "Move a garage to this phone",
+  "transfer.body": "Type the recovery code we showed when the garage was made — a parent will have it written down. Lost it? We can make you a new one.",
+  "transfer.placeholder": "ABCD-EFGH-JKLM-NPQR",
+  "transfer.cta": "Bring my garage here",
+  "transfer.busy": "Bringing it over…",
+  "transfer.working": "{n} of {total} caps",
+  "transfer.done_one": "Your garage is here — {n} cap",
+  "transfer.done_other": "Your garage is here — {n} caps",
+  "transfer.partly_one": "Your garage is here — {n} cap, {missed} still to come",
+  "transfer.partly_other": "Your garage is here — {n} caps, {missed} still to come",
+  "transfer.unknown": "That code does not open anything",
+  "transfer.failed": "Could not move the garage. Try again.",
+  "transfer.note": "Nothing already on this phone is removed."
 }

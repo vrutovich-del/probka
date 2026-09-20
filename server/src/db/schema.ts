@@ -142,6 +142,25 @@ export const codeAttempts = sqliteTable('code_attempts', {
   count: integer('count').notNull(),
 });
 
+/**
+ * A one-time code that turns into a device token: the way back into a garage when the recovery
+ * code the parent kept is gone too. Only the creators can mint one, and it is worth using once,
+ * within a day.
+ */
+export const transferCodes = sqliteTable(
+  'transfer_codes',
+  {
+    codeHash: text('code_hash').primaryKey(),
+    accountId: text('account_id')
+      .notNull()
+      .references(() => accounts.id, { onDelete: 'cascade' }),
+    createdAt: integer('created_at').notNull(),
+    expiresAt: integer('expires_at').notNull(),
+    usedAt: integer('used_at'),
+  },
+  (t) => [index('transfer_codes_account').on(t.accountId)],
+);
+
 export type Account = typeof accounts.$inferSelect;
 export type Cap = typeof caps.$inferSelect;
 export type Photo = typeof photos.$inferSelect;
