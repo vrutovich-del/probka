@@ -72,9 +72,10 @@
   font-weight: 500;
 }
 
-.badgeStar {
-  display: flex;
-  color: var(--color-rarity-legendary);
+.badgeArt {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
 }
 
 .badgeIn {

@@ -6,7 +6,7 @@ import { Icon } from '../components/Icon';
 import { cx } from '../components/cx';
 import type { CutoutResult } from '../cutout/types';
 import { useT } from '../i18n/useT';
-import { badgeNameKey } from '../lib/badges';
+import { badgeArt, badgeNameKey } from '../lib/badges';
 import { useObjectUrl } from '../lib/objectUrl';
 import { useReducedMotion } from '../lib/reducedMotion';
 import { RequireStep, useAddFlow } from './AddFlow';
@@ -75,9 +75,7 @@ export function RevealScreen() {
         {showBadges &&
           state.newBadges.map((id, i) => (
             <div key={id} className={cx(styles.badge, !reduced && styles.badgeIn)} style={{ animationDelay: `${i * 80}ms` }}>
-              <span className={styles.badgeStar}>
-                <Icon name="tier-legendary" size={15} />
-              </span>
+              <img className={styles.badgeArt} src={badgeArt(id)} alt="" width={24} height={24} draggable={false} />
               <span>{t('reveal.badge', { name: t(badgeNameKey(id)) })}</span>
             </div>
           ))}

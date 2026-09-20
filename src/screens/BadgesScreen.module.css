@@ -16,27 +16,27 @@
   text-align: center;
 }
 
-/* Earned and locked differ by border, icon colour, weight of the tile and the line underneath —
-   never by colour alone. */
+/* Earned and locked differ by border, by the art being in colour or greyed, and by the line
+   underneath — never by colour alone. */
 .earned {
   border-color: var(--color-badge-earned-border);
 }
 
-.earned .icon {
-  color: var(--color-rarity-legendary);
-}
-
 .locked {
   border-color: var(--color-badge-locked-border);
-  opacity: 0.75;
 }
 
-.locked .icon {
-  color: var(--color-text-subtle);
+/* Brightened as it is greyed: several badges are drawn on a dark plaque that would otherwise
+   disappear into the tile. */
+.locked .art {
+  filter: grayscale(1) brightness(1.35) contrast(0.85);
+  opacity: 0.6;
 }
 
-.icon {
-  display: flex;
+.art {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
 }
 
 .name {

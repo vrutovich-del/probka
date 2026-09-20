@@ -1,4 +1,3 @@
-import { Icon } from '../components/Icon';
 import { BackLink, Screen, ScreenTitle } from '../components/Screen';
 import { cx } from '../components/cx';
 import { db } from '../db/db';
@@ -19,9 +18,7 @@ export function BadgesScreen() {
         {caps &&
           badgeStates(caps).map((badge) => (
             <div key={badge.id} className={cx(styles.tile, badge.earned ? styles.earned : styles.locked)}>
-              <span className={styles.icon}>
-                <Icon name={badge.icon} size={20} />
-              </span>
+              <img className={styles.art} src={badge.art} alt="" width={56} height={56} draggable={false} />
               <span className={styles.name}>{t(badge.nameKey)}</span>
               <span className={styles.progress}>{badgeProgress(badge, t)}</span>
             </div>

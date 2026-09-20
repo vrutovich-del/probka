@@ -1,4 +1,11 @@
-import type { IconName } from '../components/Icon';
+import brandLoyalArt from '../assets/badges/brand-loyal.webp';
+import duelistArt from '../assets/badges/duelist.webp';
+import firstCapArt from '../assets/badges/first-cap.webp';
+import halfHundredArt from '../assets/badges/half-hundred.webp';
+import rareHunterArt from '../assets/badges/rare-hunter.webp';
+import setCompleteArt from '../assets/badges/set-complete.webp';
+import streak7Art from '../assets/badges/streak-7.webp';
+import tenFinderArt from '../assets/badges/ten-finder.webp';
 import type { CapRecord } from '../db/db';
 import type { TKey, TValues } from '../i18n';
 import { capTier, TIERS } from './rarity';
@@ -19,8 +26,8 @@ export type BadgeId =
   | 'streak7';
 
 interface BadgeDef {
-  /** The prototype marks badges with the same glyph set as the rarity scale; the colour says earned or not. */
-  icon: IconName;
+  /** Owner-supplied art, background cleaned and squared to 256 px; a locked tile greys it out. */
+  art: string;
   nameKey: TKey;
   /** null: only the catalog can say how many caps a set holds, so the tile carries a note, not "0/6". */
   need: number | null;
@@ -28,21 +35,21 @@ interface BadgeDef {
 }
 
 const DEFS: Record<BadgeId, BadgeDef> = {
-  firstCap: { icon: 'tier-legendary', nameKey: 'badges.name.firstCap', need: 1, progressKey: 'badges.progress' },
-  tenFinder: { icon: 'tier-common', nameKey: 'badges.name.tenFinder', need: 10, progressKey: 'badges.progress' },
-  halfHundred: { icon: 'tier-common', nameKey: 'badges.name.halfHundred', need: 50, progressKey: 'badges.progress' },
-  brandLoyal: { icon: 'tier-uncommon', nameKey: 'badges.name.brandLoyal', need: 10, progressKey: 'badges.progress.brand' },
-  rareHunter: { icon: 'tier-rare', nameKey: 'badges.name.rareHunter', need: 1, progressKey: 'badges.progress.rare' },
-  setComplete: { icon: 'tier-epic', nameKey: 'badges.name.setComplete', need: null, progressKey: 'badges.progress' },
-  duelist: { icon: 'duel', nameKey: 'badges.name.duelist', need: 10, progressKey: 'badges.progress.duels' },
-  streak7: { icon: 'tier-legendary', nameKey: 'badges.name.streak7', need: 7, progressKey: 'badges.progress.days' },
+  firstCap: { art: firstCapArt, nameKey: 'badges.name.firstCap', need: 1, progressKey: 'badges.progress' },
+  tenFinder: { art: tenFinderArt, nameKey: 'badges.name.tenFinder', need: 10, progressKey: 'badges.progress' },
+  halfHundred: { art: halfHundredArt, nameKey: 'badges.name.halfHundred', need: 50, progressKey: 'badges.progress' },
+  brandLoyal: { art: brandLoyalArt, nameKey: 'badges.name.brandLoyal', need: 10, progressKey: 'badges.progress.brand' },
+  rareHunter: { art: rareHunterArt, nameKey: 'badges.name.rareHunter', need: 1, progressKey: 'badges.progress.rare' },
+  setComplete: { art: setCompleteArt, nameKey: 'badges.name.setComplete', need: null, progressKey: 'badges.progress' },
+  duelist: { art: duelistArt, nameKey: 'badges.name.duelist', need: 10, progressKey: 'badges.progress.duels' },
+  streak7: { art: streak7Art, nameKey: 'badges.name.streak7', need: 7, progressKey: 'badges.progress.days' },
 };
 
 const ORDER = Object.keys(DEFS) as BadgeId[];
 
 export interface BadgeState {
   id: BadgeId;
-  icon: IconName;
+  art: string;
   nameKey: TKey;
   progressKey: TKey;
   earned: boolean;
@@ -55,6 +62,10 @@ export interface BadgeState {
 
 export function badgeNameKey(id: BadgeId): TKey {
   return DEFS[id].nameKey;
+}
+
+export function badgeArt(id: BadgeId): string {
+  return DEFS[id].art;
 }
 
 /** Every badge with its real progress — locked ones included, as the brief asks. */
@@ -78,7 +89,7 @@ export function badgeStates(caps: CapRecord[]): BadgeState[] {
     const def = DEFS[id];
     return {
       id,
-      icon: def.icon,
+      art: def.art,
       nameKey: def.nameKey,
       // Brand Loyal has no brand to name until one cap carries one.
       progressKey: id === 'brandLoyal' && loyal.brand === null ? 'badges.progress' : def.progressKey,
