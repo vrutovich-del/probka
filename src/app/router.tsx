@@ -18,6 +18,9 @@ import { ManualEntryScreen } from '../add/ManualEntryScreen';
 import { ConditionScreen } from '../add/ConditionScreen';
 import { RevealScreen } from '../add/RevealScreen';
 
+/** "/probka/" when published under a repository path, "/" in dev — react-router wants it without the slash. */
+const basename = import.meta.env.BASE_URL.replace(/\/$/, '') || undefined;
+
 export const router = createBrowserRouter([
   {
     element: <FirstLaunchOnly />,
@@ -63,4 +66,4 @@ export const router = createBrowserRouter([
       { path: '*', element: <Navigate to="/garage" replace /> },
     ],
   },
-]);
+], { basename });
