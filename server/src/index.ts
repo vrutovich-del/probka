@@ -3,6 +3,8 @@ import { cors } from 'hono/cors';
 import { sql } from 'drizzle-orm';
 import { database, limited, type AppEnv } from './lib/app';
 import { accountRoutes } from './routes/accounts';
+import { capRoutes } from './routes/caps';
+import { photoRoutes } from './routes/photos';
 
 /** The published app, and the only browser origin allowed to read this API. */
 const SITE_ORIGIN = 'https://vrutovich-del.github.io';
@@ -22,7 +24,7 @@ app.use(
       if (origin === SITE_ORIGIN) return origin;
       return c.env.ENVIRONMENT === 'development' && DEV_ORIGINS.includes(origin) ? origin : null;
     },
-    allowMethods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowMethods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowHeaders: ['Authorization', 'Content-Type'],
     maxAge: 86400,
   }),
@@ -46,6 +48,8 @@ app.get('/api/health', async (c) => {
 });
 
 app.route('/api', accountRoutes);
+app.route('/api', capRoutes);
+app.route('/api', photoRoutes);
 
 app.notFound((c) => c.json({ error: 'not_found' }, 404));
 

@@ -88,6 +88,8 @@ const PLURALS = {
   'settings.sync.offline': {},
   'collections.unidentified': { one: '{n} cap is waiting to be identified' },
   'profile.stats.badges': { one: 'badge' },
+  'settings.sync.working': { one: 'Uploading · {n} cap left' },
+  'settings.sync.error': { one: 'Cannot reach the server · {n} cap waiting' },
 };
 
 /** Keys the table does not list. English from the prototype screens (line in Cap Garage.dc.html) or the sitemap. */
@@ -178,6 +180,11 @@ const APP_KEYS = {
   'recovery.cta': 'It is written down', // new
   'friends.empty': 'No friends yet — add one with an invite code.', // new: the table has no empty state for 19
   'duel.later': 'Duels come later — friends first.', // new: the duel is its own round, and the tab must not pretend
+  // Sync, the offline banner and the export (Phase 2, item 3). The table has the two settled states
+  // (settings.sync.ok / .offline) and the banner; these are the two it does not name, plus one failure.
+  'settings.sync.working': 'Uploading · {n} caps left', // new, plural
+  'settings.sync.error': 'Cannot reach the server · {n} caps waiting', // new, plural
+  'settings.export.failed': 'Could not build the export file.', // new
 };
 
 // ── read the table ──────────────────────────────────────────────────────────

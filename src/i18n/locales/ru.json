@@ -272,6 +272,11 @@
   "recovery.cta": "Записали",
   "friends.empty": "Друзей пока нет — добавьте по коду-приглашению.",
   "duel.later": "Дуэли появятся позже — сначала друзья.",
+  "settings.sync.working_one": "Загружаем · осталась {n}",
+  "settings.sync.working_other": "Загружаем · осталось {n}",
+  "settings.sync.error_one": "Сервер не отвечает · {n} ждёт",
+  "settings.sync.error_other": "Сервер не отвечает · {n} ждут",
+  "settings.export.failed": "Не удалось собрать файл коллекции.",
   "garage.stats.caps_few": "крышки",
   "garage.stats.caps_many": "крышек",
   "garage.stats.brands_few": "бренда",
@@ -285,5 +290,9 @@
   "collections.unidentified_few": "{n} крышки ждут определения",
   "collections.unidentified_many": "{n} крышек ждут определения",
   "profile.stats.badges_few": "значка",
-  "profile.stats.badges_many": "значков"
+  "profile.stats.badges_many": "значков",
+  "settings.sync.working_few": "Загружаем · осталось {n}",
+  "settings.sync.working_many": "Загружаем · осталось {n}",
+  "settings.sync.error_few": "Сервер не отвечает · {n} ждут",
+  "settings.sync.error_many": "Сервер не отвечает · {n} ждут"
 }

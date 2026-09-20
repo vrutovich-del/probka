@@ -36,6 +36,8 @@ export type CapShape = 'crown' | 'aluminium' | 'plastic' | 'other';
 export interface CapRecord {
   id: string;
   createdAt: number;
+  /** Last change on this phone, for the server's last-write-wins. Older rows fall back to createdAt. */
+  updatedAt?: number;
   /** ISO date the cap was found, from the condition screen. */
   foundOn: string;
   place: string;
@@ -73,6 +75,8 @@ export interface PhotoRecord {
   cutoutMs: number | null;
   inferMs: number | null;
   device: CutoutDevice | null;
+  /** When every variant of this photo reached the server. Undefined means "still to upload". */
+  synced?: number;
 }
 
 /** The garage tile image of one cap, kept apart from the heavy photos so a grid loads only these. */
@@ -81,11 +85,24 @@ export interface ThumbRecord {
   blob: Blob;
 }
 
+/** One thing the server has not been told yet. See `src/sync/`. */
+export interface SyncOpRecord {
+  /** `<kind>:<capId>` — re-queueing the same cap replaces the pending op instead of adding another. */
+  key: string;
+  kind: 'cap' | 'cap.delete';
+  capId: string;
+  createdAt: number;
+  attempts: number;
+  /** Not to be retried before this time; grows with each failure. */
+  after: number;
+}
+
 export const db = new Dexie('cap-garage') as Dexie & {
   settings: EntityTable<SettingRow, 'key'>;
   caps: EntityTable<CapRecord, 'id'>;
   photos: EntityTable<PhotoRecord, 'id'>;
   thumbs: EntityTable<ThumbRecord, 'capId'>;
+  syncQueue: EntityTable<SyncOpRecord, 'key'>;
 };
 
 db.version(1).stores({
@@ -113,6 +130,14 @@ db.version(3)
       .map((p) => ({ capId: p.capId, blob: p.thumb as Blob }));
     await tx.table<ThumbRecord>('thumbs').bulkPut(thumbs);
   });
+
+db.version(4).stores({
+  settings: 'key',
+  caps: 'id, createdAt, brand',
+  photos: 'id, capId, [capId+role]',
+  thumbs: 'capId',
+  syncQueue: 'key, createdAt',
+});
 
 export async function getSetting<K extends SettingKey>(key: K): Promise<Settings[K] | undefined> {
   const row = await db.settings.get(key);

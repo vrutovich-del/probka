@@ -27,7 +27,7 @@ export async function apiFetch(path: string, init?: RequestInit): Promise<Respon
 }
 
 export interface ApiOptions {
-  method?: 'GET' | 'POST' | 'PATCH' | 'DELETE';
+  method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
   /** Sent as JSON. */
   body?: unknown;
   /** The device token, for routes that act for an account. */

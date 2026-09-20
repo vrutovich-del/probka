@@ -37,4 +37,64 @@ export const deviceTokens = sqliteTable(
   (t) => [index('device_tokens_account').on(t.accountId)],
 );
 
+/**
+ * A cap, as one child's garage holds it. The split that matters is in the sitemap's conflict rule:
+ * the catalogue fields (brand, product, shape, country) are the server's to decide once a catalogue
+ * exists, and the rest — where it was found, what shape it is in, the photos — belong to the phone.
+ */
+export const caps = sqliteTable(
+  'caps',
+  {
+    /** The id the phone made. Ids are UUIDs, so one child's cap cannot collide with another's. */
+    id: text('id').primaryKey(),
+    accountId: text('account_id')
+      .notNull()
+      .references(() => accounts.id, { onDelete: 'cascade' }),
+    createdAt: integer('created_at').notNull(),
+    /** Device clock, on the last change the phone made. Older writes are ignored. */
+    updatedAt: integer('updated_at').notNull(),
+    foundOn: text('found_on').notNull(),
+    place: text('place').notNull(),
+    condition: text('condition').notNull(),
+    brand: text('brand'),
+    product: text('product').notNull(),
+    shape: text('shape'),
+    country: text('country'),
+    dupes: integer('dupes').notNull(),
+    useCutout: integer('use_cutout').notNull(),
+  },
+  (t) => [index('caps_account').on(t.accountId)],
+);
+
+/**
+ * A photo's metadata. The pixels are in R2 under `photos/<id>/<variant>`, and the only way to them
+ * is a Worker route that checks the token first — the bucket has no public address at all.
+ */
+export const photos = sqliteTable(
+  'photos',
+  {
+    id: text('id').primaryKey(),
+    capId: text('cap_id')
+      .notNull()
+      .references(() => caps.id, { onDelete: 'cascade' }),
+    accountId: text('account_id')
+      .notNull()
+      .references(() => accounts.id, { onDelete: 'cascade' }),
+    role: text('role').notNull(),
+    width: integer('width').notNull(),
+    height: integer('height').notNull(),
+    /** The cutout's bounding box as JSON, or null — the 3D cap is built from it. */
+    bbox: text('bbox'),
+    rimColor: text('rim_color'),
+    /** Which variants have actually landed in the bucket; a phone uploads them one at a time. */
+    hasOriginal: integer('has_original').notNull().default(0),
+    hasCutout: integer('has_cutout').notNull().default(0),
+    hasThumb: integer('has_thumb').notNull().default(0),
+    createdAt: integer('created_at').notNull(),
+  },
+  (t) => [index('photos_cap').on(t.capId), index('photos_account').on(t.accountId)],
+);
+
 export type Account = typeof accounts.$inferSelect;
+export type Cap = typeof caps.$inferSelect;
+export type Photo = typeof photos.$inferSelect;

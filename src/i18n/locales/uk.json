@@ -272,6 +272,11 @@
   "recovery.cta": "Записали",
   "friends.empty": "Друзів поки немає — додайте за кодом-запрошенням.",
   "duel.later": "Дуелі з’являться пізніше — спершу друзі.",
+  "settings.sync.working_one": "Завантажуємо · лишилася {n}",
+  "settings.sync.working_other": "Завантажуємо · лишилося {n}",
+  "settings.sync.error_one": "Сервер не відповідає · {n} чекає",
+  "settings.sync.error_other": "Сервер не відповідає · {n} чекають",
+  "settings.export.failed": "Не вдалося зібрати файл колекції.",
   "garage.stats.caps_few": "кришки",
   "garage.stats.caps_many": "кришок",
   "garage.stats.brands_few": "бренди",
@@ -285,5 +290,9 @@
   "collections.unidentified_few": "{n} кришки чекають на визначення",
   "collections.unidentified_many": "{n} кришок чекають на визначення",
   "profile.stats.badges_few": "значки",
-  "profile.stats.badges_many": "значків"
+  "profile.stats.badges_many": "значків",
+  "settings.sync.working_few": "Завантажуємо · лишилося {n}",
+  "settings.sync.working_many": "Завантажуємо · лишилося {n}",
+  "settings.sync.error_few": "Сервер не відповідає · {n} чекають",
+  "settings.sync.error_many": "Сервер не відповідає · {n} чекають"
 }

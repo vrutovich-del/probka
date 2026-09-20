@@ -1,0 +1,19 @@
+.banner {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px var(--screen-pad-x);
+  border-bottom: 1px solid var(--color-warning-tint-border);
+  background: var(--color-warning-tint);
+  color: var(--color-warning);
+  font: var(--type-caption);
+}
+
+.dot {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-warning);
+}

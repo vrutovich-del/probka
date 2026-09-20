@@ -8,6 +8,7 @@ import { Icon } from '../../components/Icon';
 import { ParentalGate } from '../../components/ParentalGate';
 import { BackLink, Screen, ScreenTitle, Spacer } from '../../components/Screen';
 import { showToast } from '../../components/toast';
+import { uploadExistingGarage } from '../../sync/sync';
 import { useT } from '../../i18n/useT';
 import type { TKey } from '../../i18n';
 import styles from './AccountFlow.module.css';
@@ -33,6 +34,8 @@ export function ConsentScreen() {
     try {
       const result = await createAccount(draft.nickname.trim(), draft.avatar);
       if (result.ok) {
+        // The guest's caps are now this account's, and start going up in the background.
+        await uploadExistingGarage();
         updateDraft({ recoveryCode: result.recoveryCode });
         navigate('/account/recovery', { replace: true });
         return;

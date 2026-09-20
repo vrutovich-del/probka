@@ -1,6 +1,22 @@
 import { newId } from '../lib/id';
 import type { CutoutResult } from '../cutout/types';
+import { enqueue } from '../sync/queue';
+import { kick } from '../sync/sync';
 import { db, type CapRecord, type CapShape, type Condition, type PhotoRecord, type PhotoRole, type ThumbRecord } from './db';
+
+/** The UNDO window on a delete (SnackbarHost), plus a second — see `enqueue`. */
+const UNDO_WINDOW_MS = 6_000;
+
+/** Tells the uploader there is something to send. A guest has no server to send it to; it stays queued. */
+async function queueCap(kind: 'cap' | 'cap.delete', capId: string, delayMs = 0): Promise<void> {
+  try {
+    await enqueue(kind, capId, delayMs);
+    kick();
+  } catch (error) {
+    // A queue write that fails must never take the garage write with it.
+    console.error('Could not queue a change for the server', error);
+  }
+}
 
 export interface CapType {
   brand: string | null;
@@ -30,9 +46,11 @@ export interface NewCap {
 /** Writes a cap, its photos and its tile atomically; returns the new cap's id. */
 export async function saveCap(input: NewCap): Promise<string> {
   const capId = newId();
+  const now = Date.now();
   const cap: CapRecord = {
     id: capId,
-    createdAt: Date.now(),
+    createdAt: now,
+    updatedAt: now,
     foundOn: input.foundOn,
     place: input.place.trim(),
     condition: input.condition,
@@ -63,6 +81,7 @@ export async function saveCap(input: NewCap): Promise<string> {
     await db.photos.bulkAdd(photos);
     if (input.thumb) await db.thumbs.add({ capId, blob: input.thumb });
   });
+  await queueCap('cap', capId);
   return capId;
 }
 
@@ -81,7 +100,8 @@ export async function findSameType(type: CapType): Promise<CapRecord | undefined
 }
 
 export async function setDupes(id: string, dupes: number): Promise<void> {
-  await db.caps.update(id, { dupes: Math.max(1, dupes) });
+  await db.caps.update(id, { dupes: Math.max(1, dupes), updatedAt: Date.now() });
+  await queueCap('cap', id);
 }
 
 /** Everything that belongs to one cap, so a delete can be undone. */
@@ -92,7 +112,7 @@ export interface CapBundle {
 }
 
 export async function removeCap(id: string): Promise<CapBundle | null> {
-  return db.transaction('rw', db.caps, db.photos, db.thumbs, async () => {
+  const bundle = await db.transaction('rw', db.caps, db.photos, db.thumbs, async () => {
     const cap = await db.caps.get(id);
     if (!cap) return null;
     const photos = await db.photos.where('capId').equals(id).toArray();
@@ -102,14 +122,18 @@ export async function removeCap(id: string): Promise<CapBundle | null> {
     await db.caps.delete(id);
     return { cap, photos, thumb };
   });
+  if (bundle) await queueCap('cap.delete', id, UNDO_WINDOW_MS);
+  return bundle;
 }
 
 export async function restoreCap(bundle: CapBundle): Promise<void> {
   await db.transaction('rw', db.caps, db.photos, db.thumbs, async () => {
-    await db.caps.put(bundle.cap);
-    await db.photos.bulkPut(bundle.photos);
+    await db.caps.put({ ...bundle.cap, updatedAt: Date.now() });
+    // `synced` is cleared: if the delete reached the server first, the bucket no longer has these.
+    await db.photos.bulkPut(bundle.photos.map((p) => ({ ...p, synced: undefined })));
     if (bundle.thumb) await db.thumbs.put(bundle.thumb);
   });
+  await queueCap('cap', bundle.cap.id);
 }
 
 /** Distinct (brand · product) pairs — the "known cap types" a collection is measured against until there is a catalog. */

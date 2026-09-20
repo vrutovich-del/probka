@@ -271,5 +271,10 @@
   "recovery.copyFailed": "Could not copy — write it down from the screen.",
   "recovery.cta": "It is written down",
   "friends.empty": "No friends yet — add one with an invite code.",
-  "duel.later": "Duels come later — friends first."
+  "duel.later": "Duels come later — friends first.",
+  "settings.sync.working_one": "Uploading · {n} cap left",
+  "settings.sync.working_other": "Uploading · {n} caps left",
+  "settings.sync.error_one": "Cannot reach the server · {n} cap waiting",
+  "settings.sync.error_other": "Cannot reach the server · {n} caps waiting",
+  "settings.export.failed": "Could not build the export file."
 }
