@@ -225,5 +225,21 @@
   "garage.filter.all": "All",
   "collections.unidentified_one": "{n} cap is waiting to be identified",
   "collections.unidentified_other": "{n} caps are waiting to be identified",
-  "detail.foundDate": "Found {date}"
+  "detail.foundDate": "Found {date}",
+  "badges.name.firstCap": "First Cap",
+  "badges.name.tenFinder": "Ten Finder",
+  "badges.name.halfHundred": "Half Hundred",
+  "badges.name.brandLoyal": "Brand Loyal",
+  "badges.name.rareHunter": "Rare Hunter",
+  "badges.name.setComplete": "Set Complete",
+  "badges.name.duelist": "Duelist",
+  "badges.name.streak7": "Streak 7",
+  "badges.progress.brand": "{n}/{total} {brand}",
+  "badges.progress.rare": "{n}/{total} rare",
+  "badges.progress.duels": "{n}/{total} duels",
+  "badges.progress.days": "{n}/{total} days",
+  "badges.setPending": "Waiting for the catalog",
+  "profile.stats.badges_one": "badge",
+  "profile.stats.badges_other": "badges",
+  "profile.badgesEarned": "{n} earned"
 }

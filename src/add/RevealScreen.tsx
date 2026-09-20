@@ -6,6 +6,7 @@ import { Icon } from '../components/Icon';
 import { cx } from '../components/cx';
 import type { CutoutResult } from '../cutout/types';
 import { useT } from '../i18n/useT';
+import { badgeNameKey } from '../lib/badges';
 import { useObjectUrl } from '../lib/objectUrl';
 import { useReducedMotion } from '../lib/reducedMotion';
 import { RequireStep, useAddFlow } from './AddFlow';
@@ -21,7 +22,7 @@ function texture(url: string | null, cut: CutoutResult | null): CapTexture | nul
   return cut ? { url, width: cut.stats.width, height: cut.stats.height, bbox: cut.stats.bbox } : { url, width: 0, height: 0, bbox: null };
 }
 
-/** Screen 18. Badges are computed from item 4 on; the stack renders whatever it is given (nothing yet). */
+/** Screen 18: the cap drops, the tier chip pops, then the badges this find unlocked slide up. */
 export function RevealScreen() {
   const { t } = useT();
   const { state, reset } = useAddFlow();
@@ -47,7 +48,6 @@ export function RevealScreen() {
 
   const showTier = phase === 'tier' || phase === 'badges';
   const showBadges = phase === 'badges';
-  const newBadges: string[] = [];
 
   const addAnother = () => {
     reset();
@@ -73,10 +73,12 @@ export function RevealScreen() {
           </div>
         )}
         {showBadges &&
-          newBadges.map((name, i) => (
-            <div key={name} className={cx(styles.badge, !reduced && styles.badgeIn)} style={{ animationDelay: `${i * 80}ms` }}>
-              <span className={styles.badgeStar}>★</span>
-              <span>{t('reveal.badge', { name })}</span>
+          state.newBadges.map((id, i) => (
+            <div key={id} className={cx(styles.badge, !reduced && styles.badgeIn)} style={{ animationDelay: `${i * 80}ms` }}>
+              <span className={styles.badgeStar}>
+                <Icon name="tier-legendary" size={15} />
+              </span>
+              <span>{t('reveal.badge', { name: t(badgeNameKey(id)) })}</span>
             </div>
           ))}
         {showTier && (

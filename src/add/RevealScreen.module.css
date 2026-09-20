@@ -73,8 +73,8 @@
 }
 
 .badgeStar {
+  display: flex;
   color: var(--color-rarity-legendary);
-  font-size: 15px;
 }
 
 .badgeIn {

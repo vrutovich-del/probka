@@ -3,6 +3,7 @@ import { Navigate, Outlet } from 'react-router';
 import { preloadCutout, runCutout } from '../cutout/client';
 import type { CutoutProgress, CutoutResult } from '../cutout/types';
 import type { CapType } from '../db/caps';
+import type { BadgeId } from '../lib/badges';
 import styles from './AddFlow.module.css';
 
 /**
@@ -24,6 +25,8 @@ export interface FlowState {
   savedCapId: string | null;
   /** Set when the find was added as a duplicate (×N) of a cap already in the garage (screen 11). */
   duplicateOf: string | null;
+  /** Badges this find unlocked, for the reveal screen's stack. */
+  newBadges: BadgeId[];
 }
 
 type Action =
@@ -32,8 +35,8 @@ type Action =
   | { type: 'processed'; top: CutoutResult | null; side: CutoutResult | null }
   | { type: 'review'; useCutout: boolean }
   | { type: 'identify'; capType: CapType | null }
-  | { type: 'saved'; id: string }
-  | { type: 'duplicate'; id: string; capType: CapType }
+  | { type: 'saved'; id: string; badges: BadgeId[] }
+  | { type: 'duplicate'; id: string; capType: CapType; badges: BadgeId[] }
   | { type: 'reset' };
 
 const initial: FlowState = {
@@ -47,6 +50,7 @@ const initial: FlowState = {
   type: null,
   savedCapId: null,
   duplicateOf: null,
+  newBadges: [],
 };
 
 function reduce(state: FlowState, action: Action): FlowState {
@@ -62,9 +66,16 @@ function reduce(state: FlowState, action: Action): FlowState {
     case 'identify':
       return { ...state, identified: true, type: action.capType };
     case 'saved':
-      return { ...state, savedCapId: action.id };
+      return { ...state, savedCapId: action.id, newBadges: action.badges };
     case 'duplicate':
-      return { ...state, identified: true, type: action.capType, savedCapId: action.id, duplicateOf: action.id };
+      return {
+        ...state,
+        identified: true,
+        type: action.capType,
+        savedCapId: action.id,
+        duplicateOf: action.id,
+        newBadges: action.badges,
+      };
     case 'reset':
       return initial;
   }
@@ -85,9 +96,9 @@ interface FlowContext {
   process: () => Promise<{ top: CutoutResult | null; side: CutoutResult | null }>;
   review: (useCutout: boolean) => void;
   identify: (type: CapType | null) => void;
-  saved: (id: string) => void;
+  saved: (id: string, badges: BadgeId[]) => void;
   /** The find was counted as one more of an existing cap; nothing new is stored. */
-  duplicate: (id: string, type: CapType) => void;
+  duplicate: (id: string, type: CapType, badges: BadgeId[]) => void;
   reset: () => void;
 }
 
@@ -147,8 +158,11 @@ export function AddFlowProvider({ children }: { children: ReactNode }) {
 
   const review = useCallback((useCutout: boolean) => dispatch({ type: 'review', useCutout }), []);
   const identify = useCallback((capType: CapType | null) => dispatch({ type: 'identify', capType }), []);
-  const saved = useCallback((id: string) => dispatch({ type: 'saved', id }), []);
-  const duplicate = useCallback((id: string, capType: CapType) => dispatch({ type: 'duplicate', id, capType }), []);
+  const saved = useCallback((id: string, badges: BadgeId[]) => dispatch({ type: 'saved', id, badges }), []);
+  const duplicate = useCallback(
+    (id: string, capType: CapType, badges: BadgeId[]) => dispatch({ type: 'duplicate', id, capType, badges }),
+    [],
+  );
   const reset = useCallback(() => {
     jobs.current = {};
     dispatch({ type: 'reset' });

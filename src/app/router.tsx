@@ -7,6 +7,7 @@ import { BrandScreen } from '../screens/garage/BrandScreen';
 import { CapDetailScreen } from '../screens/garage/CapDetailScreen';
 import { GuestWall } from '../screens/GuestWall';
 import { ProfileScreen } from '../screens/ProfileScreen';
+import { BadgesScreen } from '../screens/BadgesScreen';
 import { SettingsScreen } from '../screens/SettingsScreen';
 import { LanguageScreen } from '../screens/LanguageScreen';
 import { AddFlow } from '../add/AddFlow';
@@ -39,6 +40,7 @@ export const router = createBrowserRouter([
           { path: '/friends', element: <GuestWall /> },
           { path: '/duel', element: <GuestWall /> },
           { path: '/profile', element: <ProfileScreen /> },
+          { path: '/profile/badges', element: <BadgesScreen /> },
           { path: '/profile/language', element: <LanguageScreen back={{ to: '/profile', labelKey: 'profile.title' }} /> },
           { path: '/profile/settings', element: <SettingsScreen /> },
           {

@@ -87,6 +87,7 @@ const PLURALS = {
   'offline.banner': { one: 'Offline · {n} cap waiting to upload' },
   'settings.sync.offline': {},
   'collections.unidentified': { one: '{n} cap is waiting to be identified' },
+  'profile.stats.badges': { one: 'badge' },
 };
 
 /** Keys the table does not list. English from the prototype screens (line in Cap Garage.dc.html) or the sitemap. */
@@ -125,6 +126,24 @@ const APP_KEYS = {
   'garage.filter.all': 'All', // 44
   'collections.unidentified': '{n} caps are waiting to be identified', // 992, plural
   'detail.foundDate': 'Found {date}', // detail.found without the place (1012)
+  // Badges (item 4). The eight names come from badgeDefs (952); the units the prototype appends to a
+  // counter (' Zhiguli', ' Rare', ' duels', ' days') become their own progress strings so a translator
+  // can decline the noun. 'badges.setPending' has no design copy: the table has no locked-badge note.
+  'badges.name.firstCap': 'First Cap', // 953
+  'badges.name.tenFinder': 'Ten Finder', // 954
+  'badges.name.halfHundred': 'Half Hundred', // 955
+  'badges.name.brandLoyal': 'Brand Loyal', // 956
+  'badges.name.rareHunter': 'Rare Hunter', // 957
+  'badges.name.setComplete': 'Set Complete', // 958
+  'badges.name.duelist': 'Duelist', // 959
+  'badges.name.streak7': 'Streak 7', // 960
+  'badges.progress.brand': '{n}/{total} {brand}', // 956, the brand named instead of hard-coded Zhiguli
+  'badges.progress.rare': '{n}/{total} rare', // 957
+  'badges.progress.duels': '{n}/{total} duels', // 959
+  'badges.progress.days': '{n}/{total} days', // 960
+  'badges.setPending': 'Waiting for the catalog', // new: a set has no size until the catalog exists
+  'profile.stats.badges': 'badges', // 367, plural
+  'profile.badgesEarned': '{n} earned', // 369
 };
 
 // ── read the table ──────────────────────────────────────────────────────────

@@ -1,0 +1,51 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 12px 8px;
+  border: 1.5px solid;
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  text-align: center;
+}
+
+/* Earned and locked differ by border, icon colour, weight of the tile and the line underneath —
+   never by colour alone. */
+.earned {
+  border-color: var(--color-badge-earned-border);
+}
+
+.earned .icon {
+  color: var(--color-rarity-legendary);
+}
+
+.locked {
+  border-color: var(--color-badge-locked-border);
+  opacity: 0.75;
+}
+
+.locked .icon {
+  color: var(--color-text-subtle);
+}
+
+.icon {
+  display: flex;
+}
+
+.name {
+  font: 600 11px var(--font-family);
+  overflow-wrap: anywhere;
+}
+
+.progress {
+  font: 400 10px var(--font-family);
+  color: var(--color-text-muted);
+  overflow-wrap: anywhere;
+}

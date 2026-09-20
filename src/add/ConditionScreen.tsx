@@ -4,8 +4,9 @@ import { Button } from '../components/Button';
 import { ChoiceChips } from '../components/ChoiceChips';
 import { Screen, ScreenTitle, Spacer } from '../components/Screen';
 import { saveCap, type CapPhotoInput } from '../db/caps';
-import type { Condition } from '../db/db';
+import { db, type Condition } from '../db/db';
 import { useT } from '../i18n/useT';
+import { newlyEarned } from '../lib/badges';
 import { useObjectUrl } from '../lib/objectUrl';
 import { makeThumb } from '../lib/thumb';
 import { RequireStep, useAddFlow } from './AddFlow';
@@ -41,6 +42,8 @@ export function ConditionScreen() {
     const photos: CapPhotoInput[] = [{ role: 'top', original: state.top, cutout: useCutout ? state.topCut : null }];
     if (state.side) photos.push({ role: 'side', original: state.side, cutout: state.sideCut });
     try {
+      // Badges are read off the garage, so what this cap unlocked is the difference across the write.
+      const before = await db.caps.toArray();
       // The tile image: the cutout's thumb, or a small copy of the original when the photo is kept as is.
       const thumb = useCutout && state.topCut ? state.topCut.thumb : await makeThumb(state.top).catch(() => null);
       const id = await saveCap({
@@ -52,7 +55,7 @@ export function ConditionScreen() {
         photos,
         thumb,
       });
-      saved(id);
+      saved(id, newlyEarned(before, await db.caps.toArray()));
       navigate('/add/reveal', { replace: true });
     } catch (error) {
       // The storage-full state arrives with item 6; until then the failure is visible in the console only.

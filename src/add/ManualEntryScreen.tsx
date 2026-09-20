@@ -4,8 +4,9 @@ import { Button } from '../components/Button';
 import { ChoiceChips } from '../components/ChoiceChips';
 import { BackLink, Screen, ScreenTitle, Spacer } from '../components/Screen';
 import { findSameType, knownBrands, setDupes, type CapType } from '../db/caps';
-import type { CapRecord, CapShape } from '../db/db';
+import { db, type CapRecord, type CapShape } from '../db/db';
 import { useT } from '../i18n/useT';
+import { newlyEarned } from '../lib/badges';
 import { regions } from '../lib/regions';
 import { RequireStep, useAddFlow } from './AddFlow';
 import { DuplicateSheet } from './DuplicateSheet';
@@ -45,8 +46,10 @@ export function ManualEntryScreen() {
 
   const addAsDuplicate = async () => {
     if (!existing) return;
+    // One more of a cap already owned still raises the caps count, so it can unlock a badge too.
+    const before = await db.caps.toArray();
     await setDupes(existing.id, existing.dupes + 1);
-    duplicate(existing.id, type());
+    duplicate(existing.id, type(), newlyEarned(before, await db.caps.toArray()));
     navigate('/add/reveal', { replace: true });
   };
 
