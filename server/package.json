@@ -1,0 +1,26 @@
+{
+  "name": "cap-garage-server",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "scripts": {
+    "dev": "wrangler dev --var ENVIRONMENT:development",
+    "types": "wrangler types --strict-vars=false",
+    "typecheck": "npm run types && tsc --noEmit",
+    "db:generate": "drizzle-kit generate",
+    "db:apply:local": "wrangler d1 migrations apply cap-garage --local",
+    "db:apply:remote": "wrangler d1 migrations apply cap-garage --remote",
+    "deploy": "wrangler deploy"
+  },
+  "dependencies": {
+    "drizzle-orm": "0.45.2",
+    "hono": "4.13.8"
+  },
+  "devDependencies": {
+    "drizzle-kit": "0.31.10",
+    "wrangler": "4.135.0"
+  }
+}

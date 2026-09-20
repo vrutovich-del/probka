@@ -4,6 +4,11 @@ dist/
 dev-dist/
 *.tsbuildinfo
 
+# wrangler's local D1/R2 state, its local secrets, and the binding types it generates from wrangler.toml
+/server/.wrangler/
+/server/.dev.vars
+/server/worker-configuration.d.ts
+
 # local env & editor noise
 .env
 .env.*

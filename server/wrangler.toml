@@ -1,0 +1,23 @@
+name = "cap-garage"
+main = "src/index.ts"
+compatibility_date = "2026-09-20"
+
+# Deployed by hand with `npm run deploy`, never from the Pages workflow: a Cloudflare API token
+# in a public repository's CI would be a key to the children's photos.
+
+[vars]
+# `npm run dev` overrides this with "development", which is the only way the CORS allow-list
+# opens to localhost. Anything deployed reads "production", because that is what is written here.
+ENVIRONMENT = "production"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "cap-garage"
+# Printed by `wrangler d1 create cap-garage`. It names a database inside the account and is not a
+# secret, so it belongs in git; what guards the data is the account, and the tokens the API checks.
+database_id = "05b90e75-3323-4a86-b9db-d4e0597a5a16"
+migrations_dir = "migrations"
+
+[[r2_buckets]]
+binding = "PHOTOS"
+bucket_name = "cap-garage-photos"

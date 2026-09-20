@@ -64,6 +64,14 @@ export default defineConfig({
         cleanupOutdatedCaches: true,
         runtimeCaching: [
           {
+            // The API, wherever it is served from. Never cached: a stale answer about an account,
+            // a friend or a sync queue is worse than no answer, and the app is built to cope with
+            // being offline anyway. Cross-origin requests already fall through to the network —
+            // this states it, so a later rule cannot swallow them by accident.
+            urlPattern: ({ url }) => url.pathname.startsWith('/api/'),
+            handler: 'NetworkOnly',
+          },
+          {
             // Model weights and the wasm runtime: content-addressed names, ~56 MB (CPU) or ~111 MB
             // (WebGPU) per phone, downloaded once. Cache first, so a cap can be cut out with no network.
             urlPattern: ({ url }) => url.pathname.includes('/cutout/'),

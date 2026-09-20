@@ -3,9 +3,9 @@
 A bottle-cap collection for one young collector. Photograph a cap you found, the phone cuts the background
 away on its own, and the cap lands in the garage as a 3D object on a pedestal.
 
-Mobile only, offline-first, no accounts and no network in Phase 1: everything lives in the phone's own
-storage. Three languages — Russian, English, Ukrainian. Built from a Claude Design prototype kept in
-[`design/`](design/) for reference.
+Mobile only and offline-first: everything lives in the phone's own storage, and the server is a
+background it can do without. Three languages — Russian, English, Ukrainian. Built from a Claude Design
+prototype kept in [`design/`](design/) for reference.
 
 **Live:** https://vrutovich-del.github.io/probka/
 
@@ -41,6 +41,9 @@ the build; they need Pillow and SciPy, which the app does not.
   runtime. The first cutout downloads ~56 MB (phones without WebGPU) or ~111 MB (with it), once.
 - **Installable and offline** — `vite-plugin-pwa` precaches the shell (1.3 MB) and caches the model and the
   ONNX runtime the first time they are fetched, so a cap can be added, cut out and looked at with no network.
+- **The server** — [`server/`](server/): a Cloudflare Worker (Hono, Drizzle over D1, photos in R2) that
+  Phase 2 uses for accounts, sync and friends. The app is built against it only when `VITE_API_URL` is set;
+  without it the app is the account-less, network-less one of Phase 1. See [`server/README.md`](server/README.md).
 
 Every technical decision and its reason is in [DECISIONS.md](DECISIONS.md). [HANDOFF.md](HANDOFF.md) is the
 brief for picking the work up in a fresh session: current state, what is left in Phase 1, open questions.

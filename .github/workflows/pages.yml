@@ -44,6 +44,10 @@ jobs:
         run: npm run build
         env:
           BASE_PATH: /${{ github.event.repository.name }}/
+          # The Worker's address, from the repository variable API_URL (see server/README.md). The
+          # Worker is deployed by hand, so no Cloudflare credentials are needed here — and while the
+          # variable is unset, this builds the account-less, offline app of Phase 1.
+          VITE_API_URL: ${{ vars.API_URL }}
 
       - uses: actions/configure-pages@v5
         with:

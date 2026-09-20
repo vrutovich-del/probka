@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    // Empty on purpose: the Workers runtime, not Node, provides the globals, and they come from
+    // worker-configuration.d.ts below. Without this, @types/node from the app's node_modules leaks in.
+    "types": [],
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "noEmit": true
+  },
+  // worker-configuration.d.ts is generated from wrangler.toml by `npm run types` and is not in git.
+  "include": ["src", "worker-configuration.d.ts"]
+}
