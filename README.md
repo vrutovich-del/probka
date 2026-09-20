@@ -41,9 +41,14 @@ the build; they need Pillow and SciPy, which the app does not.
   runtime. The first cutout downloads ~56 MB (phones without WebGPU) or ~111 MB (with it), once.
 - **Installable and offline** — `vite-plugin-pwa` precaches the shell (1.3 MB) and caches the model and the
   ONNX runtime the first time they are fetched, so a cap can be added, cut out and looked at with no network.
-- **The server** — [`server/`](server/): a Cloudflare Worker (Hono, Drizzle over D1, photos in R2) that
-  Phase 2 uses for accounts, sync and friends. The app is built against it only when `VITE_API_URL` is set;
-  without it the app is the account-less, network-less one of Phase 1. See [`server/README.md`](server/README.md).
+- **The server** — [`server/`](server/): a Cloudflare Worker (Hono, Drizzle over D1, photos in R2) behind
+  accounts, sync, friends and moving a garage to another phone. An account is a nickname, an avatar and an
+  invite code — no e-mail, no password — and it is proved by a device token, with a recovery code the parent
+  keeps. The app is built against the server only when `VITE_API_URL` is set; without it the app is the
+  account-less, network-less one of Phase 1. See [`server/README.md`](server/README.md).
+- **Sync** — [`src/sync/`](src/sync/): an upload queue in IndexedDB. The garage is written first and the
+  server told afterwards, so adding a cap never waits for a network; photos go to R2 through the Worker,
+  which checks the token on every byte.
 
 Every technical decision and its reason is in [DECISIONS.md](DECISIONS.md). [HANDOFF.md](HANDOFF.md) is the
 brief for picking the work up in a fresh session: current state, what is left in Phase 1, open questions.
