@@ -1,15 +1,19 @@
 import { createBrowserRouter, Navigate } from 'react-router';
-import { RequireLanguage, FirstLaunchOnly } from './guards';
+import { RequireLanguage, FirstLaunchOnly, RequireNoAccount } from './guards';
 import { TabLayout } from './TabLayout';
 import { GarageScreen } from '../screens/garage/GarageScreen';
 import { CollectionsScreen } from '../screens/garage/CollectionsScreen';
 import { BrandScreen } from '../screens/garage/BrandScreen';
 import { CapDetailScreen } from '../screens/garage/CapDetailScreen';
-import { GuestWall } from '../screens/GuestWall';
+import { FriendsScreen } from '../screens/friends/FriendsScreen';
+import { DuelScreen } from '../screens/DuelScreen';
 import { ProfileScreen } from '../screens/ProfileScreen';
 import { BadgesScreen } from '../screens/BadgesScreen';
 import { SettingsScreen } from '../screens/SettingsScreen';
 import { LanguageScreen } from '../screens/LanguageScreen';
+import { NicknameScreen } from '../screens/account/NicknameScreen';
+import { ConsentScreen } from '../screens/account/ConsentScreen';
+import { RecoveryScreen } from '../screens/account/RecoveryScreen';
 import { AddFlow } from '../add/AddFlow';
 import { CaptureScreen } from '../add/CaptureScreen';
 import { ProcessingScreen } from '../add/ProcessingScreen';
@@ -37,8 +41,8 @@ export const router = createBrowserRouter([
           { path: '/garage/collections', element: <CollectionsScreen /> },
           { path: '/garage/collections/:brand', element: <BrandScreen /> },
           { path: '/garage/cap/:id', element: <CapDetailScreen /> },
-          { path: '/friends', element: <GuestWall /> },
-          { path: '/duel', element: <GuestWall /> },
+          { path: '/friends', element: <FriendsScreen /> },
+          { path: '/duel', element: <DuelScreen /> },
           { path: '/profile', element: <ProfileScreen /> },
           { path: '/profile/badges', element: <BadgesScreen /> },
           { path: '/profile/language', element: <LanguageScreen back={{ to: '/profile', labelKey: 'profile.title' }} /> },
@@ -49,6 +53,18 @@ export const router = createBrowserRouter([
           },
         ],
       },
+      {
+        // Saving the garage to an account (screens 05–06 and the recovery code): full screen, no tabs,
+        // and only while this phone is still a guest.
+        element: <RequireNoAccount />,
+        children: [
+          { path: '/account/new', element: <NicknameScreen /> },
+          { path: '/account/consent', element: <ConsentScreen /> },
+        ],
+      },
+      // The recovery code is shown after the account exists, so it sits outside that guard and
+      // shows itself only while the code is still in hand.
+      { path: '/account/recovery', element: <RecoveryScreen /> },
       {
         // Add a cap (screens 12–18): a full-screen stack over the tabs.
         path: '/add',

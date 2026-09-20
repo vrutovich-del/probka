@@ -1,10 +1,25 @@
 import Dexie, { type EntityTable } from 'dexie';
+import type { AvatarKey } from '../account/avatars';
 import type { Language } from '../i18n/languages';
 import type { Box, CutoutDevice } from '../cutout/types';
+
+/** The account this phone belongs to, as the server described it when it was created. */
+export interface AccountRecord {
+  id: string;
+  nickname: string;
+  avatar: AvatarKey;
+  /** `K7M-4QZ` — what a friend types to send a request. */
+  friendCode: string;
+  createdAt: number;
+}
 
 /** Everything persisted from Settings. */
 export interface Settings {
   language: Language;
+  /** Absent until the child saves the garage to an account (Phase 2, screens 05–06). */
+  account: AccountRecord;
+  /** The bearer that proves this phone may act for that account. Never leaves the phone. */
+  deviceToken: string;
 }
 
 type SettingKey = keyof Settings;

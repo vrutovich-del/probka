@@ -153,6 +153,31 @@ const APP_KEYS = {
   // Storage full (item 6). The brief asks for the state; the design has no screen or copy for it.
   'save.full': 'The phone is out of space. Free some up and tap Add again — the photo is still here.', // new
   'save.failed': 'Could not save the cap. Tap Add again.', // new
+  // Account, nickname and parental consent (Phase 2, item 2). Screens 05–06 of the prototype.
+  'nick.placeholder': 'e.g. cap_hunter', // 464
+  'nick.short': 'Too short — at least 3 characters', // 1143
+  'nick.long': 'Too long — 16 max', // 1143
+  'nick.spaces': 'No spaces', // 1143
+  'nick.avatar': 'Pick an avatar', // 467
+  'nick.cta': 'Continue', // 474
+  'consent.intro': 'Cap Garage is built for young collectors. Before your child starts:', // 481
+  'consent.once': 'Shown once, in your chosen language.', // 487
+  'gate.body.account': 'Continuing needs a parent.', // 1147
+  'gate.cancel': 'Cancel', // 741
+  'guestwall.note': 'Nothing gets deleted — guest caps merge in.', // 520
+  'link.cta': 'Save my garage', // new: the sheet's own button; the prototype had Apple and Google there
+  'account.creating': 'Creating your garage…', // new
+  'account.failed': 'Could not create the account. Try again.', // new
+  'account.offline': 'No internet — try again when you are back online.', // new
+  'recovery.title': 'Your recovery code', // new: the account has no e-mail, so this is the only way back
+  'recovery.body':
+    'Give this to a parent to keep. It is the only way back into this garage from another phone, and it is shown once.', // new
+  'recovery.copy': 'Copy', // new
+  'recovery.copied': 'Copied', // new
+  'recovery.copyFailed': 'Could not copy — write it down from the screen.', // new
+  'recovery.cta': 'It is written down', // new
+  'friends.empty': 'No friends yet — add one with an invite code.', // new: the table has no empty state for 19
+  'duel.later': 'Duels come later — friends first.', // new: the duel is its own round, and the tab must not pretend
 };
 
 // ── read the table ──────────────────────────────────────────────────────────

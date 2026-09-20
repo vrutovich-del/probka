@@ -1,7 +1,8 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
-import { drizzle } from 'drizzle-orm/d1';
 import { sql } from 'drizzle-orm';
+import { database, limited, type AppEnv } from './lib/app';
+import { accountRoutes } from './routes/accounts';
 
 /** The published app, and the only browser origin allowed to read this API. */
 const SITE_ORIGIN = 'https://vrutovich-del.github.io';
@@ -12,7 +13,7 @@ const DEV_ORIGINS = ['http://localhost:5173', 'http://localhost:4173'];
 /** A key nothing ever writes: HEAD on it answers "the bucket is there" without touching an object. */
 const R2_PROBE_KEY = 'health/probe';
 
-const app = new Hono<{ Bindings: Env }>();
+const app = new Hono<AppEnv>();
 
 app.use(
   '/api/*',
@@ -31,12 +32,20 @@ app.use(
  * Is the Worker up, is D1 bound and migrated, is the bucket bound. 503 when any of it is not,
  * so a deploy that forgot `wrangler d1 migrations apply` says so instead of failing later
  * under a child's first cap.
+ *
+ * Open to anyone, so it is rate-limited: past six calls a minute it answers 429 without touching
+ * the database or the bucket, and the free tier's daily budget is not something a stranger can spend.
  */
 app.get('/api/health', async (c) => {
-  const [db, r2] = await Promise.all([checkDb(c.env.DB), checkR2(c.env.PHOTOS)]);
+  const over = limited(c, 'health', 6, 60 * 1000);
+  if (over) return over;
+
+  const [db, r2] = await Promise.all([checkDb(c.env), checkR2(c.env.PHOTOS)]);
   const ok = db.ok && r2.ok;
   return c.json({ ok, time: new Date().toISOString(), db, r2 }, ok ? 200 : 503);
 });
+
+app.route('/api', accountRoutes);
 
 app.notFound((c) => c.json({ error: 'not_found' }, 404));
 
@@ -48,11 +57,11 @@ app.onError((err, c) => {
 
 export default app;
 
-type Check = { ok: true; migrations: number } | { ok: false; error: string };
+type DbCheck = { ok: true; migrations: number } | { ok: false; error: string };
 
-async function checkDb(binding: D1Database): Promise<Check> {
+async function checkDb(env: Env): Promise<DbCheck> {
   try {
-    const db = drizzle(binding);
+    const db = database(env);
     await db.run(sql`select 1`);
     return { ok: true, migrations: await countMigrations(db) };
   } catch (err) {
@@ -64,7 +73,7 @@ async function checkDb(binding: D1Database): Promise<Check> {
  * How many migrations wrangler has applied here. Its bookkeeping table only appears with the
  * first one, so "no table" honestly means zero rather than an error.
  */
-async function countMigrations(db: ReturnType<typeof drizzle>): Promise<number> {
+async function countMigrations(db: ReturnType<typeof database>): Promise<number> {
   const table = await db.get<{ n: number }>(
     sql`select count(*) as n from sqlite_master where type = 'table' and name = 'd1_migrations'`,
   );
