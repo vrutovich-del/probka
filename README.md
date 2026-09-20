@@ -35,7 +35,8 @@ Other scripts: `npm run build` (typecheck + production build), `npm run typechec
 - **Model files** are served from this site's own origin, so the app never calls another company's servers at
   runtime. The first cutout downloads ~56 MB (phones without WebGPU) or ~111 MB (with it), once.
 
-Every technical decision and its reason is in [DECISIONS.md](DECISIONS.md).
+Every technical decision and its reason is in [DECISIONS.md](DECISIONS.md). [HANDOFF.md](HANDOFF.md) is the
+brief for picking the work up in a fresh session: current state, what is left in Phase 1, open questions.
 
 ## Deploying
 
