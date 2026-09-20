@@ -144,6 +144,12 @@ const APP_KEYS = {
   'badges.setPending': 'Waiting for the catalog', // new: a set has no size until the catalog exists
   'profile.stats.badges': 'badges', // 367, plural
   'profile.badgesEarned': '{n} earned', // 369
+  // Sample cap (item 5). The brief asks for it; neither the prototype nor the table has a word for it.
+  'settings.rows.sample': 'Load a sample cap', // new
+  'settings.sample.added': 'Sample cap added', // new
+  'settings.sample.view': 'VIEW', // new: the snackbar action, capitals like detail.undo
+  'settings.sample.already': 'The sample is already in your garage', // new
+  'settings.sample.failed': 'Could not load the sample', // new
 };
 
 // ── read the table ──────────────────────────────────────────────────────────

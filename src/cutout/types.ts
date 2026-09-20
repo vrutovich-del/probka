@@ -34,7 +34,8 @@ export interface CutoutResult {
   /** PNG ≤256px for grids and cards. */
   thumb: Blob;
   stats: CutoutStats;
-  timing: CutoutTiming;
+  /** null when nothing was run: the bundled sample arrives already cut out. */
+  timing: CutoutTiming | null;
 }
 
 export type CutoutProgress =

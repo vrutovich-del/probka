@@ -7,6 +7,7 @@ import { saveCap, type CapPhotoInput } from '../db/caps';
 import { db, type Condition } from '../db/db';
 import { useT } from '../i18n/useT';
 import { newlyEarned } from '../lib/badges';
+import { todayIso } from '../lib/format';
 import { useObjectUrl } from '../lib/objectUrl';
 import { makeThumb } from '../lib/thumb';
 import { RequireStep, useAddFlow } from './AddFlow';
@@ -14,19 +15,13 @@ import styles from './ConditionScreen.module.css';
 
 const CONDITIONS: Condition[] = ['mint', 'worn', 'dented', 'dirty'];
 
-function today(): string {
-  const d = new Date();
-  const pad = (n: number) => String(n).padStart(2, '0');
-  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
-}
-
 /** Screen 17: condition, date and a place in the child's own words. Saving writes the cap and its photos. */
 export function ConditionScreen() {
   const { t } = useT();
   const { state, saved } = useAddFlow();
   const navigate = useNavigate();
   const [condition, setCondition] = useState<Condition>('worn');
-  const [foundOn, setFoundOn] = useState(today);
+  const [foundOn, setFoundOn] = useState(todayIso);
   const [place, setPlace] = useState('');
   const [saving, setSaving] = useState(false);
   const thumbUrl = useObjectUrl(state.useCutout ? state.topCut?.thumb : state.top);
@@ -88,7 +83,7 @@ export function ConditionScreen() {
 
         <label className={styles.dateRow}>
           <span className={styles.label}>{t('condition.foundOn')}</span>
-          <input className={styles.date} type="date" value={foundOn} max={today()} onChange={(e) => setFoundOn(e.target.value || today())} />
+          <input className={styles.date} type="date" value={foundOn} max={todayIso()} onChange={(e) => setFoundOn(e.target.value || todayIso())} />
         </label>
 
         <label className={styles.field}>

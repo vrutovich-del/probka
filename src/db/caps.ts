@@ -54,9 +54,9 @@ export async function saveCap(input: NewCap): Promise<string> {
     height: p.cutout?.stats.height ?? 0,
     bbox: p.cutout?.stats.bbox ?? null,
     rimColor: p.cutout?.stats.rimColor ?? null,
-    cutoutMs: p.cutout?.timing.totalMs ?? null,
-    inferMs: p.cutout?.timing.inferMs ?? null,
-    device: p.cutout?.timing.device ?? null,
+    cutoutMs: p.cutout?.timing?.totalMs ?? null,
+    inferMs: p.cutout?.timing?.inferMs ?? null,
+    device: p.cutout?.timing?.device ?? null,
   }));
   await db.transaction('rw', db.caps, db.photos, db.thumbs, async () => {
     await db.caps.add(cap);

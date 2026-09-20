@@ -241,5 +241,10 @@
   "badges.setPending": "Waiting for the catalog",
   "profile.stats.badges_one": "badge",
   "profile.stats.badges_other": "badges",
-  "profile.badgesEarned": "{n} earned"
+  "profile.badgesEarned": "{n} earned",
+  "settings.rows.sample": "Load a sample cap",
+  "settings.sample.added": "Sample cap added",
+  "settings.sample.view": "VIEW",
+  "settings.sample.already": "The sample is already in your garage",
+  "settings.sample.failed": "Could not load the sample"
 }

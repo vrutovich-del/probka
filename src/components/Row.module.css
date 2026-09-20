@@ -1,4 +1,7 @@
 .row {
+  /* A row is a link or a button; both have to look like the same tile. */
+  width: 100%;
+  text-align: left;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -8,6 +11,10 @@
   border-radius: var(--radius-tile);
   background: var(--color-surface);
   color: var(--color-text-primary);
+}
+
+.row:disabled {
+  opacity: 0.6;
 }
 
 .label {

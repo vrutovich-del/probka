@@ -255,5 +255,10 @@
   "profile.stats.badges_few": "значка",
   "profile.stats.badges_many": "значков",
   "profile.stats.badges_other": "значков",
-  "profile.badgesEarned": "{n} получено"
+  "profile.badgesEarned": "{n} получено",
+  "settings.rows.sample": "Загрузить образец крышки",
+  "settings.sample.added": "Образец добавлен",
+  "settings.sample.view": "СМОТРЕТЬ",
+  "settings.sample.already": "Образец уже в гараже",
+  "settings.sample.failed": "Не удалось загрузить образец"
 }
