@@ -1,7 +1,8 @@
 /**
- * The 3D cap from the prototype, ported as-is: a sliced CSS cylinder. Thirty thin faces carry a band of the
- * side photo, the top face is the cutout, a fixed highlight band sits over the texture and the texture turns
- * under it. Drag = yaw with inertia (decay 0.94/frame), vertical drag = tilt clamped ±35°, double-tap resets.
+ * The 3D cap from the prototype: a sliced CSS cylinder. Thirty thin faces carry a band of the side photo,
+ * the top face is the cutout, a fixed highlight band sits over the texture and the texture turns under it.
+ * Drag = yaw with inertia (decay 0.94/frame), vertical drag = tilt, and neither is limited — the cap turns
+ * all the way round in both planes, including onto its back. Double-tap brings it back face on.
  * No overlay or filter ever touches the top-face photo.
  */
 import { useEffect, useMemo, useRef, type CSSProperties, type PointerEvent as ReactPointerEvent } from 'react';
@@ -29,8 +30,10 @@ interface Props {
 }
 
 const SLICES = 30;
+/** The pedestal angle the cap arrives at: standing, seen a little from above, as the prototype draws it. */
 const TILT_REST = -22;
-const TILT_MAX = 35;
+/** Double-tap goes here: the top face flat to the viewer, which is the cap's own face. */
+const TILT_FACE = -90;
 const DECAY = 0.94;
 const DOUBLE_TAP_MS = 300;
 
@@ -89,9 +92,12 @@ export function Cap3D({ top, side, sideColor, radius: R, interactive = false, au
     if (tiltNode.current) tiltNode.current.style.transform = `rotateX(${m.tilt}deg)`;
     if (yawNode.current) yawNode.current.style.transform = `rotateY(${m.yaw}deg)`;
     if (shadowNode.current) {
-      const s = Math.max(0.6, 0.92 + -m.tilt / 130);
+      // How flat the cap is to the viewer: 0 edge on, 1 face on — and right at every angle now that
+      // the tilt is free, where the old straight-line rule ran away past ±90°.
+      const flat = Math.abs(Math.sin((m.tilt * Math.PI) / 180));
+      const s = 0.92 + 0.45 * flat;
       shadowNode.current.style.transform = `translateX(-50%) scale(${s},1)`;
-      shadowNode.current.style.opacity = String(0.3 + Math.min(0.3, Math.abs(m.tilt) / 90));
+      shadowNode.current.style.opacity = String(0.3 + 0.3 * flat);
     }
   };
 
@@ -168,7 +174,7 @@ export function Cap3D({ top, side, sideColor, radius: R, interactive = false, au
     const now = Date.now();
     if (now - m.lastTap < DOUBLE_TAP_MS) {
       m.yaw = 0;
-      m.tilt = TILT_REST;
+      m.tilt = TILT_FACE;
       m.vel = 0;
     }
     m.lastTap = now;
@@ -188,7 +194,8 @@ export function Cap3D({ top, side, sideColor, radius: R, interactive = false, au
     m.px = ev.clientX;
     m.d = dx;
     m.yaw += dx * 0.55;
-    m.tilt = Math.max(-TILT_MAX, Math.min(TILT_MAX, m.t0 + (ev.clientY - m.sy) * 0.35));
+    // No stop: a child who keeps dragging turns the cap over and sees its back.
+    m.tilt = m.t0 + (ev.clientY - m.sy) * 0.35;
   };
   const release = () => {
     const m = motion.current;
