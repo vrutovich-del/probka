@@ -27,12 +27,18 @@ export interface FlowState {
   duplicateOf: string | null;
   /** Badges this find unlocked, for the reveal screen's stack. */
   newBadges: BadgeId[];
+  /**
+   * Why there is no cutout, in the phone's own words. Pilot readout, like the timing line on the
+   * review screen: a failed cutout on a phone leaves no other trace, and "it just kept the whole
+   * photo" is not something anyone can act on.
+   */
+  problem: string | null;
 }
 
 type Action =
   | { type: 'top'; file: Blob }
   | { type: 'side'; file: Blob | null }
-  | { type: 'processed'; top: CutoutResult | null; side: CutoutResult | null }
+  | { type: 'processed'; top: CutoutResult | null; side: CutoutResult | null; problem: string | null }
   | { type: 'review'; useCutout: boolean }
   | { type: 'identify'; capType: CapType | null }
   | { type: 'saved'; id: string; badges: BadgeId[] }
@@ -51,6 +57,7 @@ const initial: FlowState = {
   savedCapId: null,
   duplicateOf: null,
   newBadges: [],
+  problem: null,
 };
 
 function reduce(state: FlowState, action: Action): FlowState {
@@ -60,7 +67,14 @@ function reduce(state: FlowState, action: Action): FlowState {
     case 'side':
       return { ...state, side: action.file };
     case 'processed':
-      return { ...state, topCut: action.top, sideCut: action.side, processed: true, useCutout: action.top !== null };
+      return {
+        ...state,
+        topCut: action.top,
+        sideCut: action.side,
+        processed: true,
+        useCutout: action.top !== null,
+        problem: action.problem,
+      };
     case 'review':
       return { ...state, useCutout: action.useCutout && state.topCut !== null };
     case 'identify':
@@ -135,24 +149,28 @@ export function AddFlowProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const process = useCallback(async () => {
-    const settle = async (job?: Promise<CutoutResult>) => {
+    let problem: string | null = null;
+    const settle = async (job: Promise<CutoutResult> | undefined, which: 'top' | 'side') => {
       if (!job) return null;
       try {
         const result = await job;
         // A mask that keeps almost nothing or almost everything is not a cutout.
         if (result.stats.opaqueFraction < 0.005 || result.stats.opaqueFraction > 0.995) {
+          const percent = (result.stats.opaqueFraction * 100).toFixed(1);
           console.warn('Cutout rejected: mask covers', result.stats.opaqueFraction);
+          if (which === 'top') problem = `mask ${percent}%`;
           return null;
         }
         return result;
       } catch (error) {
         console.error('Cutout failed', error);
+        if (which === 'top') problem = error instanceof Error ? error.message : String(error);
         return null;
       }
     };
-    const top = await settle(jobs.current.top);
-    const side = await settle(jobs.current.side);
-    dispatch({ type: 'processed', top, side });
+    const top = await settle(jobs.current.top, 'top');
+    const side = await settle(jobs.current.side, 'side');
+    dispatch({ type: 'processed', top, side, problem });
     return { top, side };
   }, []);
 

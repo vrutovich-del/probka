@@ -37,6 +37,9 @@ export function IdentifyScreen() {
           <span className={styles.chevron}>›</span>
         </button>
         <Spacer />
+        {/* Pilot readout, like the timing line on the review screen: what stopped the cutout, in the
+            phone's own words. Numbers and library messages, nothing to translate. */}
+        {state.problem && <div className={styles.problem}>no cutout · {state.problem}</div>}
         <Button block onClick={confirm}>
           {t('identify.confirm')}
         </Button>

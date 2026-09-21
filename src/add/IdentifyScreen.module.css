@@ -49,3 +49,11 @@
 .chevron {
   margin-left: auto;
 }
+
+/* Pilot readout, same shape as the review screen's timing line. */
+.problem {
+  font: 500 11px var(--font-mono);
+  color: var(--color-text-subtle);
+  text-align: center;
+  overflow-wrap: anywhere;
+}
