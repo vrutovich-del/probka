@@ -24,6 +24,9 @@ address on your own network.
 Other scripts: `npm run build` (typecheck + production build), `npm run typecheck`, `npm run strings`
 (regenerates the locale files from the design's strings table), `npm run preview`.
 
+`scripts/crop-avatars.py` cuts the eight avatar faces out of `design/avatars/source.jpg`; like the badge and
+icon scripts it is a one-off, run when the art changes, and needs Pillow.
+
 The service worker is off in dev. To try the offline behaviour, `npm run build && npm run preview`, load
 http://localhost:4173, then stop the server and reload: the app, its fonts and its images come from the
 precache. `scripts/make-icons.py` and `scripts/clean-badge-art.py` are one-off asset scripts, not part of
