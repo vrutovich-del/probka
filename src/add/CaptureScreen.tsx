@@ -1,14 +1,16 @@
-import { useRef, type ChangeEvent } from 'react';
+import { useRef, useState, type ChangeEvent } from 'react';
 import { useNavigate } from 'react-router';
 import { Icon } from '../components/Icon';
 import { useT } from '../i18n/useT';
 import { RequireStep, useAddFlow } from './AddFlow';
+import { useCamera } from './useCamera';
 import styles from './CaptureScreen.module.css';
 
 /**
- * Screen 12, top then side. Capture goes through the phone's own camera via a file input — the path that
- * works on iOS Safari, Android Chrome and installed PWAs alike. Flash and "cap detected" belong to a live
- * preview and arrive with it.
+ * Screen 12, top then side. The viewfinder is the camera itself: the stream opens with the screen and
+ * the shutter takes a frame from it. Where that is refused — an older browser, a denied permission, a
+ * camera another app is holding — the shutter opens the phone's own camera app instead, which is the
+ * path Phase 1 shipped and still works.
  */
 export function CaptureScreen({ step }: { step: 'top' | 'side' }) {
   const { t } = useT();
@@ -16,11 +18,10 @@ export function CaptureScreen({ step }: { step: 'top' | 'side' }) {
   const navigate = useNavigate();
   const cameraInput = useRef<HTMLInputElement>(null);
   const galleryInput = useRef<HTMLInputElement>(null);
+  const camera = useCamera(true);
+  const [busy, setBusy] = useState(false);
 
-  const onFile = (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    event.target.value = '';
-    if (!file) return;
+  const accept = (file: File) => {
     if (step === 'top') {
       setTop(file);
       navigate('/add/side');
@@ -28,6 +29,28 @@ export function CaptureScreen({ step }: { step: 'top' | 'side' }) {
       setSide(file);
       navigate('/add/processing');
     }
+  };
+
+  const onFile = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    event.target.value = '';
+    if (file) accept(file);
+  };
+
+  /** The shutter: a frame from the live stream, or the phone's camera app when there is none. */
+  const shoot = async () => {
+    if (busy) return;
+    if (camera.state !== 'live') {
+      cameraInput.current?.click();
+      return;
+    }
+    setBusy(true);
+    const file = await camera.grab();
+    setBusy(false);
+    // A frame that did not come back means the stream died between the tap and the grab; the camera
+    // app is the way through rather than a button that does nothing.
+    if (file) accept(file);
+    else cameraInput.current?.click();
   };
 
   const skipSide = () => {
@@ -47,6 +70,14 @@ export function CaptureScreen({ step }: { step: 'top' | 'side' }) {
         </div>
 
         <div className={styles.viewfinder}>
+          <video
+            ref={camera.video}
+            className={styles.preview}
+            hidden={camera.state !== 'live'}
+            playsInline
+            autoPlay
+            muted
+          />
           <div className={styles.guide} />
         </div>
 
@@ -56,7 +87,7 @@ export function CaptureScreen({ step }: { step: 'top' | 'side' }) {
           <button type="button" className={styles.gallery} onClick={() => galleryInput.current?.click()}>
             {t('cam.gallery')}
           </button>
-          <button type="button" className={styles.shutter} aria-label={t('tabs.add')} onClick={() => cameraInput.current?.click()}>
+          <button type="button" className={styles.shutter} aria-label={t('tabs.add')} onClick={() => void shoot()}>
             <span className={styles.shutterInner} />
           </button>
           {step === 'side' ? (
