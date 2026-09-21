@@ -1,25 +1,40 @@
-import type { IconName } from '../components/Icon';
+import alienArt from '../assets/avatars/alien.webp';
+import birdArt from '../assets/avatars/bird.webp';
+import bulbArt from '../assets/avatars/bulb.webp';
+import chefArt from '../assets/avatars/chef.webp';
+import dogArt from '../assets/avatars/dog.webp';
+import grannyArt from '../assets/avatars/granny.webp';
+import kidArt from '../assets/avatars/kid.webp';
+import monsterArt from '../assets/avatars/monster.webp';
 
 /**
- * The six avatars of screen 05. The prototype draws them as the glyphs ● ■ ▲ ◆ ★ ◌ in six colours;
- * those glyphs are already inline SVG here (the rarity shapes), so an avatar is one of them plus a
- * colour token. No photographs, no uploads: a child's face is exactly what this app must not hold.
+ * The avatars of screen 05: eight faces the owner drew, plus the dashed circle for a child who
+ * wants none of them. Faces, not photographs — a child's own face is exactly what this app must
+ * never hold, and a picked character is something to show a friend instead.
+ *
+ * The art is cut from the owner's sheet by `scripts/crop-avatars.py`, a one-off like the badge art.
  */
 export const AVATARS = [
-  { key: 'circle', icon: 'tier-common', color: 'var(--color-rarity-common)' },
-  { key: 'square', icon: 'tier-uncommon', color: 'var(--color-rarity-uncommon)' },
-  { key: 'triangle', icon: 'tier-rare', color: 'var(--color-rarity-rare)' },
-  { key: 'diamond', icon: 'tier-epic', color: 'var(--color-rarity-epic)' },
-  { key: 'star', icon: 'tier-legendary', color: 'var(--color-rarity-legendary)' },
-  { key: 'ring', icon: 'unrated', color: 'var(--color-text-primary)' },
-] as const satisfies ReadonlyArray<{ key: string; icon: IconName; color: string }>;
+  { key: 'alien', art: alienArt },
+  { key: 'monster', art: monsterArt },
+  { key: 'chef', art: chefArt },
+  { key: 'kid', art: kidArt },
+  { key: 'bird', art: birdArt },
+  { key: 'dog', art: dogArt },
+  { key: 'granny', art: grannyArt },
+  { key: 'bulb', art: bulbArt },
+  /** No face: the dashed circle, drawn as an icon rather than a picture. */
+  { key: 'plain', art: null },
+] as const satisfies ReadonlyArray<{ key: string; art: string | null }>;
 
 export type AvatarKey = (typeof AVATARS)[number]['key'];
 
-export const DEFAULT_AVATAR: AvatarKey = 'circle';
+export const DEFAULT_AVATAR: AvatarKey = 'alien';
 
-/** The avatar's shape and colour; falls back to the first one for a key from a newer version. */
-export function avatarStyle(key: string): { icon: IconName; color: string } {
-  const found = AVATARS.find((a) => a.key === key) ?? AVATARS[0];
-  return { icon: found.icon, color: found.color };
+/** The picture for a key, or null for the plain one. An unknown key — an older account, a newer
+ * version — falls back to the first face rather than rendering nothing. */
+export function avatarArt(key: string): string | null {
+  const found = AVATARS.find((a) => a.key === key);
+  if (found) return found.art;
+  return key === 'plain' ? null : AVATARS[0].art;
 }

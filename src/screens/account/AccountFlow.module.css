@@ -53,32 +53,19 @@
 }
 
 .avatar {
-  position: relative;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 52px;
-  height: 52px;
   padding: 0;
-  border: 2.5px solid var(--color-border-elevated);
+  border: 0;
   border-radius: 50%;
-  background: var(--color-pedestal);
+  background: none;
   cursor: pointer;
 }
 
+/* The picked face gets the ring of the owner's own sheet: a primary circle with a gap around it.
+   The radio's aria-checked carries the same fact for anyone not going by colour. */
 .avatarSelected {
-  border-color: var(--color-primary);
-}
-
-/* The selected avatar also carries a ring of the primary colour AND a thicker inset, so the choice
-   is never colour alone. */
-.avatarSelected::after {
-  content: '';
-  position: absolute;
-  width: 62px;
-  height: 62px;
-  border: 1px solid var(--color-primary-tint-border);
-  border-radius: 50%;
+  outline: 2.5px solid var(--color-primary);
+  outline-offset: 3px;
 }
 
 .intro {

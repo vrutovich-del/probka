@@ -1,5 +1,6 @@
 import { Link, useNavigate } from 'react-router';
 import { AVATARS } from '../../account/avatars';
+import { PersonAvatar } from '../../friends/PersonAvatar';
 import { updateDraft, useDraft } from '../../account/draft';
 import { nicknameMessage, nicknameState, NICKNAME_MAX } from '../../account/nickname';
 import { Button } from '../../components/Button';
@@ -54,10 +55,9 @@ export function NicknameScreen() {
               aria-checked={selected}
               aria-label={avatar.key}
               className={cx(styles.avatar, selected && styles.avatarSelected)}
-              style={{ color: avatar.color }}
               onClick={() => updateDraft({ avatar: avatar.key })}
             >
-              <Icon name={avatar.icon} size={19} />
+              <PersonAvatar avatar={avatar.key} size={52} />
             </button>
           );
         })}

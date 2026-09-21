@@ -1,8 +1,7 @@
 import { useNavigate } from 'react-router';
 import { accountsAvailable, useAccount } from '../account/account';
-import { avatarStyle } from '../account/avatars';
 import { startDraft } from '../account/draft';
-import { Icon } from '../components/Icon';
+import { PersonAvatar } from '../friends/PersonAvatar';
 import { Row } from '../components/Row';
 import { Screen, ScreenTitle } from '../components/Screen';
 import { showToast } from '../components/toast';
@@ -25,7 +24,6 @@ export function ProfileScreen() {
   const earned = earnedBadges(caps ?? []).length;
   // A tile stays empty until the garage has been read, so the screen never shows a zero it does not mean.
   const value = (n: number) => (caps ? String(n) : '');
-  const avatar = account ? avatarStyle(account.avatar) : null;
 
   const copyCode = async () => {
     if (!account) return;
@@ -41,11 +39,9 @@ export function ProfileScreen() {
     <Screen variant="root">
       <ScreenTitle>{t('profile.title')}</ScreenTitle>
 
-      {account && avatar && (
+      {account && (
         <div className={styles.account}>
-          <div className={styles.avatar} style={{ color: avatar.color }}>
-            <Icon name={avatar.icon} size={26} />
-          </div>
+          <PersonAvatar avatar={account.avatar} size={74} className={styles.avatar} />
           <div className={styles.nickname}>{account.nickname}</div>
           <button type="button" className={styles.code} onClick={() => void copyCode()}>
             {account.friendCode} · {t('addfriend.mycode.copy')}

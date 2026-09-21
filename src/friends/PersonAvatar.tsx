@@ -1,13 +1,22 @@
-import { avatarStyle } from '../account/avatars';
+import { avatarArt } from '../account/avatars';
 import { Icon } from '../components/Icon';
+import { cx } from '../components/cx';
 import styles from './PersonAvatar.module.css';
 
-/** The round avatar of screens 19, 21 and 30: one of six shapes in its own colour. */
-export function PersonAvatar({ avatar, size = 40 }: { avatar: string; size?: number }) {
-  const { icon, color } = avatarStyle(avatar);
+/**
+ * The round avatar of screens 05, 19, 21 and 30: one of the eight faces, or the dashed circle for
+ * a child who picked none. One component everywhere, so a friend's avatar is drawn exactly like
+ * your own.
+ */
+export function PersonAvatar({ avatar, size = 40, className }: { avatar: string; size?: number; className?: string }) {
+  const art = avatarArt(avatar);
   return (
-    <span className={styles.avatar} style={{ width: size, height: size, color }} aria-hidden="true">
-      <Icon name={icon} size={Math.round(size * 0.38)} />
+    <span className={cx(styles.avatar, className)} style={{ width: size, height: size }} aria-hidden="true">
+      {art ? (
+        <img className={styles.art} src={art} alt="" draggable={false} />
+      ) : (
+        <Icon name="unrated" size={Math.round(size * 0.5)} />
+      )}
     </span>
   );
 }
